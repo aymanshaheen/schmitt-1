@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Schmitt</string>
+    <string name="facebook_app_id">404247598804536</string>
+    <string name="fb_login_protocol_scheme">fb337df50a01cdf1127d38ab676f3de4fa</string>
+    <string name="facebook_client_token">5964d737ca167e8a2922cc2cc913dbd4</string>
+</resources>
