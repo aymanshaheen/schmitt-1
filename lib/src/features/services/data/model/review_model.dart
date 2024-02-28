@@ -4,8 +4,8 @@ import 'package:schmitt/src/features/services/domain/entities/review.dart';
 
 class ReviewModel extends ReviewEntity {
   const ReviewModel({
-    required List<Review> data,
-    required Meta meta,
+    List<Review>? data,
+    Meta? meta,
   }) : super(
           data: data,
           meta: meta,
@@ -13,22 +13,22 @@ class ReviewModel extends ReviewEntity {
 
   factory ReviewModel.fromJson(Map<String, dynamic> json) {
     return ReviewModel(
-      data: (json['data'] as List)
-          .map((i) => ReviewDataModel.fromJson(i))
+      data: (json['data'] as List?)
+          ?.map((i) => ReviewDataModel.fromJson(i as Map<String, dynamic>))
           .toList(),
-      meta: MetaModel.fromJson(json['meta']),
+      meta: json['meta'] != null ? MetaModel.fromJson(json['meta'] as Map<String, dynamic>) : null,
     );
   }
 }
 
 class ReviewDataModel extends Review {
   const ReviewDataModel({
-    required int id,
-    required String review,
-    required int rating,
-    required Author author,
-    required String createdAt,
-    required String createdAtFormatted,
+    int? id,
+    String? review,
+    int? rating,
+    Author? author,
+    String? createdAt,
+    String? createdAtFormatted,
   }) : super(
           id: id,
           review: review,
@@ -40,27 +40,27 @@ class ReviewDataModel extends Review {
 
   factory ReviewDataModel.fromJson(Map<String, dynamic> json) {
     return ReviewDataModel(
-      id: json['id'],
-      review: json['review'],
-      rating: json['rating'],
-      author: AuthorModel.fromJson(json['author']),
-      createdAt: json['created_at'],
-      createdAtFormatted: json['created_at_formatted'],
+      id: json['id'] as int?,
+      review: json['review'] as String?,
+      rating: json['rating'] as int?,
+      author: json['author'] != null ? AuthorModel.fromJson(json['author'] as Map<String, dynamic>) : null,
+      createdAt: json['created_at'] as String?,
+      createdAtFormatted: json['created_at_formatted'] as String?,
     );
   }
 }
 
 class AuthorModel extends Author {
   const AuthorModel({
-    required int id,
-    required String name,
-    required String email,
-    required String phone,
-    required String type,
-    required String avatar,
-    required String localedType,
-    required String createdAt,
-    required String createdAtFormatted,
+    int? id,
+    String? name,
+    String? email,
+    String? phone,
+    String? type,
+    String? avatar,
+    String? localedType,
+    String? createdAt,
+    String? createdAtFormatted,
   }) : super(
           id: id,
           name: name,
@@ -75,15 +75,15 @@ class AuthorModel extends Author {
 
   factory AuthorModel.fromJson(Map<String, dynamic> json) {
     return AuthorModel(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
-      type: json['type'],
-      avatar: json['avatar'],
-      localedType: json['localed_type'],
-      createdAt: json['created_at'],
-      createdAtFormatted: json['created_at_formatted'],
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      email: json['email'] as String?,
+      phone: json['phone'] as String?,
+      type: json['type'] as String?,
+      avatar: json['avatar'] as String?,
+      localedType: json['localed_type'] as String?,
+      createdAt: json['created_at'] as String?,
+      createdAtFormatted: json['created_at_formatted'] as String?,
     );
   }
 }

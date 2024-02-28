@@ -9,7 +9,9 @@ class AppConstants {
   static const int timeOutDuration = 90;
   static const int maxNameLength = 3;
   static String token = "";
-  static int id=0; 
+  static String addressID = "15";
+  static int id=0;
+  static int addressId=0; 
   static UserEntity? profile;
   static UserEntity? currentUser;
   static bool socialAuth = false;
@@ -18,4 +20,5 @@ class AppConstants {
   static String country = "United Arab Emirates";
   static late List<CameraDescription> cameras;
   static String? deviceToken;
+
 }

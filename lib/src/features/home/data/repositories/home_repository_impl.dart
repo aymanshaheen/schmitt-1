@@ -8,9 +8,10 @@ import 'package:schmitt/src/core/utils/typedef.dart';
 import 'package:schmitt/src/features/auth/domain/entities/user_entity.dart';
 import 'package:schmitt/src/features/auth/domain/usercases/sign_up_usecase.dart';
 import 'package:schmitt/src/features/home/data/data_sources/user_remote_data_source.dart';
-import 'package:schmitt/src/features/home/domain/entities/bookmark.dart';
 import 'package:schmitt/src/features/home/domain/entities/notification.dart';
+import 'package:schmitt/src/features/home/domain/entities/slides.dart';
 import 'package:schmitt/src/features/home/domain/repositories/home_repository.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
   final HomeRemoteDataSource remoteDataSource;
@@ -45,10 +46,10 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  ResultFuture<BookMark> bookmarkList() async{
-   if (await networkInfo.isConnected) {
+  ResultFuture<ServiceEntity> bookmarkList(String category) async {
+    if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.bookMarkList();
+        final result = await remoteDataSource.bookMarkList(category);
         return right(result);
       } on DioException catch (e) {
         return Left(Failure(message: e.response!.data['message'], code: 0));
@@ -59,8 +60,9 @@ class HomeRepositoryImpl implements HomeRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
+
   @override
-  ResultFuture<String> addBookMark(String id) async{
+  ResultFuture<String> addBookMark(String id) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.addBookMark(id);
@@ -74,9 +76,10 @@ class HomeRepositoryImpl implements HomeRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
-   @override
-  ResultFuture<Notifications> notificationList() async{
-   if (await networkInfo.isConnected) {
+
+  @override
+  ResultFuture<Notifications> notificationList() async {
+    if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.notificationsList();
         return right(result as Notifications);
@@ -89,8 +92,9 @@ class HomeRepositoryImpl implements HomeRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
+
   @override
-  ResultFuture<String> markAllSeen() async{
+  ResultFuture<String> markAllSeen() async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.markAllSeen();
@@ -104,6 +108,7 @@ class HomeRepositoryImpl implements HomeRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
+
   @override
   ResultFuture<UserEntity> updateProfile(SignUpParams parameters) async {
     if (await networkInfo.isConnected) {
@@ -119,8 +124,9 @@ class HomeRepositoryImpl implements HomeRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
+
   @override
-  ResultFuture<String> deleteBookMark(String id) async{
+  ResultFuture<String> deleteBookMark(String id) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.deleteBookMark(id);
@@ -134,11 +140,44 @@ class HomeRepositoryImpl implements HomeRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
+
   @override
-  ResultFuture<String> deleteNotification(String id) async{
+  ResultFuture<String> deleteNotification(String id) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.deleteNotification(id);
+        return right(result);
+      } on DioException catch (e) {
+        return Left(Failure(message: e.response!.data['message'], code: 0));
+      } catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.networkConnectError.getFailure());
+    }
+  }
+
+  @override
+  ResultFuture<SliderEntity> getSlides(String id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.getSlides(id);
+        return right(result);
+      } on DioException catch (e) {
+        return Left(Failure(message: e.response!.data['message'], code: 0));
+      } catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.networkConnectError.getFailure());
+    }
+  }
+
+  @override
+  ResultFuture<ServiceEntity> getServices(int page, String id,String category) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.getServices(page, id, category);
         return right(result);
       } on DioException catch (e) {
         return Left(Failure(message: e.response!.data['message'], code: 0));

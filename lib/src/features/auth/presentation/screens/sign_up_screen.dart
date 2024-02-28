@@ -64,6 +64,10 @@ class _SignUpViewState extends State<SignUpScreen> {
               appPreferences?.saveData(
                   key: 'token', value: credentialState.user.token);
               AppConstants.token = credentialState.user.token!;
+               Future.wait([
+                HomeCubit.get(context).getSlides("15"),
+                HomeCubit.get(context).getServices(1, "15",'0'),
+              ]);
               Navigator.pushReplacementNamed(context, Routes.home);
             } else {
               buildSnakBar(

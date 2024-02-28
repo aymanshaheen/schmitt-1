@@ -89,7 +89,7 @@ class NotificationsScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return Dismissible(
                         key: Key(index
-                            .toString()), // Each Dismissible must contain a Key
+                            .toString()), 
                         background: Container(
                           alignment: Alignment.centerRight,
                           padding: const EdgeInsets.only(right: 20.0),
@@ -97,10 +97,9 @@ class NotificationsScreen extends StatelessWidget {
                           child: const Icon(Icons.delete, color: Colors.white),
                         ),
                         direction: DismissDirection
-                            .endToStart, // The direction that the item can be dismissed
+                            .endToStart, 
                         onDismissed: (direction) {
-                          // Remove the item from your data source here
-                          // Then, remove the item from the list
+                       
                         },
                         child: Padding(
                           padding: EdgeInsets.only(

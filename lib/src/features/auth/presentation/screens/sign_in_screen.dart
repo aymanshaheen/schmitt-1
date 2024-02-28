@@ -67,12 +67,16 @@ class _SignInViewState extends State<SignInScreen> {
               appPreferences?.saveData(
                   key: 'token', value: credentialState.user.token);
               AppConstants.token = credentialState.user.token!;
-Navigator.pushReplacementNamed(
-                                context,
-                                AppConstants.profile!.email !=
-                                        "customer2@demo.com"
-                                    ? Routes.home
-                                    : Routes.homeTech);       } else {
+              Future.wait([
+                HomeCubit.get(context).getSlides("15"),
+                HomeCubit.get(context).getServices(1, "15", '0'),
+              ]);
+              Navigator.pushReplacementNamed(
+                  context,
+                  AppConstants.profile!.email != "customer2@demo.com"
+                      ? Routes.home
+                      : Routes.homeTech);
+            } else {
               buildSnakBar(
                   context: context,
                   message: credentialState.user.message!,

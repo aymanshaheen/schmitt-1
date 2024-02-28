@@ -5,6 +5,8 @@ import 'package:schmitt/src/core/network/network_info.dart';
 import 'package:schmitt/src/features/services/data/remote_data_source/user_remote_data_source_impl.dart';
 import 'package:schmitt/src/features/services/data/repository/user_repository_impl.dart';
 import 'package:schmitt/src/features/services/domain/usercases/add_review.dart';
+import 'package:schmitt/src/features/services/domain/usercases/create_adress.dart';
+import 'package:schmitt/src/features/services/domain/usercases/get_adresses.dart';
 import 'package:schmitt/src/features/services/domain/usercases/get_reviews.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
 
@@ -24,13 +26,18 @@ void initServices() {
   sl.registerLazySingleton(
       () => AddReviweUseCase(repository: sl<ServiceRepositoryImpl>()));
   sl.registerLazySingleton(
-      () => GetReviwesUseCase(repository: sl<ServiceRepositoryImpl>()));
+      () => GetReviwesUseCase(repository: sl<ServiceRepositoryImpl>()));  sl.registerLazySingleton(
+      () => GetAdressesUseCase(repository: sl<ServiceRepositoryImpl>()));  sl.registerLazySingleton(
+      () => CreateAdressesUseCase(repository: sl<ServiceRepositoryImpl>()));
+
 
   // Bloc
   sl.registerFactory(
     () => ServiceCubit(
       addReviweUseCase: sl<AddReviweUseCase>(),
       getReviwesUseCase: sl<GetReviwesUseCase>(),
+      getAdressesUseCase: sl<GetAdressesUseCase>(),
+      createAdressesUseCase: sl<CreateAdressesUseCase>(),
     ),
   );
 }

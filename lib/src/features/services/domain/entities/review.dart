@@ -2,30 +2,30 @@ import 'package:equatable/equatable.dart';
 import 'package:schmitt/src/core/entities/meta.dart';
 
 class ReviewEntity extends Equatable {
-  final List<Review> data;
-  final Meta meta;
+  final List<Review>? data;
+  final Meta? meta;
 
-  const ReviewEntity({required this.data, required this.meta});
+  const ReviewEntity({this.data, this.meta});
 
   @override
-  List<Object> get props => [data, meta];
+  List<Object?> get props => [data, meta];
 }
 
 class Review extends Equatable {
-  final int id;
-  final String review;
-  final int rating;
-  final Author author;
-  final String createdAt;
-  final String createdAtFormatted;
+  final int? id;
+  final String? review;
+  final int? rating;
+  final Author? author;
+  final String? createdAt;
+  final String? createdAtFormatted;
 
   const Review({
-    required this.id,
-    required this.review,
-    required this.rating,
-    required this.author,
-    required this.createdAt,
-    required this.createdAtFormatted,
+    this.id,
+    this.review,
+    this.rating,
+    this.author,
+    this.createdAt,
+    this.createdAtFormatted,
   });
 
   @override
@@ -34,26 +34,26 @@ class Review extends Equatable {
 }
 
 class Author extends Equatable {
-  final int id;
-  final String name;
-  final String email;
-  final String phone;
-  final String type;
-  final String avatar;
-  final String localedType;
-  final String createdAt;
-  final String createdAtFormatted;
+  final int? id;
+  final String? name;
+  final String? email;
+  final String? phone;
+  final String? type;
+  final String? avatar;
+  final String? localedType;
+  final String? createdAt;
+  final String? createdAtFormatted;
 
   const Author({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.type,
-    required this.avatar,
-    required this.localedType,
-    required this.createdAt,
-    required this.createdAtFormatted,
+    this.id,
+    this.name,
+    this.email,
+    this.phone,
+    this.type,
+    this.avatar,
+    this.localedType,
+    this.createdAt,
+    this.createdAtFormatted,
   });
 
   @override

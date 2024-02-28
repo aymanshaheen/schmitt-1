@@ -1,12 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
-import 'package:schmitt/src/core/utils/app_image.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
+import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
 class ServiceItem extends StatefulWidget {
-  final String title;
-  const ServiceItem({super.key, required this.title});
+  final Service services;
+  const ServiceItem({super.key, required this.services});
 
   @override
   State<ServiceItem> createState() => _ServiceItemState();
@@ -14,6 +16,12 @@ class ServiceItem extends StatefulWidget {
 
 class _ServiceItemState extends State<ServiceItem> {
   bool isFavourite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavourite = widget.services.isFavorited;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +41,16 @@ class _ServiceItemState extends State<ServiceItem> {
           children: [
             Container(
               width: R.sW(context, 90),
-              height: R.sH(context, 70),
+              height: R.sH(context, 80),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  AppImage.houseKeeping,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(20),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.services.image.url,
+                    fit: BoxFit.fill,
+                  )),
             ),
             SizedBox(
               width: R.sW(context, 10),
@@ -53,7 +60,7 @@ class _ServiceItemState extends State<ServiceItem> {
                 height: R.sH(context, 5),
               ),
               Text(
-                widget.title,
+                widget.services.title,
                 style: TextStyle(
                   color: AppColors.homeBlackColor,
                   fontSize: R.F(context, 16),
@@ -64,7 +71,7 @@ class _ServiceItemState extends State<ServiceItem> {
                 height: R.sH(context, 5),
               ),
               Text(
-                "\$50",
+                "\$${widget.services.price}",
                 style: TextStyle(
                   color: AppColors.darkBlue,
                   fontSize: R.F(context, 14),
@@ -86,6 +93,11 @@ class _ServiceItemState extends State<ServiceItem> {
             const Spacer(),
             GestureDetector(
               onTap: () {
+                isFavourite
+                    ? HomeCubit.get(context)
+                        .deleteBookMark(widget.services.id.toString())
+                    : HomeCubit.get(context)
+                        .addBookMark(widget.services.id.toString());
                 setState(() {
                   isFavourite = !isFavourite;
                 });

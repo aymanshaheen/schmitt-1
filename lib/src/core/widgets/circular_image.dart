@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
+import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
@@ -17,19 +19,22 @@ class CircularImageBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: R.sW(context, width),
-      height: R.sH(context, height),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: AppColors.primary,
-        image: DecorationImage(
-          image: CachedNetworkImageProvider(
-            photo,
-            errorListener: (p0) =>
-                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+    return CachedNetworkImage(
+      imageUrl: photo,
+      placeholder: (context, url) => CircularIndicator(
+        color: AppColors.darkBlue,
+      ),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
+      imageBuilder: (context, imageProvider) => Container(
+        width: R.sW(context, width),
+        height: R.sH(context, height),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppColors.primary,
+          image: DecorationImage(
+            image: imageProvider,
+            fit: BoxFit.fill,
           ),
-          fit: BoxFit.fill,
         ),
       ),
     );

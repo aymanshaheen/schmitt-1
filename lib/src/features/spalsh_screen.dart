@@ -9,6 +9,7 @@ import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service_state.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -27,7 +28,12 @@ class _SplashScreenState extends State<SplashScreen>
     getDeviceToken();
     AppConstants.token = (token != '') ? token : '';
     if (AppConstants.token != '') {
-      HomeCubit.get(context).showProfile();
+      HomeCubit.get(context).showProfile().then((value) => {
+            Future.wait([
+              HomeCubit.get(context).getSlides("15"),
+              HomeCubit.get(context).getServices(1, "15","0"),
+            ])
+          });
     }
 
     super.initState();
@@ -41,36 +47,38 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return BlocListener<HomeCubit, HomeStates>(
       listener: (context, state) {
-        Future.delayed(const Duration(seconds: 5), () {
-          appPreferences!
-              .isOnBoardingScreenViewed()
-              .then((isOnBoardingScreenViewed) => {
-                    if (isOnBoardingScreenViewed)
-                      {
-                        if (AppConstants.token != '' &&
-                            state is ShowProfileLoaded)
-                          {
-                            Navigator.pushReplacementNamed(
-                                context,
-                                AppConstants.profile!.email !=
-                                        "customer2@demo.com"
-                                    ? Routes.home
-                                    : Routes.homeTech)
-                          }
-                        else
-                          {
-                            Navigator.pushReplacementNamed(
-                                context, Routes.login)
-                          }
-                      }
-                    else
-                      {
-                        Navigator.pushReplacementNamed(
-                            context, Routes.onboarding)
-                      }
-                  });
-          //Navigator.pushReplacementNamed(context, Routes.login);
-        });
+        if (state is ShowProfileError) {
+          Navigator.pushReplacementNamed(context, Routes.login);
+        } else {
+          Future.delayed(const Duration(seconds: 5), () {
+            appPreferences!
+                .isOnBoardingScreenViewed()
+                .then((isOnBoardingScreenViewed) => {
+                      if (isOnBoardingScreenViewed)
+                        {
+                          if (AppConstants.token != '')
+                            {
+                              Navigator.pushReplacementNamed(
+                                  context,
+                                  AppConstants.profile!.email !=
+                                          "customer2@demo.com"
+                                      ? Routes.home
+                                      : Routes.homeTech)
+                            }
+                          else
+                            {
+                              Navigator.pushReplacementNamed(
+                                  context, Routes.login)
+                            }
+                        }
+                      else
+                        {
+                          Navigator.pushReplacementNamed(
+                              context, Routes.onboarding)
+                        }
+                    });
+          });
+        }
       },
       child: Scaffold(
         backgroundColor: AppColors.primary,

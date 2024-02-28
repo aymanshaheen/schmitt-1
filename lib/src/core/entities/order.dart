@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:schmitt/src/core/entities/address.dart';
 import 'package:schmitt/src/core/entities/meta.dart';
 import 'package:schmitt/src/core/entities/service.dart';
+import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
 
 class OrderEntity extends Equatable {
   final List<OrderDataEntity> data;
@@ -21,9 +21,9 @@ class OrderDataEntity extends Equatable {
   final String status;
   final String type;
   final String car;
-  final AddressEntity address;
+  final Address address;
   final String package;
-  final List<ServiceEntity> services;
+  final List<ServiceOrderEntity> services;
   final List<MicroServiceEntity> microServices;
   final String createdAt;
   final String createdAtFormatted;

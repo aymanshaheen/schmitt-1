@@ -8,8 +8,9 @@ import 'package:schmitt/src/features/auth/data/model/user_model.dart';
 import 'package:schmitt/src/features/auth/data/model/user_model_save.dart';
 import 'package:schmitt/src/features/auth/domain/usercases/sign_up_usecase.dart';
 import 'package:schmitt/src/features/home/data/data_sources/user_remote_data_source.dart';
-import 'package:schmitt/src/features/home/data/model/bookmark_model.dart';
 import 'package:schmitt/src/features/home/data/model/notification_model.dart';
+import 'package:schmitt/src/features/home/data/model/slides_model.dart';
+import 'package:schmitt/src/features/services/data/model/service_model.dart';
 
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   final DioHelper dio;
@@ -27,7 +28,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
           await dio.getData(url: Endpoints.profile, token: AppConstants.token);
       UserModel userModel = UserModel.fromJson(response.data);
       return userModel;
-    }  on DioException catch (error) {
+    } on DioException catch (error) {
       debugPrint('DioException occurred: ${error.message}');
       if (error.response != null) {
         debugPrint('HTTP status code: ${error.response?.statusCode}');
@@ -43,17 +44,13 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     }
   }
 
-
-
-
   @override
   Stream<UserModelSave> getUserById(String id) {
-    return firestore.collection('users').doc(id).snapshots().map(
-      (event) {
-        return UserModelSave.fromMap(event.data()!);
-      }
-    );
+    return firestore.collection('users').doc(id).snapshots().map((event) {
+      return UserModelSave.fromMap(event.data()!);
+    });
   }
+
   @override
   Future<UserModel> updateProfile(SignUpParams user) async {
     try {
@@ -73,12 +70,15 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       rethrow;
     }
   }
-    @override
-  Future<BookMarkModel> bookMarkList() async {
+
+  @override
+  Future<ServiceModel> bookMarkList(String category) async {
     try {
       Response response = await dio.getData(
-          url: Endpoints.favouriteList, token: AppConstants.token);
-      BookMarkModel userModel = BookMarkModel.fromJson(response.data);
+          url: Endpoints.favouriteList,
+          query: {'category_id': category},
+          token: AppConstants.token);
+      ServiceModel userModel = ServiceModel.fromJson(response.data);
       return userModel;
     } on DioException catch (error) {
       debugPrint(error.message);
@@ -87,11 +87,12 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       rethrow;
     }
   }
+
   @override
   Future<String> deleteBookMark(String id) async {
     try {
       Response response = await dio.deleteData(
-          url: Endpoints.services+':service/' + Endpoints.unfavourite,
+          url: Endpoints.services + ':service/' + Endpoints.unfavourite,
           path: {'service': id},
           token: AppConstants.token);
       return response.data['message'];
@@ -108,7 +109,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     try {
       Response response = await dio.postData(
           data: {},
-          url:Endpoints.services+ ':service/' + Endpoints.favourite,
+          url: Endpoints.services + ':service/' + Endpoints.favourite,
           path: {'service': id},
           token: AppConstants.token);
       return response.data['message'];
@@ -119,7 +120,8 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       rethrow;
     }
   }
-   @override
+
+  @override
   Future<NotificationsModel> notificationsList() async {
     try {
       Response response = await dio.getData(
@@ -133,11 +135,12 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       rethrow;
     }
   }
+
   @override
   Future<String> deleteNotification(String id) async {
     try {
       Response response = await dio.deleteData(
-          url: Endpoints.notification+':id',
+          url: Endpoints.notification + ':id',
           path: {'id': id},
           token: AppConstants.token);
       return response.data['message'];
@@ -153,10 +156,42 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   Future<String> markAllSeen() async {
     try {
       Response response = await dio.postData(
-          data: {},
-          url:Endpoints.notificationSeen,
-          token: AppConstants.token);
+          data: {}, url: Endpoints.notificationSeen, token: AppConstants.token);
       return response.data['message'];
+    } on DioException catch (error) {
+      debugPrint(error.message);
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<SliderModel> getSlides(String id) async {
+    try {
+      Response response = await dio.getData(
+          url: Endpoints.slides, token: AppConstants.token, addressId: id);
+      SliderModel userModel = SliderModel.fromJson(response.data);
+      return userModel;
+    } on DioException catch (error) {
+      debugPrint(error.message);
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ServiceModel> getServices(
+      int page, String addressId, String category) async {
+    try {
+      Response response = await dio.getData(
+          url: Endpoints.service,
+          token: AppConstants.token,
+          query: {'page': page, 'category_id': category},
+          addressId: addressId);
+      ServiceModel userModel = ServiceModel.fromJson(response.data);
+      return userModel;
     } on DioException catch (error) {
       debugPrint(error.message);
       rethrow;

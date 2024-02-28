@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class ServiceEntity extends Equatable {
+class ServiceOrderEntity extends Equatable {
   final int id;
   final String name;
   final String description;
@@ -10,7 +10,7 @@ class ServiceEntity extends Equatable {
   final String createdAt;
   final String createdAtFormatted;
 
-  const ServiceEntity({
+  const ServiceOrderEntity({
     required this.id,
     required this.name,
     required this.description,

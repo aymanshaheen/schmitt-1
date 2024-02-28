@@ -1,7 +1,7 @@
 import 'package:schmitt/src/core/entities/service.dart';
 
-class ServiceModel extends ServiceEntity {
-  const ServiceModel({
+class ServiceOrderModel extends ServiceOrderEntity {
+  const ServiceOrderModel({
     required int id,
     required String name,
     required String description,
@@ -21,8 +21,8 @@ class ServiceModel extends ServiceEntity {
           createdAtFormatted: createdAtFormatted,
         );
 
-  factory ServiceModel.fromJson(Map<String, dynamic> json) {
-    return ServiceModel(
+  factory ServiceOrderModel.fromJson(Map<String, dynamic> json) {
+    return ServiceOrderModel(
       id: json['id'],
       name: json['name'],
       description: json['description'],

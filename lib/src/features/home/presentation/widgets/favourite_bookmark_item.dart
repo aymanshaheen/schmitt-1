@@ -1,14 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:schmitt/src/core/utils/app_constants.dart';
+import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
-import 'package:schmitt/src/core/utils/app_image.dart';
+import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
-import 'package:schmitt/src/features/home/domain/entities/bookmark.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
 class FavouriteItem extends StatelessWidget {
-  final Data bookMark;
+  final Service bookMark;
   final bool isFavourite = false;
   final VoidCallback onDelete;
 
@@ -36,17 +39,21 @@ class FavouriteItem extends StatelessWidget {
           children: [
             Container(
               width: R.sW(context, 90),
-              height: R.sH(context, 70),
+              height: R.sH(context, 80),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  AppImage.houseKeeping,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(20),
+                  child: CachedNetworkImage(
+                    imageUrl: bookMark.image.url,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => CircularIndicator(
+                      color: AppColors.darkBlue,
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  )),
             ),
             SizedBox(
               width: R.sW(context, 10),
@@ -56,7 +63,7 @@ class FavouriteItem extends StatelessWidget {
                 height: R.sH(context, 5),
               ),
               Text(
-                bookMark.title ?? "",
+                bookMark.title,
                 style: TextStyle(
                   color: AppColors.homeBlackColor,
                   fontSize: R.F(context, 16),

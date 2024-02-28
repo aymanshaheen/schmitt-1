@@ -64,4 +64,14 @@ class AppStrings {
   static const String defaultError = "default_error";
   static const String cacheError = "cache_error";
   static const String noInternetError = "no_internet_error";
+  static const String allId = "0";
+  static const String houseId = "2";
+  static const String carId = "3";
+  static const String babyId = "4";
+  static const String one = "1";
+  static const String two = "2";
+  static const String three = "3";
+  static const String four = "4";
+  static const String five = "5";
+  
 }

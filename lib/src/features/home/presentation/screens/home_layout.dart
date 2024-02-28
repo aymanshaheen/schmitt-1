@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/home/presentation/widgets/home_bar.dart';
-import 'package:schmitt/src/features/home/presentation/widgets/most_services_item.dart';
+import 'package:schmitt/src/features/home/presentation/widgets/most_services.dart';
 import 'package:schmitt/src/features/home/presentation/widgets/special_offers.dart';
 
 class HomeLayoutScreen extends StatefulWidget {
@@ -12,6 +12,9 @@ class HomeLayoutScreen extends StatefulWidget {
 }
 
 class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
+  
+ 
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

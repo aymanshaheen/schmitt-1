@@ -6,6 +6,8 @@ import 'package:schmitt/src/features/home/domain/use_cases/add_bokmark_usecase.d
 import 'package:schmitt/src/features/home/domain/use_cases/bokmark_usecase.dart';
 import 'package:schmitt/src/features/home/domain/use_cases/delete_bokmark_usecase.dart';
 import 'package:schmitt/src/features/home/domain/use_cases/delete_notifications_usecase.dart';
+import 'package:schmitt/src/features/home/domain/use_cases/get_services_use_case.dart';
+import 'package:schmitt/src/features/home/domain/use_cases/get_slides_use_case.dart';
 import 'package:schmitt/src/features/home/domain/use_cases/get_user_by_id_usecase.dart';
 import 'package:schmitt/src/features/home/domain/use_cases/mark_all_seen_usecase.dart';
 import 'package:schmitt/src/features/home/domain/use_cases/notifications_usecase.dart';
@@ -54,12 +56,18 @@ void initHome() {
     () => DeleteBookMarkListUseCase(repository: sl<HomeRepositoryImpl>()),
   );
   sl.registerLazySingleton(() => GetUserByIdUseCase(sl<HomeRepositoryImpl>()));
+  sl.registerLazySingleton(
+      () => GetSlidesUseCase(repository: sl<HomeRepositoryImpl>()));
+  sl.registerLazySingleton(
+      () => GetServicesUseCase(repository: sl<HomeRepositoryImpl>()));
   sl.registerFactory(
     () => HomeCubit(
       bookMarkListUseCase: sl<BookMarkListUseCase>(),
+      getServicesUseCase: sl<GetServicesUseCase>(),
       showProfileUseCase: sl<ShowProfileUseCase>(),
       updateProfileUseCase: sl<UpdateProfileUseCase>(),
       markAllSeenListUseCase: sl<MarkAllSeenListUseCase>(),
+      getSlidesUseCase: sl<GetSlidesUseCase>(),
       deleteNotificationsListUseCase: sl<DeleteNotificationsListUseCase>(),
       notificationsListUseCase: sl<NotificationsListUseCase>(),
       addBookMarkListUseCase: sl<AddBookMarkListUseCase>(),

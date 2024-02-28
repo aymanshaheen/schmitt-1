@@ -6,7 +6,7 @@ class GetReviwesUseCase {
   GetReviwesUseCase({required this.repository});
   final ServiceRepository repository;
 
-  ResultFuture<ReviewEntity> call({required String id}) {
-    return repository.getReviews(id);
+  ResultFuture<ReviewEntity> call({required String id, required String category}) {
+    return repository.getReviews(id,category);
   }
 }

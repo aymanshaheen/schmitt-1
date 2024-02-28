@@ -11,11 +11,12 @@ import 'package:schmitt/src/features/auth/presentation/screens/started_login_scr
 import 'package:schmitt/src/features/booking_details/presentation/screens/booking_date_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/cleaning_items_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/location_layout_screen.dart';
+import 'package:schmitt/src/features/home/presentation/screens/service_type_screen.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 import 'package:schmitt/src/features/services/presentation/screens/select_rooms_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/service_order_screen.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
 import 'package:schmitt/src/features/services/presentation/screens/service_screen.dart';
-import 'package:schmitt/src/features/home/presentation/screens/all_services_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/book_mark_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/home_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/notifications_screen.dart';
@@ -77,6 +78,7 @@ class Routes {
   static const String allServices = "allServices";
   static const String cleaningItems = "cleaningItems";
   static const String bookingDate = "bookingDate";
+  static const String serviceType = "serviceType";
 }
 
 class AppRouter {
@@ -125,15 +127,24 @@ class AppRouter {
         return FadeRoute(
           builder: (context) => const NotificationsScreen(),
         );
+      case Routes.serviceType:
+        final arguments = settings.arguments as ServiceArguments;
+        return FadeRoute(
+          builder: (context) => ServicetypeScreen(
+              services: arguments.services, serviceName: arguments.name),
+        );
       case Routes.bookmarks:
         return FadeRoute(
           builder: (context) => const BookMarkScreen(),
         );
       case Routes.service:
+        final arguments = settings.arguments as Service;
         return FadeRoute(
           builder: (context) => BlocProvider(
             create: (context) => sl<ServiceCubit>(),
-            child: const ServiceScreen(),
+            child: ServiceScreen(
+              service: arguments,
+            ),
           ),
         );
       case Routes.selectRooms:
@@ -201,10 +212,10 @@ class AppRouter {
         return FadeRoute(
           builder: (context) => const SelectLanguageScreen(),
         );
-      case Routes.allServices:
+      /*  case Routes.allServices:
         return FadeRoute(
           builder: (context) => const AllServicesScreen(),
-        );
+        );*/
       case Routes.bookingDate:
         return FadeRoute(
           builder: (context) => const BookingDate(),
@@ -272,4 +283,11 @@ class NoRouteFound extends StatelessWidget {
   Widget build(BuildContext context) => const Scaffold(
         body: Center(child: Text(AppStrings.noRouteFound)),
       );
+}
+
+class ServiceArguments {
+  final String services;
+  final String name;
+
+  ServiceArguments(this.services, this.name);
 }

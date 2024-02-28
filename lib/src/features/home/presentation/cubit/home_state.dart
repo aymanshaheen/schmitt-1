@@ -1,6 +1,7 @@
 import 'package:schmitt/src/features/auth/domain/entities/user_entity.dart';
 import 'package:schmitt/src/features/home/domain/entities/bookmark.dart';
 import 'package:schmitt/src/features/home/domain/entities/notification.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
 class HomeStates {}
 
@@ -14,6 +15,11 @@ class HomeNavigationBarChanged extends HomeStates {
 class HomeTabbedOfferChanged extends HomeStates {
   final int index;
   HomeTabbedOfferChanged(this.index);
+}
+
+class HomeTabbedBookChanged extends HomeStates {
+  final int index;
+  HomeTabbedBookChanged(this.index);
 }
 
 class ShowProfileLoding extends HomeStates {}
@@ -43,7 +49,7 @@ class UpdateProfileErorr extends HomeStates {
 class GetFavouriteLoding extends HomeStates {}
 
 class GetFavouriteLoaded extends HomeStates {
-  final BookMark userModel;
+  final List<Service>? userModel;
   GetFavouriteLoaded(this.userModel);
 }
 
@@ -114,4 +120,27 @@ class DeleteNotificationError extends HomeStates {
 
 class ChangeColorMode extends HomeStates {
   ChangeColorMode();
+}
+
+class SlidesLoading extends HomeStates {}
+
+class SlidesLoaded extends HomeStates {
+  SlidesLoaded();
+}
+
+class SlidesError extends HomeStates {
+  final String message;
+  SlidesError({required this.message});
+}
+
+class ServicesLoading extends HomeStates {}
+
+class ServicesLoaded extends HomeStates {
+  final List<Service>? services;
+  ServicesLoaded(this.services);
+}
+
+class ServicesError extends HomeStates {
+  final String message;
+  ServicesError({required this.message});
 }

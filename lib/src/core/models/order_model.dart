@@ -1,10 +1,10 @@
-import 'package:schmitt/src/core/entities/address.dart';
 import 'package:schmitt/src/core/entities/meta.dart';
 import 'package:schmitt/src/core/entities/order.dart';
 import 'package:schmitt/src/core/entities/service.dart';
-import 'package:schmitt/src/core/models/address_model.dart';
 import 'package:schmitt/src/core/models/meta_model.dart';
 import 'package:schmitt/src/core/models/service_model.dart';
+import 'package:schmitt/src/features/services/data/model/adresses_model.dart';
+import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
 
 class OrderModel extends OrderEntity {
   const OrderModel({
@@ -34,9 +34,9 @@ class OrderDataModel extends OrderDataEntity {
     required String status,
     required String type,
     required String car,
-    required AddressEntity address,
+    required Address address,
     required String package,
-    required List<ServiceEntity> services,
+    required List<ServiceOrderEntity> services,
     required List<MicroServiceEntity> microServices,
     required String createdAt,
     required String createdAtFormatted,
@@ -65,10 +65,10 @@ class OrderDataModel extends OrderDataEntity {
       status: json['status'],
       type: json['type'],
       car: json['car'],
-      address: AddressModel.fromJson(json['address']),
+      address: AddressDataModel.fromJson(json['address']),
       package: json['package'],
       services: (json['services'] as List)
-          .map((i) => ServiceModel.fromJson(i))
+          .map((i) => ServiceOrderModel.fromJson(i))
           .toList(),
       microServices: (json['micro_services'] as List)
           .map((i) => MicroServiceModel.fromJson(i))

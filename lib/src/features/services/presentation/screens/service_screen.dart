@@ -2,9 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/config/app_route.dart';
+import 'package:schmitt/src/core/utils/app_constants.dart';
+import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
-import 'package:schmitt/src/core/utils/app_image.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
+import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service_state.dart';
 import 'package:schmitt/src/features/services/presentation/widgets/bottom_navigation_bar.dart';
@@ -15,23 +18,39 @@ import 'package:schmitt/src/features/services/presentation/widgets/offers_listvi
 import 'package:schmitt/src/features/services/presentation/widgets/service_reviews.dart';
 
 class ServiceScreen extends StatefulWidget {
-  const ServiceScreen({super.key});
+  final Service service;
+  const ServiceScreen({super.key, required this.service});
 
   @override
   State<ServiceScreen> createState() => _ServiceScreenState();
 }
 
 class _ServiceScreenState extends State<ServiceScreen> {
-  final List<String> imgList = [
-    AppImage.houseKeeping,
-    AppImage.houseKeeping,
-    AppImage.houseKeeping,
-    AppImage.houseKeeping,
-  ];
   bool isFavourite = false;
+  @override
+  void initState() {
+    isFavourite = widget.service.isFavorited;
+    ServiceCubit.get(context)
+        .getReviews(widget.service.id.toString(), AppStrings.allId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<Function> functionList = [
+      () => ServiceCubit.get(context)
+          .getReviews(widget.service.id.toString(), AppStrings.allId),
+      () => ServiceCubit.get(context)
+          .getReviews(widget.service.id.toString(), AppStrings.five),
+      () => ServiceCubit.get(context)
+          .getReviews(widget.service.id.toString(), AppStrings.four),
+      () => ServiceCubit.get(context)
+          .getReviews(widget.service.id.toString(), AppStrings.three),
+      () => ServiceCubit.get(context)
+          .getReviews(widget.service.id.toString(), AppStrings.two),
+      () => ServiceCubit.get(context)
+          .getReviews(widget.service.id.toString(), AppStrings.one),
+    ];
     return BlocConsumer<ServiceCubit, ServiceStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -41,7 +60,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomTabController(imgList: imgList),
+                CustomTabController(service: widget.service),
                 SizedBox(height: R.sH(context, 20)),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: R.sW(context, 15)),
@@ -52,7 +71,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'housekeepings'.tr(),
+                              widget.service.title,
                               style: TextStyle(
                                 fontSize: R.sW(context, 20),
                                 fontWeight: FontWeight.bold,
@@ -60,6 +79,13 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             ),
                             GestureDetector(
                               onTap: () {
+                                isFavourite
+                                    ? HomeCubit.get(context).deleteBookMark(
+                                        widget.service.id.toString())
+                                    : HomeCubit.get(context).addBookMark(
+                                        widget.service.id.toString());
+                                HomeCubit.get(context).getServices(1,
+                                    AppConstants.addressID, AppStrings.allId);
                                 setState(() {
                                   isFavourite = !isFavourite;
                                 });
@@ -145,7 +171,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                         Row(
                           children: [
                             Text(
-                              "\$50",
+                              "\$${widget.service.price}",
                               style: TextStyle(
                                 color: AppColors.darkBlue,
                                 fontSize: R.F(context, 26),
@@ -154,7 +180,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             ),
                             SizedBox(width: R.sW(context, 10)),
                             Text(
-                              "(Room Price)",
+                              "(Price)",
                               style: TextStyle(
                                 color: AppColors.grey,
                                 fontSize: R.F(context, 12),
@@ -179,7 +205,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                         ),
                         SizedBox(height: R.sH(context, 10)),
                         ExpandableText(
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                          widget.service.description,
                           expandText: 'Read more',
                           collapseText: 'show less',
                           maxLines: 4,
@@ -189,6 +215,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             fontSize: R.F(context, 16),
                             fontWeight: FontWeight.w400,
                           ),
+                        ),
+                        Divider(
+                          thickness: 1,
+                          color: AppColors.grey1,
                         ),
                         SizedBox(height: R.sH(context, 10)),
                         Row(
@@ -272,6 +302,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                     onTap: () {
                                       ServiceCubit.get(context)
                                           .changeTabbedOffer(index);
+                                      functionList[index]();
                                     });
                               }),
                         ),

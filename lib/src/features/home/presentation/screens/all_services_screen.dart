@@ -4,7 +4,7 @@ import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/home/presentation/widgets/service_item.dart';
 import 'package:schmitt/src/features/profile/presentation/widgets/profile_app_bar.dart';
-
+/*
 class AllServicesScreen extends StatefulWidget {
   const AllServicesScreen({super.key});
 
@@ -160,3 +160,4 @@ PreferredSizeWidget searchBar({
     elevation: 0,
   );
 }
+*/

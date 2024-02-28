@@ -1,3 +1,4 @@
+import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
 import 'package:schmitt/src/features/services/domain/entities/review.dart';
 
 class ServiceStates {}
@@ -12,36 +13,71 @@ class ServiceError extends ServiceStates {
   final String message;
   ServiceError(this.message);
 }
+
 class StepUpdated extends ServiceStates {
   final int step;
 
   StepUpdated(this.step);
 }
+
+class AddressUpdate extends ServiceStates {}
+
 class ServiceNavigationBarChanged extends ServiceStates {
   final int index;
   ServiceNavigationBarChanged(this.index);
 }
+
 class RoomCountUpdated extends ServiceStates {}
+
 class ServiceTabbedOfferChanged extends ServiceStates {
   final int index;
   ServiceTabbedOfferChanged(this.index);
 }
+
 class AddReviweLoading extends ServiceStates {}
+
 class AddReviweLoaded extends ServiceStates {
   final String review;
   AddReviweLoaded(this.review);
 }
+
 class AddReviweError extends ServiceStates {
   final String message;
   AddReviweError(this.message);
 }
 
 class GetReviwesLoading extends ServiceStates {}
+
 class GetReviwesLoaded extends ServiceStates {
-  final List<Review> reviews;
+  final List<Review>? reviews;
   GetReviwesLoaded(this.reviews);
 }
+
 class GetReviwesError extends ServiceStates {
   final String message;
   GetReviwesError(this.message);
+}
+
+class GetAddressesLoading extends ServiceStates {}
+
+class GetAddressesLoaded extends ServiceStates {
+  final List<Address> addresses;
+  GetAddressesLoaded(this.addresses);
+}
+
+class GetAddressesError extends ServiceStates {
+  final String message;
+  GetAddressesError(this.message);
+}
+
+class CreateAddressLoading extends ServiceStates {}
+
+class CreateAddressLoaded extends ServiceStates {
+  final Address address;
+  CreateAddressLoaded(this.address);
+}
+
+class CreateAddressError extends ServiceStates {
+  final String message;
+  CreateAddressError(this.message);
 }

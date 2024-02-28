@@ -10,6 +10,8 @@ import 'package:schmitt/src/features/home/domain/use_cases/add_bokmark_usecase.d
 import 'package:schmitt/src/features/home/domain/use_cases/bokmark_usecase.dart';
 import 'package:schmitt/src/features/home/domain/use_cases/delete_bokmark_usecase.dart';
 import 'package:schmitt/src/features/home/domain/use_cases/delete_notifications_usecase.dart';
+import 'package:schmitt/src/features/home/domain/use_cases/get_services_use_case.dart';
+import 'package:schmitt/src/features/home/domain/use_cases/get_slides_use_case.dart';
 import 'package:schmitt/src/features/home/domain/use_cases/get_user_by_id_usecase.dart';
 import 'package:schmitt/src/features/home/domain/use_cases/mark_all_seen_usecase.dart';
 import 'package:schmitt/src/features/home/domain/use_cases/notifications_usecase.dart';
@@ -19,17 +21,21 @@ import 'package:schmitt/src/features/inbox/presentation/screens/inbox_screen.dar
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
 import 'package:schmitt/src/features/home/presentation/screens/home_layout.dart';
 import 'package:schmitt/src/features/profile/presentation/screens/profile_screen.dart';
+import 'package:schmitt/src/features/home/domain/entities/slides.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
   HomeCubit(
       {required this.getUserByIdUseCase,
       required this.bookMarkListUseCase,
       required this.markAllSeenListUseCase,
+      required this.getServicesUseCase,
       required this.notificationsListUseCase,
       required this.deleteNotificationsListUseCase,
       required this.updateProfileUseCase,
       required this.deleteBookMarkListUseCase,
       required this.addBookMarkListUseCase,
+      required this.getSlidesUseCase,
       required this.showProfileUseCase})
       : super(HomeInitial());
   static HomeCubit get(context) => BlocProvider.of(context);
@@ -42,18 +48,22 @@ class HomeCubit extends Cubit<HomeStates> {
   final MarkAllSeenListUseCase markAllSeenListUseCase;
   final NotificationsListUseCase notificationsListUseCase;
   final DeleteNotificationsListUseCase deleteNotificationsListUseCase;
+  final GetSlidesUseCase getSlidesUseCase;
+  final GetServicesUseCase getServicesUseCase;
   bool isDark = false;
   bool switchValue = true;
 
   int currentIndex = 0;
   int tabbedOffer = 0;
+  int tabbedBook = 0;
   List<String> titles = ["home", "bookings", "calendar", "inbox", "profile"];
   List<String> offersList = [
     "all",
+    "housekeepings",
     "carWash",
     "babySitting",
-    "housekeepings",
   ];
+
   List<Widget> screens = [
     const HomeLayoutScreen(),
     const BookingScreen(),
@@ -70,6 +80,11 @@ class HomeCubit extends Cubit<HomeStates> {
   changeTabbedOffer(int index) {
     tabbedOffer = index;
     emit(HomeTabbedOfferChanged(index));
+  }
+
+  changeTabbedBook(int index) {
+    tabbedBook = index;
+    emit(HomeTabbedBookChanged(index));
   }
 
   Future<void> updateProfile(SignUpParams params) async {
@@ -99,18 +114,18 @@ class HomeCubit extends Cubit<HomeStates> {
     );
   }
 
-  List<Data> bookmarks = [];
-  Future<void> getBookMark() async {
+  List<Service>? bookmarks = [];
+  Future<void> getBookMark(String category) async {
     emit(GetFavouriteLoding());
 
-    final result = await bookMarkListUseCase.call();
+    final result = await bookMarkListUseCase.call(category);
     result.fold(
       (failure) => emit(GetFavouriteError(
         message: failure.message,
       )),
       (right) {
         bookmarks = right.data;
-        emit(GetFavouriteLoaded(right));
+        emit(GetFavouriteLoaded(right.data));
       },
     );
   }
@@ -181,6 +196,52 @@ class HomeCubit extends Cubit<HomeStates> {
       )),
       (right) {
         emit(DeleteNotificationLoaded(message: right));
+      },
+    );
+  }
+
+  List<Slide> slides = [];
+  Future<void> getSlides(String id) async {
+    emit(SlidesLoading());
+
+    final result = await getSlidesUseCase.call(id);
+    result.fold(
+      (failure) => emit(SlidesError(
+        message: failure.message,
+      )),
+      (right) {
+        slides = right.data;
+        emit(SlidesLoaded());
+      },
+    );
+  }
+
+  List<Service>? services = [];
+  Future<void> getServices(int page, String id, String category) async {
+    emit(ServicesLoading());
+
+    final result = await getServicesUseCase.call(page, id, category);
+    result.fold(
+      (failure) => emit(ServicesError(
+        message: failure.message,
+      )),
+      (right) {
+        services = right.data;
+        emit(ServicesLoaded(right.data));
+      },
+    );
+  }
+
+  Future<void> getCategoryServices(int page, String id, String category) async {
+    emit(ServicesLoading());
+
+    final result = await getServicesUseCase.call(page, id, category);
+    result.fold(
+      (failure) => emit(ServicesError(
+        message: failure.message,
+      )),
+      (right) {
+        emit(ServicesLoaded(right.data));
       },
     );
   }
