@@ -24,7 +24,7 @@ class ServiceCubit extends Cubit<ServiceStates> {
   static ServiceCubit get(context) => BlocProvider.of(context);
   int tabbedOffer = 0;
   int? selectedAddressIndex;
-  List<Address> addresses = [];
+  List<Address>? addresses = [];
 
   List<String> offersList = [
     "all".tr(),
@@ -87,7 +87,7 @@ class ServiceCubit extends Cubit<ServiceStates> {
 
   void selectAddressIndex(int index) {
     selectedAddressIndex = index;
-    AppConstants.addressId = addresses[index].id;
+    AppConstants.addressId = addresses![index].id!;
     emit(AddressUpdate());
   }
 

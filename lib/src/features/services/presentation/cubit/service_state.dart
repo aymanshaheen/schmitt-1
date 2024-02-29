@@ -61,7 +61,7 @@ class GetReviwesError extends ServiceStates {
 class GetAddressesLoading extends ServiceStates {}
 
 class GetAddressesLoaded extends ServiceStates {
-  final List<Address> addresses;
+  final List<Address>? addresses;
   GetAddressesLoaded(this.addresses);
 }
 

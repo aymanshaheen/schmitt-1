@@ -26,10 +26,9 @@ class LocationStep extends StatelessWidget {
             ),
           );
         }
-      
       },
       builder: (context, state) {
-        List<Address> address = context.read<ServiceCubit>().addresses;
+        List<Address>? address = context.read<ServiceCubit>().addresses;
         if (state is GetAddressesLoading) {
           return CircularIndicator(
             color: AppColors.darkBlue,
@@ -44,7 +43,7 @@ class LocationStep extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
-                  address.isEmpty
+                  address!.isEmpty
                       ? Text(
                           'you_dont_have_any_added_address'.tr(),
                           style: TextStyle(
@@ -109,7 +108,7 @@ class LocationStep extends StatelessWidget {
                                                 color: AppColors.black,
                                               ),
                                               SizedBox(width: R.sW(context, 2)),
-                                              Text(address[index].name,
+                                              Text(address[index].name!,
                                                   style: TextStyle(
                                                     fontSize: R.F(context, 16),
                                                     fontWeight: FontWeight.w600,
@@ -135,7 +134,7 @@ class LocationStep extends StatelessWidget {
                                                         fontWeight:
                                                             FontWeight.w400,
                                                       )),
-                                                  Text(address[index].address,
+                                                  Text(address[index].address!,
                                                       style: TextStyle(
                                                         fontSize:
                                                             R.F(context, 14),
