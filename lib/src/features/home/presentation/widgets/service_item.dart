@@ -20,7 +20,7 @@ class _ServiceItemState extends State<ServiceItem> {
   @override
   void initState() {
     super.initState();
-    isFavourite = widget.services.isFavorited;
+    isFavourite = widget.services.isFavorited!;
   }
 
   @override
@@ -48,7 +48,7 @@ class _ServiceItemState extends State<ServiceItem> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: CachedNetworkImage(
-                    imageUrl: widget.services.image.url,
+                    imageUrl: widget.services.image!.url!,
                     fit: BoxFit.fill,
                   )),
             ),
@@ -60,7 +60,7 @@ class _ServiceItemState extends State<ServiceItem> {
                 height: R.sH(context, 5),
               ),
               Text(
-                widget.services.title,
+                widget.services.title!,
                 style: TextStyle(
                   color: AppColors.homeBlackColor,
                   fontSize: R.F(context, 16),

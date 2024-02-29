@@ -3,14 +3,23 @@ import 'package:schmitt/src/core/entities/meta.dart';
 import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
-class OrderEntity extends Equatable {
+class OrderListEntity extends Equatable {
   final List<Order>? data;
   final Meta? meta;
 
-  const OrderEntity({this.data, this.meta});
+  const OrderListEntity({required this.data, this.meta});
 
   @override
   List<Object?> get props => [data, meta];
+}
+
+class OrderEntity extends Equatable {
+  final Order data;
+
+  const OrderEntity({required this.data,});
+
+  @override
+  List<Object?> get props => [data, ];
 }
 
 class Order extends Equatable {
@@ -31,7 +40,7 @@ class Order extends Equatable {
   final String? startAt;
   final String? createdAt;
   final String? createdAtFormatted;
-  final Authorize? authorize;
+  final AuthorizeOrder? authorize;
 
   const Order({
     this.id,
@@ -86,7 +95,7 @@ class Package extends Equatable {
   final int? price;
   final bool? hasDiscount;
   final int? discountPrice;
-  final Authorize? authorize;
+  final AuthorizeOrder? authorize;
   final String? createdAt;
   final String? createdAtFormatted;
 
@@ -156,12 +165,13 @@ class Customer extends Equatable {
         createdAtFormatted,
       ];
 }
+
 class Car extends Equatable {
   final int? id;
   final String? name;
   final String? plate;
 
-  const Car( {this.id,this.plate, this.name});
+  const Car({this.id, this.plate, this.name});
 
   @override
   List<Object?> get props => [id, name, plate];
@@ -177,11 +187,11 @@ class Coupon extends Equatable {
   List<Object?> get props => [id, name];
 }
 
-class Authorize extends Equatable {
+class AuthorizeOrder extends Equatable {
   final bool? cancel;
   final bool? updateStartAt;
 
-  const Authorize({this.cancel, this.updateStartAt});
+  const AuthorizeOrder({this.cancel, this.updateStartAt});
 
   @override
   List<Object?> get props => [cancel, updateStartAt];

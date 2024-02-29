@@ -1,5 +1,7 @@
+import 'package:schmitt/src/core/entities/order.dart';
 import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
 import 'package:schmitt/src/features/services/domain/entities/review.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
 class ServiceStates {}
 
@@ -33,6 +35,16 @@ class ServiceTabbedOfferChanged extends ServiceStates {
   final int index;
   ServiceTabbedOfferChanged(this.index);
 }
+class ChangeDate extends ServiceStates {
+  final DateTime index;
+  ChangeDate(this.index);
+}
+
+class ChangeTime extends ServiceStates {
+  final int index;
+  ChangeTime(this.index);
+}
+
 
 class AddReviweLoading extends ServiceStates {}
 
@@ -80,4 +92,26 @@ class CreateAddressLoaded extends ServiceStates {
 class CreateAddressError extends ServiceStates {
   final String message;
   CreateAddressError(this.message);
+}
+class CreateOrderLoading extends ServiceStates {}
+
+class CreateOrderLoaded extends ServiceStates {
+  final OrderEntity address;
+  CreateOrderLoaded(this.address);
+}
+
+class CreateOrderError extends ServiceStates {
+  final String message;
+  CreateOrderError(this.message);
+}
+class ServicesLoading extends ServiceStates {}
+
+class ServicesLoaded extends ServiceStates {
+  final Service services;
+  ServicesLoaded(this.services);
+}
+
+class ServicesError extends ServiceStates {
+  final String message;
+  ServicesError({required this.message});
 }

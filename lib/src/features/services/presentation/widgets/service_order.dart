@@ -34,8 +34,8 @@ class _ServiceOrderState extends State<ServiceOrder> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: R.sW(context, 90),
-                height: R.sH(context, 70),
+                width: R.sW(context, 80),
+                height: R.sH(context, 80),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -52,7 +52,7 @@ class _ServiceOrderState extends State<ServiceOrder> {
               ),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 SizedBox(
-                  height: R.sH(context, 10),
+                  height: R.sH(context, 15),
                 ),
                 Text(
                   'housekeepings'.tr(),
@@ -63,7 +63,7 @@ class _ServiceOrderState extends State<ServiceOrder> {
                   ),
                 ),
                 SizedBox(
-                  height: R.sH(context, 5),
+                  height: R.sH(context, 10),
                 ),
                 Text(
                   "$total" + "dollar".tr(),

@@ -32,6 +32,8 @@
     "phone": "رقم الهاتف",
     "chat": "مراسلة",
     "living_room": "غرفة المعيشة",
+    "please_select_date_and_time_first":"رجاءا اختر التاريخ والوقت اولا",
+    "please_select_address_first":"رجاءا اختر العنوان اولا",
     "bed_room": "غرفة النوم",
     "kitchen": "المطبخ",
     "bathroom": "الحمام",

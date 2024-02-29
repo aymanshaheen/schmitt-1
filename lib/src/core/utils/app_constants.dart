@@ -1,5 +1,6 @@
 import 'package:schmitt/src/features/auth/domain/entities/user_entity.dart';
 import 'package:camera/camera.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
 class AppConstants {
   AppConstants._();
@@ -20,5 +21,7 @@ class AppConstants {
   static String country = "United Arab Emirates";
   static late List<CameraDescription> cameras;
   static String? deviceToken;
-
+  static  DateTime? selectedDate;
+  static  int? selectedHour;
+  static Service? service;
 }

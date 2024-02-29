@@ -6,22 +6,36 @@ import 'package:schmitt/src/features/services/data/model/service_model.dart';
 import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
-class OrderModel extends OrderEntity {
-  OrderModel({
-    List<Order>? data,
-    Meta?  meta,
+class OrderListModel extends OrderListEntity {
+  const OrderListModel({
+    required List<Order> data,
+    Meta? meta,
   }) : super(
-          data: data ?? [],
+          data: data,
           meta: meta,
         );
 
-  factory OrderModel.fromJson(Map<String, dynamic> json) {
-    return OrderModel(
+  factory OrderListModel.fromJson(Map<String, dynamic> json) {
+    return OrderListModel(
         data: (json['data'] as List?)
                 ?.map((i) => OrderDataModel.fromJson(i as Map<String, dynamic>))
                 .toList() ??
             [],
         meta: MetaModel.fromJson(json['meta'] as Map<String, dynamic>));
+  }
+}
+
+class OrderModel extends OrderEntity {
+  const OrderModel({
+    required Order data,
+  }) : super(
+          data: data,
+        );
+
+  factory OrderModel.fromJson(Map<String, dynamic> json) {
+    return OrderModel(
+      data: OrderDataModel.fromJson(json['data'] as Map<String, dynamic>),
+    );
   }
 }
 
@@ -44,7 +58,7 @@ class OrderDataModel extends Order {
     String? startAt,
     String? createdAt,
     String? createdAtFormatted,
-    Authorize? authorize,
+    AuthorizeOrder? authorize,
   }) : super(
           id: id ?? 0,
           name: name ?? '',
@@ -56,14 +70,14 @@ class OrderDataModel extends Order {
           type: type ?? '',
           car: car ?? const Car(),
           coupon: coupon ?? const Coupon(),
-          address: address ??const Address(),
-          package: package ??const Package(),
+          address: address ?? const Address(),
+          package: package ?? const Package(),
           services: services ?? [],
-          customer: customer ??const Customer(),
+          customer: customer ?? const Customer(),
           startAt: startAt ?? '',
           createdAt: createdAt ?? '',
           createdAtFormatted: createdAtFormatted ?? '',
-          authorize: authorize ??const Authorize(),
+          authorize: authorize ?? const AuthorizeOrder(),
         );
 
   factory OrderDataModel.fromJson(Map<String, dynamic> json) {
@@ -76,16 +90,16 @@ class OrderDataModel extends Order {
       status: json['status'] ?? '',
       statusLocaled: json['status_localed'] ?? '',
       type: json['type'] ?? '',
-      car: json['car'] != null ? CarModel.fromJson(json['car']) :const Car(),
+      car: json['car'] != null ? CarModel.fromJson(json['car']) : const Car(),
       coupon: json['coupon'] != null
           ? CouponModel.fromJson(json['coupon'])
-          :const Coupon(),
+          : const Coupon(),
       address: json['address'] != null
           ? AddressDataModel.fromJson(json['address'])
-          :const Address(),
+          : const Address(),
       package: json['package'] != null
           ? PackageModel.fromJson(json['package'])
-          :const Package(),
+          : const Package(),
       services: json['services'] != null
           ? (json['services'] as List)
               .map((i) => ServiceDataModel.fromJson(i))
@@ -93,19 +107,19 @@ class OrderDataModel extends Order {
           : [],
       customer: json['customer'] != null
           ? CustomerModel.fromJson(json['customer'])
-          :const Customer(),
+          : const Customer(),
       startAt: json['start_at'] ?? '',
       createdAt: json['created_at'] ?? '',
       createdAtFormatted: json['created_at_formatted'] ?? '',
       authorize: json['authorize'] != null
-          ? AuthorizeModel.fromJson(json['authorize'])
-          :const Authorize(),
+          ? AuthorizeModelOrder.fromJson(json['authorize'])
+          : const AuthorizeOrder(),
     );
   }
 }
 
 class CarModel extends Car {
- const CarModel({int? id, String? name, String? plate})
+  const CarModel({int? id, String? name, String? plate})
       : super(id: id ?? 0, name: name ?? '', plate: plate ?? '');
 
   factory CarModel.fromJson(Map<String, dynamic> json) {
@@ -118,7 +132,8 @@ class CarModel extends Car {
 }
 
 class CouponModel extends Coupon {
- const CouponModel({int? id, String? name}) : super(id: id ?? 0, name: name ?? '');
+  const CouponModel({int? id, String? name})
+      : super(id: id ?? 0, name: name ?? '');
 
   factory CouponModel.fromJson(Map<String, dynamic> json) {
     return CouponModel(
@@ -129,7 +144,7 @@ class CouponModel extends Coupon {
 }
 
 class PackageModel extends Package {
- const PackageModel({
+  const PackageModel({
     int? id,
     String? name,
     String? description,
@@ -138,7 +153,7 @@ class PackageModel extends Package {
     int? price,
     bool? hasDiscount,
     int? discountPrice,
-    Authorize? authorize,
+    AuthorizeOrder? authorize,
     String? createdAt,
     String? createdAtFormatted,
   }) : super(
@@ -150,7 +165,7 @@ class PackageModel extends Package {
           price: price ?? 0,
           hasDiscount: hasDiscount ?? false,
           discountPrice: discountPrice ?? 0,
-          authorize: authorize ??const Authorize(),
+          authorize: authorize ?? const AuthorizeOrder(),
           createdAt: createdAt ?? '',
           createdAtFormatted: createdAtFormatted ?? '',
         );
@@ -166,8 +181,8 @@ class PackageModel extends Package {
       hasDiscount: json['has_discount'] ?? false,
       discountPrice: json['discount_price'] ?? 0,
       authorize: json['authorize'] != null
-          ? AuthorizeModel.fromJson(json['authorize'])
-          :const Authorize(),
+          ? AuthorizeModelOrder.fromJson(json['authorize'])
+          : const AuthorizeOrder(),
       createdAt: json['created_at'] ?? '',
       createdAtFormatted: json['created_at_formatted'] ?? '',
     );
@@ -175,7 +190,7 @@ class PackageModel extends Package {
 }
 
 class CustomerModel extends Customer {
-const  CustomerModel({
+  const CustomerModel({
     int? id,
     String? name,
     String? email,
@@ -212,12 +227,12 @@ const  CustomerModel({
   }
 }
 
-class AuthorizeModel extends Authorize {
- const AuthorizeModel({bool? cancel, bool? updateStartAt})
+class AuthorizeModelOrder extends AuthorizeOrder {
+  const AuthorizeModelOrder({bool? cancel, bool? updateStartAt})
       : super(cancel: cancel ?? false, updateStartAt: updateStartAt ?? false);
 
-  factory AuthorizeModel.fromJson(Map<String, dynamic> json) {
-    return AuthorizeModel(
+  factory AuthorizeModelOrder.fromJson(Map<String, dynamic> json) {
+    return AuthorizeModelOrder(
       cancel: json['cancel'] ?? false,
       updateStartAt: json['update_start_at'] ?? false,
     );

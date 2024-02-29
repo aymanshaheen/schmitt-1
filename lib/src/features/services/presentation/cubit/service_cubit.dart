@@ -6,19 +6,25 @@ import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
 import 'package:schmitt/src/features/services/domain/entities/review.dart';
 import 'package:schmitt/src/features/services/domain/usercases/add_review.dart';
 import 'package:schmitt/src/features/services/domain/usercases/create_adress.dart';
+import 'package:schmitt/src/features/services/domain/usercases/create_order_use_case.dart';
 import 'package:schmitt/src/features/services/domain/usercases/get_adresses.dart';
 import 'package:schmitt/src/features/services/domain/usercases/get_reviews.dart';
+import 'package:schmitt/src/features/services/domain/usercases/show_service_use_case.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service_state.dart';
 
 class ServiceCubit extends Cubit<ServiceStates> {
   final AddReviweUseCase addReviweUseCase;
   final GetReviwesUseCase getReviwesUseCase;
+  final ShowServicesUseCase getServicesUseCase;
+  final CreateOrderUseCase createOrderUseCase;
   final GetAdressesUseCase getAdressesUseCase;
   final CreateAdressesUseCase createAdressesUseCase;
   ServiceCubit(
       {required this.addReviweUseCase,
       required this.createAdressesUseCase,
+      required this.createOrderUseCase,
       required this.getAdressesUseCase,
+      required this.getServicesUseCase,
       required this.getReviwesUseCase})
       : super(ServiceInitial());
   static ServiceCubit get(context) => BlocProvider.of(context);
@@ -80,9 +86,38 @@ class ServiceCubit extends Cubit<ServiceStates> {
     emit(StepUpdated(currentStep));
   }
 
+  DateTime selectedDate = DateTime.now().add(const Duration(days: 0));
+  int? selectedIndex;
+
+  void setSelectedDate(DateTime date, int index) {
+    selectedDate = date;
+    selectedIndex = index;
+    emit(ChangeDate(date));
+  }
+
+  int? selectedHour;
+  void setSelectedHour(int hour) {
+    selectedHour = hour;
+    emit(ChangeTime(hour));
+  }
+
   changeTabbedOffer(int index) {
     tabbedOffer = index;
     emit(ServiceTabbedOfferChanged(index));
+  }
+
+  Future<void> getServices(int page, String id) async {
+    emit(ServicesLoading());
+
+    final result = await getServicesUseCase.call(page, id);
+    result.fold(
+      (failure) => emit(ServicesError(
+        message: failure.message,
+      )),
+      (right) {
+        emit(ServicesLoaded(right));
+      },
+    );
   }
 
   void selectAddressIndex(int index) {
@@ -135,8 +170,7 @@ class ServiceCubit extends Cubit<ServiceStates> {
       },
     );
   }
-
-  Future<void> createAddress(AddressParams params) async {
+ Future<void> createAddress(AddressParams params) async {
     emit(CreateAddressLoading());
 
     final result = await createAdressesUseCase.call(params);
@@ -145,6 +179,17 @@ class ServiceCubit extends Cubit<ServiceStates> {
         failure.message,
       )),
       (right) => emit(CreateAddressLoaded(right)),
+    );
+  }
+  Future<void> createOrder(OrderParams params,String addressId) async {
+    emit(CreateOrderLoading());
+
+    final result = await createOrderUseCase.call(params,addressId);
+    result.fold(
+      (failure) => emit(CreateOrderError(
+        failure.message,
+      )),
+      (right) => emit(CreateOrderLoaded(right)),
     );
   }
 }

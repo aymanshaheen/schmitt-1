@@ -46,7 +46,7 @@ class FavouriteItem extends StatelessWidget {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: CachedNetworkImage(
-                    imageUrl: bookMark.image.url,
+                    imageUrl: bookMark.image!.url!,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => CircularIndicator(
                       color: AppColors.darkBlue,
@@ -63,7 +63,7 @@ class FavouriteItem extends StatelessWidget {
                 height: R.sH(context, 5),
               ),
               Text(
-                bookMark.title,
+                bookMark.title!,
                 style: TextStyle(
                   color: AppColors.homeBlackColor,
                   fontSize: R.F(context, 16),
@@ -74,7 +74,7 @@ class FavouriteItem extends StatelessWidget {
                 height: R.sH(context, 5),
               ),
               Text(
-                bookMark.price,
+                bookMark.price!,
                 style: TextStyle(
                   color: AppColors.darkBlue,
                   fontSize: R.F(context, 14),
@@ -85,7 +85,7 @@ class FavouriteItem extends StatelessWidget {
                 height: R.sH(context, 5),
               ),
               Text(
-                bookMark.description,
+                bookMark.description!,
                 style: TextStyle(
                   color: AppColors.grey,
                   fontSize: R.F(context, 12),

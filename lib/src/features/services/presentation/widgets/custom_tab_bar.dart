@@ -29,19 +29,19 @@ class _CustomTabControllerState extends State<CustomTabController> {
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.service.images.length > 1) {
+      if (widget.service.images!.length > 1) {
         _controller.addListener(() {
           if (_controller.page != null) {
             setState(() {
               currentPage =
-                  _controller.page!.round() % widget.service.images.length;
+                  _controller.page!.round() % widget.service.images!.length;
             });
           }
         });
 
         _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
           if (_controller.page != null) {
-            if (_controller.page!.round() == widget.service.images.length - 1) {
+            if (_controller.page!.round() == widget.service.images!.length - 1) {
               _controller.animateToPage(0,
                   duration: const Duration(milliseconds: 800),
                   curve: Curves.easeInToLinear);
@@ -76,7 +76,7 @@ class _CustomTabControllerState extends State<CustomTabController> {
               itemBuilder: (BuildContext context, int index) {
                 return CachedNetworkImage(
                   imageUrl: widget
-                      .service.images[index % widget.service.images.length].url,
+                      .service.images![index % widget.service.images!.length].url!,
                   fit: BoxFit.cover,
                   
                   placeholder: (context, url) => CircularIndicator(
@@ -91,10 +91,10 @@ class _CustomTabControllerState extends State<CustomTabController> {
         Positioned(
           bottom: R.sH(context, 20),
           right: R.sW(context, 150),
-          child: widget.service.images.length > 1
+          child: widget.service.images!.length > 1
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: List<Widget>.generate(widget.service.images.length,
+                  children: List<Widget>.generate(widget.service.images!.length,
                       (index) {
                     return AnimatedContainer(
                       duration: const Duration(milliseconds: 300),

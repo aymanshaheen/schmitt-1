@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:schmitt/src/config/app_route.dart';
+import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/app_image.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
-import 'package:schmitt/src/core/widgets/full_rounded_container.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
+import 'package:schmitt/src/features/auth/presentation/widgets/custom_login_button.dart';
+import 'package:schmitt/src/features/services/domain/usercases/create_order_use_case.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service_state.dart';
 import 'package:schmitt/src/features/services/presentation/widgets/payment_container.dart';
@@ -19,9 +21,35 @@ class SubmitOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> createOrder() async {
+      ServiceCubit.get(context).createOrder(
+          OrderParams(
+            name: AppConstants.service!.title,
+            price: ServiceCubit.get(context).calculateTotalPrice(),
+            addressId: AppConstants.addressId,
+            services: [
+              ServiceParams(
+                id: AppConstants.service!.id,
+                inCartCount: 1,
+              ) 
+            ],
+            microServices: const [],
+          ),
+          AppConstants.addressID);
+    }
+
     return BlocConsumer<ServiceCubit, ServiceStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is CreateOrderLoaded) {
+         // Navigator.pushNamed(context, Routes.home);
+        }
+      },
       builder: (context, state) {
+        ServiceCubit service = ServiceCubit.get(context);
+        String dayName =
+            EasyLocalization.of(context)!.currentLocale!.languageCode == "en"
+                ? DateFormat('EEEE').format(service.selectedDate)
+                : DateFormat('EEEE', 'ar_SA').format(service.selectedDate);
         return Scaffold(
           appBar: AppBar(
             centerTitle: false,
@@ -43,7 +71,7 @@ class SubmitOrderScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ServiceOrder(),
+                  const ServiceOrder(),
                   SizedBox(
                     height: R.sH(context, 20),
                   ),
@@ -60,8 +88,8 @@ class SubmitOrderScreen extends StatelessWidget {
                   ),
                   CustomContainer(
                     icon: Icons.calendar_month_sharp,
-                    text1: 'date'.tr(),
-                    text2: '12/12/2021',
+                    text1: dayName,
+                    text2: service.selectedDate.toString().split(' ')[0],
                     onTap: () {
                       Navigator.pushNamed(context, Routes.orderService,
                           arguments: 2);
@@ -72,8 +100,8 @@ class SubmitOrderScreen extends StatelessWidget {
                   ),
                   CustomContainer(
                     icon: Icons.calendar_month_sharp,
-                    text1: 'date'.tr(),
-                    text2: '12/12/2021',
+                    text1: 'clock'.tr(),
+                    text2: service.selectedHour.toString() + ':00',
                     onTap: () {
                       Navigator.pushNamed(context, Routes.orderService,
                           arguments: 2);
@@ -211,22 +239,15 @@ class SubmitOrderScreen extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: R.sW(context, 20), vertical: R.sH(context, 10)),
-            height: R.sH(context, 70),
-            color: AppColors.white,
-            child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, Routes.orderService, arguments: 2);
-              },
-              child: FullRounderContainer(
-                title: 'sure_pay'.tr(),
-                containerColor: AppColors.darkBlue,
-                textColor: AppColors.white,                circular: 30,
-
-              ),
-            ),
-          ),
+              padding: EdgeInsets.symmetric(
+                  horizontal: R.sW(context, 20), vertical: R.sH(context, 10)),
+              height: R.sH(context, 70),
+              color: AppColors.white,
+              child: CustomLoginButton(
+                text: "sure_pay".tr(),
+                onPressed: createOrder,
+                isLoading: state is CreateOrderLoading,
+              )),
         );
       },
     );

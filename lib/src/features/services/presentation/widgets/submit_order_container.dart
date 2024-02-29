@@ -11,10 +11,12 @@ class CustomContainer extends StatelessWidget {
   final String text2;
   final void Function() onTap;
 
-  const CustomContainer({super.key, 
+  const CustomContainer({
+    super.key,
     required this.icon,
     required this.text1,
-    required this.text2, required this.onTap,
+    required this.text2,
+    required this.onTap,
   });
 
   @override
@@ -60,11 +62,11 @@ class CustomContainer extends StatelessWidget {
             AppImage.edit,
             color: AppColors.darkBlue,
           ),
-           SizedBox(
+          SizedBox(
             width: R.sW(context, 5),
           ),
           InkWell(
-             onTap:onTap,
+            onTap: onTap,
             child: Text(
               'edit'.tr(),
               style: TextStyle(

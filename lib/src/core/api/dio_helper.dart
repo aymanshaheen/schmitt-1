@@ -71,12 +71,14 @@ class DioHelper {
     Map<String, dynamic>? query,
     Map<String, dynamic>? path,
     String? token,
+    String? addressId,
   }) async {
     try {
       dio.options.headers = {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        'X-Address-ID': addressId,
       };
 
       if (path != null) {
