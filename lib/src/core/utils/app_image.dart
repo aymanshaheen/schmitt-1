@@ -49,4 +49,5 @@ class AppImage {
   static const String orders = "${baseBath}orders.svg";  static const String carCleaning = "${baseBath}car_cleaning.png";
   static const String babyStroller = "${baseBath}baby_stroller.png";
   static const String vaccumCleaner = "${baseBath}vaccum_cleaner.png";
+  static const String car = "${baseBath}car.svg";
 }

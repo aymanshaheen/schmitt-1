@@ -22,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
   AppPreferences? appPreferences;
   @override
   void initState() {
+    HomeCubit.get(context).appStarted();
     appPreferences = sl<AppPreferences>();
     var token = appPreferences!.getData(key: 'token') ?? '';
     getDeviceToken();
@@ -45,39 +46,24 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return BlocListener<HomeCubit, HomeStates>(
-      listener: (context, state) {
-        if (state is ShowProfileError) {
-          Navigator.pushReplacementNamed(context, Routes.login);
-        } else {
-          Future.delayed(const Duration(seconds: 5), () {
-            appPreferences!
-                .isOnBoardingScreenViewed()
-                .then((isOnBoardingScreenViewed) => {
-                      if (isOnBoardingScreenViewed)
-                        {
-                          if (AppConstants.token != '')
-                            {
-                              Navigator.pushReplacementNamed(
-                                  context,
-                                  AppConstants.profile!.email !=
-                                          "customer2@demo.com"
-                                      ? Routes.home
-                                      : Routes.homeTech)
-                            }
-                          else
-                            {
-                              Navigator.pushReplacementNamed(
-                                  context, Routes.login)
-                            }
-                        }
-                      else
-                        {
-                          Navigator.pushReplacementNamed(
-                              context, Routes.onboarding)
-                        }
-                    });
-          });
-        }
+      listener: (context, state) async {
+        await Future.delayed(const Duration(seconds: 5), () async {
+          bool isOnBoardingScreenViewed =
+              await appPreferences!.isOnBoardingScreenViewed();
+          if (isOnBoardingScreenViewed) {
+            if (AppConstants.token != '') {
+              Navigator.pushReplacementNamed(
+                  context,
+                  AppConstants.profile!.email != "customer2@demo.com"
+                      ? Routes.home
+                      : Routes.homeTech);
+            } else {
+              Navigator.pushReplacementNamed(context, Routes.login);
+            }
+          } else {
+            Navigator.pushReplacementNamed(context, Routes.onboarding);
+          }
+        });
       },
       child: Scaffold(
         backgroundColor: AppColors.primary,

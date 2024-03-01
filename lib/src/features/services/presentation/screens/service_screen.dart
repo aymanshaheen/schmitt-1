@@ -331,7 +331,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
         text2: 'book_now'.tr(),
         onTap1: () {},
         onTap2: () {
-          Navigator.pushNamed(context, Routes.selectRooms);
+          Navigator.pushNamed(
+              context,
+              AppConstants.service!.category!.id == 3
+                  ? Routes.carWash
+                  : Routes.selectRooms);
         },
       ),
     );

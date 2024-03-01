@@ -1,4 +1,6 @@
 import 'package:schmitt/src/features/home/domain/entities/slides.dart';
+import 'package:schmitt/src/features/services/data/model/company_model.dart';
+import 'package:schmitt/src/features/services/domain/entities/company.dart';
 
 class SliderModel extends SliderEntity {
   const SliderModel({
@@ -45,52 +47,7 @@ class SliderDataModel extends Slide {
   }
 }
 
-class MediaModel extends Media {
-  const MediaModel({
-    required int id,
-    required String url,
-    required String preview,
-    required String name,
-    required String fileName,
-    required String type,
-    required String mimeType,
-    required int size,
-    required String humanReadableSize,
-    required Details details,
-    required String status,
-    required int progress,
-  }) : super(
-          id: id,
-          url: url,
-          preview: preview,
-          name: name,
-          fileName: fileName,
-          type: type,
-          mimeType: mimeType,
-          size: size,
-          humanReadableSize: humanReadableSize,
-          details: details,
-          status: status,
-          progress: progress,
-        );
 
-  factory MediaModel.fromJson(Map<String, dynamic> json) {
-    return MediaModel(
-      id: json['id'],
-      url: json['url'],
-      preview: json['preview'],
-      name: json['name'],
-      fileName: json['file_name'],
-      type: json['type'],
-      mimeType: json['mime_type'],
-      size: json['size'],
-      humanReadableSize: json['human_readable_size'],
-      details: DetailsModel.fromJson(json['details']),
-      status: json['status'],
-      progress: json['progress'],
-    );
-  }
-}
 
 class DetailsModel extends Details {
   const DetailsModel({

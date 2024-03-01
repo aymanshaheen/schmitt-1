@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schmitt/src/core/utils/app_constants.dart';
-import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
@@ -63,7 +61,7 @@ class FavouriteItem extends StatelessWidget {
                 height: R.sH(context, 5),
               ),
               Text(
-                bookMark.title!,
+                bookMark.title,
                 style: TextStyle(
                   color: AppColors.homeBlackColor,
                   fontSize: R.F(context, 16),
@@ -74,7 +72,7 @@ class FavouriteItem extends StatelessWidget {
                 height: R.sH(context, 5),
               ),
               Text(
-                bookMark.price!,
+                bookMark.price,
                 style: TextStyle(
                   color: AppColors.darkBlue,
                   fontSize: R.F(context, 14),
@@ -85,7 +83,7 @@ class FavouriteItem extends StatelessWidget {
                 height: R.sH(context, 5),
               ),
               Text(
-                bookMark.description!,
+                bookMark.description,
                 style: TextStyle(
                   color: AppColors.grey,
                   fontSize: R.F(context, 12),

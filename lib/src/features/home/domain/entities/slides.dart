@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:schmitt/src/features/services/domain/entities/company.dart';
 
 class SliderEntity extends Equatable {
   final List<Slide> data;
@@ -34,52 +35,6 @@ class Slide extends Equatable {
         color,
         type,
         media,
-      ];
-}
-
-class Media extends Equatable {
-  final int id;
-  final String url;
-  final String preview;
-  final String name;
-  final String fileName;
-  final String type;
-  final String mimeType;
-  final int size;
-  final String humanReadableSize;
-  final Details details;
-  final String status;
-  final int progress;
-
-  const Media({
-    required this.id,
-    required this.url,
-    required this.preview,
-    required this.name,
-    required this.fileName,
-    required this.type,
-    required this.mimeType,
-    required this.size,
-    required this.humanReadableSize,
-    required this.details,
-    required this.status,
-    required this.progress,
-  });
-
-  @override
-  List<Object?> get props => [
-        id,
-        url,
-        preview,
-        name,
-        fileName,
-        type,
-        mimeType,
-        size,
-        humanReadableSize,
-        details,
-        status,
-        progress,
       ];
 }
 

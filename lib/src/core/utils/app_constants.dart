@@ -1,5 +1,6 @@
 import 'package:schmitt/src/features/auth/domain/entities/user_entity.dart';
 import 'package:camera/camera.dart';
+import 'package:schmitt/src/features/services/domain/entities/car.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
 class AppConstants {
@@ -13,6 +14,7 @@ class AppConstants {
   static String addressID = "15";
   static int id=0;
   static int addressId=0; 
+  static CarDataEntity? currentCar;
   static UserEntity? profile;
   static UserEntity? currentUser;
   static bool socialAuth = false;

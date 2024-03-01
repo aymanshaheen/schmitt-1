@@ -6,8 +6,12 @@ import 'package:schmitt/src/features/services/data/remote_data_source/user_remot
 import 'package:schmitt/src/features/services/data/repository/user_repository_impl.dart';
 import 'package:schmitt/src/features/services/domain/usercases/add_review.dart';
 import 'package:schmitt/src/features/services/domain/usercases/create_adress.dart';
+import 'package:schmitt/src/features/services/domain/usercases/create_car.dart';
 import 'package:schmitt/src/features/services/domain/usercases/create_order_use_case.dart';
 import 'package:schmitt/src/features/services/domain/usercases/get_adresses.dart';
+import 'package:schmitt/src/features/services/domain/usercases/get_cars.dart';
+import 'package:schmitt/src/features/services/domain/usercases/get_colors.dart';
+import 'package:schmitt/src/features/services/domain/usercases/get_companies.dart';
 import 'package:schmitt/src/features/services/domain/usercases/get_reviews.dart';
 import 'package:schmitt/src/features/services/domain/usercases/show_service_use_case.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
@@ -37,12 +41,24 @@ void initServices() {
       () => ShowServicesUseCase(repository: sl<ServiceRepositoryImpl>()));
   sl.registerLazySingleton(
       () => CreateOrderUseCase(repository: sl<ServiceRepositoryImpl>()));
+  sl.registerLazySingleton(
+      () => CreateCarUseCase(repository: sl<ServiceRepositoryImpl>()));
+  sl.registerLazySingleton(
+      () => GetCarsUseCase(repository: sl<ServiceRepositoryImpl>()));
+  sl.registerLazySingleton(
+      () => GetColorsUseCase(repository: sl<ServiceRepositoryImpl>()));
+  sl.registerLazySingleton(
+      () => GetCompaniesUseCase(repository: sl<ServiceRepositoryImpl>()));
 
   // Bloc
   sl.registerFactory(
     () => ServiceCubit(
       addReviweUseCase: sl<AddReviweUseCase>(),
       getReviwesUseCase: sl<GetReviwesUseCase>(),
+      createCarUseCase: sl<CreateCarUseCase>(),
+      getCompaniesUseCase: sl<GetCompaniesUseCase>(),
+      getColorsUseCase: sl<GetColorsUseCase>(),
+      getCarsUseCase: sl<GetCarsUseCase>(),
       getServicesUseCase: sl<ShowServicesUseCase>(),
       createOrderUseCase: sl<CreateOrderUseCase>(),
       getAdressesUseCase: sl<GetAdressesUseCase>(),

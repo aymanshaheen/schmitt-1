@@ -20,7 +20,7 @@ class CustomRow extends StatelessWidget {
         Row(
           children: [
             Text(
-              label.tr(),
+              label,
               style: TextStyle(
                 fontSize: R.F(context, 16),
                 fontWeight: FontWeight.w600,

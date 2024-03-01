@@ -1,11 +1,11 @@
 import 'package:schmitt/src/features/auth/domain/entities/user_entity.dart';
-import 'package:schmitt/src/features/home/domain/entities/bookmark.dart';
 import 'package:schmitt/src/features/home/domain/entities/notification.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
 class HomeStates {}
 
 class HomeInitial extends HomeStates {}
+class AppStartedState extends HomeStates {}
 
 class HomeNavigationBarChanged extends HomeStates {
   final int index;

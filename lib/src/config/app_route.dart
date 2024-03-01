@@ -11,9 +11,10 @@ import 'package:schmitt/src/features/auth/presentation/screens/started_login_scr
 import 'package:schmitt/src/features/booking_details/presentation/screens/booking_date_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/cleaning_items_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/location_layout_screen.dart';
-import 'package:schmitt/src/features/car_wash_service/presentation/screens/car_wash_details_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/service_type_screen.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
+import 'package:schmitt/src/features/services/presentation/screens/car_wash_details_screen.dart';
+import 'package:schmitt/src/features/services/presentation/screens/car_wash_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/select_rooms_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/service_order_screen.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
@@ -81,8 +82,7 @@ class Routes {
   static const String bookingDate = "bookingDate";
   static const String serviceType = "serviceType";
   static const String carWashServiceDetails = "carWashServiceDetails";
-
-
+  static const String carWash = "carWash";
 }
 
 class AppRouter {
@@ -115,10 +115,7 @@ class AppRouter {
         return FadeRoute(
           builder: (context) => const VerifyCodeScreen(),
         );
-      case Routes.carWashServiceDetails:
-        return FadeRoute(
-          builder: (context) => const CarWashDetailsScreen(),
-        );
+
       case Routes.resetPassword:
         return FadeRoute(
           builder: (context) => const ResetPasswordScreen(),
@@ -148,11 +145,8 @@ class AppRouter {
       case Routes.service:
         final arguments = settings.arguments as Service;
         return FadeRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => sl<ServiceCubit>(),
-            child: ServiceScreen(
-              service: arguments,
-            ),
+          builder: (context) => ServiceScreen(
+            service: arguments,
           ),
         );
       case Routes.selectRooms:
@@ -162,6 +156,22 @@ class AppRouter {
             child: const SelectRoomsScreen(),
           ),
         );
+
+      case Routes.carWashServiceDetails:
+        return FadeRoute(
+          builder: (context) => BlocProvider.value(
+            value: BlocProvider.of<ServiceCubit>(context),
+            child: const CarWashDetailsScreen(),
+          ),
+        );
+      case Routes.carWash:
+        return FadeRoute(
+          builder: (context) => BlocProvider.value(
+            value: BlocProvider.of<ServiceCubit>(context),
+            child: const CarWashScreen(),
+          ),
+        );
+
       case Routes.submitOrder:
         return FadeRoute(
           builder: (context) => BlocProvider.value(

@@ -25,13 +25,20 @@ class SubmitOrderScreen extends StatelessWidget {
       ServiceCubit.get(context).createOrder(
           OrderParams(
             name: AppConstants.service!.title,
-            price: ServiceCubit.get(context).calculateTotalPrice(),
+            price: AppConstants.service!.category!.id == 3
+                ? ServiceCubit.get(context).carWashPrice
+                : AppConstants.service!.category!.id == 2
+                    ? ServiceCubit.get(context).calculateTotalPrice()
+                    : ServiceCubit.get(context).numberOfChilds * 20,
             addressId: AppConstants.addressId,
+            carId: AppConstants.service!.category!.id == 3
+                ? AppConstants.currentCar!.id
+                : null,
             services: [
               ServiceParams(
                 id: AppConstants.service!.id,
                 inCartCount: 1,
-              ) 
+              )
             ],
             microServices: const [],
           ),
@@ -41,7 +48,7 @@ class SubmitOrderScreen extends StatelessWidget {
     return BlocConsumer<ServiceCubit, ServiceStates>(
       listener: (context, state) {
         if (state is CreateOrderLoaded) {
-         // Navigator.pushNamed(context, Routes.home);
+          // Navigator.pushNamed(context, Routes.home);
         }
       },
       builder: (context, state) {
@@ -71,10 +78,14 @@ class SubmitOrderScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const ServiceOrder(),
-                  SizedBox(
-                    height: R.sH(context, 20),
-                  ),
+                  AppConstants.service!.category!.id == 2
+                      ? const ServiceOrder()
+                      : const SizedBox.shrink(),
+                  AppConstants.service!.category!.id == 2
+                      ? SizedBox(
+                          height: R.sH(context, 20),
+                        )
+                      : const SizedBox.shrink(),
                   Text(
                     'date'.tr(),
                     style: TextStyle(
@@ -203,22 +214,29 @@ class SubmitOrderScreen extends StatelessWidget {
                     height: R.sH(context, 10),
                   ),
                   CustomRow(
-                    label: 'houskeeping',
-                    value: '1000 \$',
+                    label: AppConstants.service!.title,
+                    value: AppConstants.service!.category!.id == 3
+                        ? ServiceCubit.get(context).carWashPrice.toString()+" \$"
+                        : AppConstants.service!.category!.id == 2
+                            ? ServiceCubit.get(context)
+                                .calculateTotalPrice()
+                                .toString()+" \$"
+                            : (ServiceCubit.get(context).numberOfChilds * 20)
+                                .toString()+" \$",
                     color: AppColors.black,
                   ),
                   CustomRow(
-                    label: 'transport',
+                    label: 'transport'.tr(),
                     value: '50 \$',
                     color: AppColors.darkBlue,
                   ),
                   CustomRow(
-                    label: 'promo',
+                    label: 'promo'.tr(),
                     value: '50 \$',
                     color: AppColors.green,
                   ),
                   CustomRow(
-                    label: 'tax',
+                    label: 'tax'.tr(),
                     value: '100 \$',
                     color: AppColors.black,
                   ),
@@ -230,7 +248,7 @@ class SubmitOrderScreen extends StatelessWidget {
                     height: R.sH(context, 10),
                   ),
                   CustomRow(
-                    label: 'total',
+                    label: 'total'.tr(),
                     value: '800 \$',
                     color: AppColors.black,
                   ),

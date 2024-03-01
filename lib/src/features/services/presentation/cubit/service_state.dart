@@ -1,5 +1,8 @@
 import 'package:schmitt/src/core/entities/order.dart';
 import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
+import 'package:schmitt/src/features/services/domain/entities/car.dart';
+import 'package:schmitt/src/features/services/domain/entities/color.dart';
+import 'package:schmitt/src/features/services/domain/entities/company.dart';
 import 'package:schmitt/src/features/services/domain/entities/review.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
@@ -109,6 +112,47 @@ class CreateOrderLoaded extends ServiceStates {
 class CreateOrderError extends ServiceStates {
   final String message;
   CreateOrderError(this.message);
+}
+class CreateCarLoading extends ServiceStates {}
+class CreateCarLoaded extends ServiceStates {
+}
+class CreateCarError extends ServiceStates {
+  final String message;
+  CreateCarError(this.message);
+}
+class GetCarsLoading extends ServiceStates {}
+
+class GetCarsLoaded extends ServiceStates {
+  final List<CarDataEntity>? cars;
+  GetCarsLoaded(this.cars);
+}
+
+class GetCarsError extends ServiceStates {
+  final String message;
+  GetCarsError(this.message);
+}
+class GetColorsLoading extends ServiceStates {}
+
+class GetColorsLoaded extends ServiceStates {
+  final List<ColorData>? colors;
+  GetColorsLoaded(this.colors);
+}
+
+class GetColorsError extends ServiceStates {
+  final String message;
+  GetColorsError(this.message);
+}
+
+class GetCompaniesLoading extends ServiceStates {}
+
+class GetCompaniesLoaded extends ServiceStates {
+  final List<Company>? companies;
+  GetCompaniesLoaded(this.companies);
+}
+
+class GetCompaniesError extends ServiceStates {
+  final String message;
+  GetCompaniesError(this.message);
 }
 class ServicesLoading extends ServiceStates {}
 

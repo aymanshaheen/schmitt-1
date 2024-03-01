@@ -86,7 +86,7 @@ class _CustomTabControllerState extends State<CustomHomeTabController> {
                             imageUrl: widget
                                 .slides![index % widget.slides!.length]
                                 .media
-                                .url,
+                                .url!,
                             fit: BoxFit.cover,
                             placeholder: (context, url) => CircularIndicator(
                               color: AppColors.darkBlue,
@@ -125,7 +125,7 @@ class _CustomTabControllerState extends State<CustomHomeTabController> {
                     left: isArabic ? R.sW(context, 190) : R.sW(context, 45),
                     top: R.sH(context, 120),
                     child: Text(
-                      widget.slides![index % widget.slides!.length].media.name,
+                      widget.slides![index % widget.slides!.length].media.name!,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: R.F(context, 12),

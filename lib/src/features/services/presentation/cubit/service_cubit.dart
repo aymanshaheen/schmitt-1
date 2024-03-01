@@ -3,11 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/core/usecase/address_params.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
+import 'package:schmitt/src/features/services/domain/entities/car.dart';
+import 'package:schmitt/src/features/services/domain/entities/color.dart';
+import 'package:schmitt/src/features/services/domain/entities/company.dart';
 import 'package:schmitt/src/features/services/domain/entities/review.dart';
 import 'package:schmitt/src/features/services/domain/usercases/add_review.dart';
 import 'package:schmitt/src/features/services/domain/usercases/create_adress.dart';
+import 'package:schmitt/src/features/services/domain/usercases/create_car.dart';
 import 'package:schmitt/src/features/services/domain/usercases/create_order_use_case.dart';
 import 'package:schmitt/src/features/services/domain/usercases/get_adresses.dart';
+import 'package:schmitt/src/features/services/domain/usercases/get_cars.dart';
+import 'package:schmitt/src/features/services/domain/usercases/get_colors.dart';
+import 'package:schmitt/src/features/services/domain/usercases/get_companies.dart';
 import 'package:schmitt/src/features/services/domain/usercases/get_reviews.dart';
 import 'package:schmitt/src/features/services/domain/usercases/show_service_use_case.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service_state.dart';
@@ -19,10 +26,18 @@ class ServiceCubit extends Cubit<ServiceStates> {
   final CreateOrderUseCase createOrderUseCase;
   final GetAdressesUseCase getAdressesUseCase;
   final CreateAdressesUseCase createAdressesUseCase;
+  final GetCarsUseCase getCarsUseCase;
+  final CreateCarUseCase createCarUseCase;
+  final GetColorsUseCase getColorsUseCase;
+  final GetCompaniesUseCase getCompaniesUseCase;
   ServiceCubit(
       {required this.addReviweUseCase,
       required this.createAdressesUseCase,
+      required this.getColorsUseCase,
+      required this.getCompaniesUseCase,
       required this.createOrderUseCase,
+      required this.createCarUseCase,
+      required this.getCarsUseCase,
       required this.getAdressesUseCase,
       required this.getServicesUseCase,
       required this.getReviwesUseCase})
@@ -55,6 +70,8 @@ class ServiceCubit extends Cubit<ServiceStates> {
     5,
     5,
   ];
+  int numberOfChilds = 0;
+  int carWashPrice=30;
   void decrementRoomCount(int index) {
     if (roomsCount[index] == 0) {
       return;
@@ -68,6 +85,20 @@ class ServiceCubit extends Cubit<ServiceStates> {
   void incrementRoomCount(int index) {
     roomsCount[index]++;
     calculateTotalPrice();
+    emit(RoomCountUpdated());
+  }
+
+  void incrementChilds(int index) {
+    numberOfChilds++;
+    emit(RoomCountUpdated());
+  }
+
+  void decrementRoomChild(int index) {
+    if (numberOfChilds == 0) {
+      return;
+    }
+
+    numberOfChilds--;
     emit(RoomCountUpdated());
   }
 
@@ -157,17 +188,17 @@ class ServiceCubit extends Cubit<ServiceStates> {
   }
 
   void likeReview(int index, bool isLiked) {
-  if (isLiked) {
-    reviews![index].isLiked = true;
-    reviews![index].likes++; // Increase the number of likes
-  } else {
-    reviews![index].isLiked = false;
-    if (reviews![index].likes > 0) {
-      reviews![index].likes--; // Decrease the number of likes
+    if (isLiked) {
+      reviews![index].isLiked = true;
+      reviews![index].likes++; // Increase the number of likes
+    } else {
+      reviews![index].isLiked = false;
+      if (reviews![index].likes > 0) {
+        reviews![index].likes--; // Decrease the number of likes
+      }
     }
+    emit(ReviewLiked(index, reviews![index].isLiked));
   }
-  emit(ReviewLiked(index, reviews![index].isLiked));
-}
 
   Future<void> getAdresses() async {
     emit(GetAddressesLoading());
@@ -206,5 +237,59 @@ class ServiceCubit extends Cubit<ServiceStates> {
       )),
       (right) => emit(CreateOrderLoaded(right)),
     );
+  }
+
+  List<CarDataEntity>? cars = [];
+  Future<void> getCars(int page) async {
+    emit(GetCarsLoading());
+
+    final result = await getCarsUseCase.call(page);
+    result.fold(
+        (failure) => emit(GetCarsError(
+              failure.message,
+            )), (right) {
+      cars = right.data;
+      emit(GetCarsLoaded(right.data));
+    });
+  }
+
+  Future<void> createCar(CarParams params) async {
+    emit(CreateCarLoading());
+
+    final result = await createCarUseCase.call(params);
+    result.fold(
+      (failure) => emit(CreateCarError(
+        failure.message,
+      )),
+      (right) => emit(CreateCarLoaded()),
+    );
+  }
+
+  List<Company>? companies = [];
+  Future<void> getCompanies(int page, String addressId) async {
+    emit(GetCompaniesLoading());
+
+    final result = await getCompaniesUseCase.call(page, addressId);
+    result.fold(
+        (failure) => emit(GetCompaniesError(
+              failure.message,
+            )), (right) {
+      companies = right.data;
+      emit(GetCompaniesLoaded(right.data));
+    });
+  }
+
+  List<ColorData>? colors = [];
+  Future<void> getColors(String addressId) async {
+    emit(GetColorsLoading());
+
+    final result = await getColorsUseCase.call(addressId);
+    result.fold(
+        (failure) => emit(GetColorsError(
+              failure.message,
+            )), (right) {
+      colors = right.data;
+      emit(GetColorsLoaded(right.data));
+    });
   }
 }

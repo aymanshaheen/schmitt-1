@@ -6,9 +6,13 @@ import 'package:schmitt/src/core/models/order_model.dart';
 import 'package:schmitt/src/core/usecase/address_params.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/features/services/data/model/adresses_model.dart';
+import 'package:schmitt/src/features/services/data/model/car_model.dart';
+import 'package:schmitt/src/features/services/data/model/company_model.dart';
 import 'package:schmitt/src/features/services/data/model/review_model.dart';
 import 'package:schmitt/src/features/services/data/model/service_model.dart';
 import 'package:schmitt/src/features/services/data/remote_data_source/user_remote_data_source.dart';
+import 'package:schmitt/src/features/services/domain/entities/color.dart';
+import 'package:schmitt/src/features/services/domain/usercases/create_car.dart';
 import 'package:schmitt/src/features/services/domain/usercases/create_order_use_case.dart';
 
 class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
@@ -33,12 +37,12 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
       rethrow;
     }
   }
- @override
-  Future<ServiceDataModel> getService(
-      int id, String addressId ) async {
+
+  @override
+  Future<ServiceDataModel> getService(int id, String addressId) async {
     try {
       Response response = await dio.getData(
-          url: Endpoints.services+':id',
+          url: Endpoints.services + ':id',
           token: AppConstants.token,
           path: {'id': id},
           addressId: addressId);
@@ -51,6 +55,7 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
       rethrow;
     }
   }
+
   @override
   Future<AddressModel> getAddresses() async {
     try {
@@ -78,8 +83,9 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
       rethrow;
     }
   }
-@override
-  Future<OrderModel> createOrder(OrderParams params,String addressId) async {
+
+  @override
+  Future<OrderModel> createOrder(OrderParams params, String addressId) async {
     try {
       Response response = await dio.postData(
           data: params.toJson(),
@@ -93,6 +99,7 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
       rethrow;
     }
   }
+
   @override
   Future<String> addReview(String id, String review, String rating) async {
     try {
@@ -104,6 +111,66 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
       return response.data['message'];
     } catch (e) {
       debugPrint('An unexpected error occurred: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<CarsModel> getCars(int page) async {
+    try {
+      Response response =
+          await dio.getData(url: Endpoints.cars, token: AppConstants.token);
+      CarsModel userModel = CarsModel.fromJson(response.data);
+      return userModel;
+    } catch (e) {
+      debugPrint('An unexpected error occurred: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> createCar(CarParams params) async {
+    try {
+      await dio.postData(
+          data: params.toJson(),
+          url: Endpoints.cars,
+          token: AppConstants.token);
+    } catch (e) {
+      debugPrint('An unexpected error occurred: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<CompanyModel> getCompanies(int page, String addressId) async {
+    try {
+      Response response = await dio.getData(
+          url: Endpoints.companies,
+          token: AppConstants.token,
+          addressId: addressId);
+      CompanyModel userModel = CompanyModel.fromJson(response.data);
+      return userModel;
+    } on DioException catch (error) {
+      debugPrint(error.message);
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ColorModel> getColors(String addressId) async {
+    try {
+      Response response = await dio.getData(
+          url: Endpoints.colors,
+          token: AppConstants.token,
+          addressId: addressId);
+      ColorModel userModel = ColorModel.fromJson(response.data);
+      return userModel;
+    } on DioException catch (error) {
+      debugPrint(error.message);
+      rethrow;
+    } catch (e) {
       rethrow;
     }
   }

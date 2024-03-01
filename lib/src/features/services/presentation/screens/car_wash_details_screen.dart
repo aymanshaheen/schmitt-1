@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:schmitt/src/features/car_wash_service/presentation/widgets/car_wash_app_bar.dart';
-import 'package:schmitt/src/features/car_wash_service/presentation/widgets/drop_down_car_wash.dart';
+import 'package:schmitt/src/features/services/presentation/widgets/drop_down_car_wash.dart';
 
 import '../../../../core/widgets/responsivity.dart';
 
@@ -13,14 +12,13 @@ class CarWashDetailsScreen extends StatefulWidget {
 }
 
 class _CarWashDetailsScreenState extends State<CarWashDetailsScreen> {
-  List<String> carType = ['Sedan', 'SUV', 'Truck'];
-  List<String> carModel = ['BMW', 'Audi', 'Mercedes'];
+  List<String> carType = ['Car Type', 'Sedan', 'SUV', 'Truck'];
+  List<String> carModel = ['Car Model', 'BMW', 'Audi', 'Mercedes'];
   String selectedCarType = 'Car Type';
   String selectedCarModel = 'Car Model';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: carWashAppBar(context: context, title: 'Car Washing'.tr()),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

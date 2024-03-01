@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
-import 'package:schmitt/src/features/car_wash_service/presentation/cubit/car_wash_cubit.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
 
 class RatingServiceItem extends StatelessWidget {
   const RatingServiceItem(
@@ -24,8 +24,8 @@ class RatingServiceItem extends StatelessWidget {
                 color: AppColors.darkBlue,
                 width: R.sW(context, 2),
               ),
-              color: CarWashServiceCubit.get(context).tabbedOffer ==
-                  CarWashServiceCubit.get(context).offersList.indexOf(title)
+              color: ServiceCubit.get(context).tabbedOffer ==
+                      ServiceCubit.get(context).offersList.indexOf(title)
                   ? AppColors.darkBlue
                   : AppColors.white,
             ),
@@ -34,10 +34,8 @@ class RatingServiceItem extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.star,
-                    color: CarWashServiceCubit.get(context).tabbedOffer !=
-                        CarWashServiceCubit.get(context)
-                            .offersList
-                            .indexOf(title)
+                    color: ServiceCubit.get(context).tabbedOffer !=
+                            ServiceCubit.get(context).offersList.indexOf(title)
                         ? AppColors.darkBlue
                         : AppColors.white,
                     size: R.sW(context, 20),
@@ -48,10 +46,10 @@ class RatingServiceItem extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      color: CarWashServiceCubit.get(context).tabbedOffer !=
-                          CarWashServiceCubit.get(context)
-                              .offersList
-                              .indexOf(title)
+                      color: ServiceCubit.get(context).tabbedOffer !=
+                              ServiceCubit.get(context)
+                                  .offersList
+                                  .indexOf(title)
                           ? AppColors.darkBlue
                           : AppColors.white,
                       fontSize: R.F(context, 16),
@@ -60,7 +58,8 @@ class RatingServiceItem extends StatelessWidget {
                   ),
                 ],
               ),
-            )),
+            )
+            ),
       ),
     );
   }

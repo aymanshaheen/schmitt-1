@@ -17,5 +17,8 @@ class Endpoints {
   static const reviews = "reviews";
   static const addresses = "addresses";
   static const slides = "slides";
+  static const cars = "cars";
+  static const companies = "companies";
+  static const colors = "colors";
 
 }
