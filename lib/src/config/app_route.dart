@@ -11,6 +11,7 @@ import 'package:schmitt/src/features/auth/presentation/screens/started_login_scr
 import 'package:schmitt/src/features/booking_details/presentation/screens/booking_date_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/cleaning_items_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/location_layout_screen.dart';
+import 'package:schmitt/src/features/car_wash_service/presentation/screens/car_wash_details_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/service_type_screen.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
 import 'package:schmitt/src/features/services/presentation/screens/select_rooms_screen.dart';
@@ -79,6 +80,9 @@ class Routes {
   static const String cleaningItems = "cleaningItems";
   static const String bookingDate = "bookingDate";
   static const String serviceType = "serviceType";
+  static const String carWashServiceDetails = "carWashServiceDetails";
+
+
 }
 
 class AppRouter {
@@ -110,6 +114,10 @@ class AppRouter {
       case Routes.verifyCode:
         return FadeRoute(
           builder: (context) => const VerifyCodeScreen(),
+        );
+      case Routes.carWashServiceDetails:
+        return FadeRoute(
+          builder: (context) => const CarWashDetailsScreen(),
         );
       case Routes.resetPassword:
         return FadeRoute(

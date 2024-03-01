@@ -42,7 +42,7 @@ class HeaderExpanded extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 200,
+                  width: R.sW(context, 210),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -55,6 +55,7 @@ class HeaderExpanded extends StatelessWidget {
                         ),
                       ),
                       Container(
+
                         padding: EdgeInsets.symmetric(
                           vertical: R.sH(context, 4),
                           horizontal: R.sW(context, 4),
