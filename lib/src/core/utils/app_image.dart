@@ -14,6 +14,10 @@ class AppImage {
   static const String houseKeepingdetail3 =
      
       "${baseBath}housekeepingdetail3.svg";
+  static const String carWashDetails1 = "${baseBath}car_wash_details_1.png";
+  static const String carWashDetails2 = "${baseBath}car_wash_details_2.png";
+  static const String carWashDetails3 = "${baseBath}car_wash_details_3.png";
+  static const String carWashing = "${baseBath}car_wash.png";
   static const String babySitting = "${baseBath}baby_sitting.svg";
   static const String home = "${baseBath}home.svg";
   static const String notification = "${baseBath}notifications.svg";
