@@ -9,7 +9,10 @@ class CustomLoginButton extends StatelessWidget {
   final bool isLoading;
 
   const CustomLoginButton(
-      {super.key, required this.text, required this.onPressed, this.isLoading = false});
+      {super.key,
+      required this.text,
+      required this.onPressed,
+      this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +50,6 @@ class CustomLoginButton extends StatelessWidget {
                 duration: const Duration(milliseconds: 600),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: AppColors.darkBlue,
                 ),
                 child: Center(
                   child: Text(

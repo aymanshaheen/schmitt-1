@@ -9,7 +9,6 @@ import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_state.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -31,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
       HomeCubit.get(context).showProfile().then((value) => {
             Future.wait([
               HomeCubit.get(context).getSlides("15"),
-              HomeCubit.get(context).getServices(1, "15","0"),
+              HomeCubit.get(context).getServices(1, "15", "0"),
             ])
           });
     }

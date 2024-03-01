@@ -16,19 +16,25 @@ class ReviewModel extends ReviewEntity {
       data: (json['data'] as List?)
           ?.map((i) => ReviewDataModel.fromJson(i as Map<String, dynamic>))
           .toList(),
-      meta: json['meta'] != null ? MetaModel.fromJson(json['meta'] as Map<String, dynamic>) : null,
+      meta: json['meta'] != null
+          ? MetaModel.fromJson(json['meta'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
 
 class ReviewDataModel extends Review {
-  const ReviewDataModel({
+   bool isLiked;
+   int likes;
+   ReviewDataModel({
     int? id,
     String? review,
     int? rating,
     Author? author,
     String? createdAt,
     String? createdAtFormatted,
+    required this.isLiked,
+    required this.likes,
   }) : super(
           id: id,
           review: review,
@@ -36,6 +42,8 @@ class ReviewDataModel extends Review {
           author: author,
           createdAt: createdAt,
           createdAtFormatted: createdAtFormatted,
+          isLiked: isLiked,
+          likes: likes,
         );
 
   factory ReviewDataModel.fromJson(Map<String, dynamic> json) {
@@ -43,9 +51,13 @@ class ReviewDataModel extends Review {
       id: json['id'] as int?,
       review: json['review'] as String?,
       rating: json['rating'] as int?,
-      author: json['author'] != null ? AuthorModel.fromJson(json['author'] as Map<String, dynamic>) : null,
+      author: json['author'] != null
+          ? AuthorModel.fromJson(json['author'] as Map<String, dynamic>)
+          : null,
       createdAt: json['created_at'] as String?,
       createdAtFormatted: json['created_at_formatted'] as String?,
+       isLiked: json['is_liked'] as bool? ?? false,
+      likes: json['likes'] as int? ?? 0,
     );
   }
 }

@@ -156,6 +156,19 @@ class ServiceCubit extends Cubit<ServiceStates> {
     });
   }
 
+  void likeReview(int index, bool isLiked) {
+  if (isLiked) {
+    reviews![index].isLiked = true;
+    reviews![index].likes++; // Increase the number of likes
+  } else {
+    reviews![index].isLiked = false;
+    if (reviews![index].likes > 0) {
+      reviews![index].likes--; // Decrease the number of likes
+    }
+  }
+  emit(ReviewLiked(index, reviews![index].isLiked));
+}
+
   Future<void> getAdresses() async {
     emit(GetAddressesLoading());
 
@@ -170,7 +183,8 @@ class ServiceCubit extends Cubit<ServiceStates> {
       },
     );
   }
- Future<void> createAddress(AddressParams params) async {
+
+  Future<void> createAddress(AddressParams params) async {
     emit(CreateAddressLoading());
 
     final result = await createAdressesUseCase.call(params);
@@ -181,10 +195,11 @@ class ServiceCubit extends Cubit<ServiceStates> {
       (right) => emit(CreateAddressLoaded(right)),
     );
   }
-  Future<void> createOrder(OrderParams params,String addressId) async {
+
+  Future<void> createOrder(OrderParams params, String addressId) async {
     emit(CreateOrderLoading());
 
-    final result = await createOrderUseCase.call(params,addressId);
+    final result = await createOrderUseCase.call(params, addressId);
     result.fold(
       (failure) => emit(CreateOrderError(
         failure.message,

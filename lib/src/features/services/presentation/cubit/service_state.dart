@@ -28,6 +28,12 @@ class ServiceNavigationBarChanged extends ServiceStates {
   final int index;
   ServiceNavigationBarChanged(this.index);
 }
+class ReviewLiked extends ServiceStates {
+  final int index;
+  final bool isLiked;
+
+  ReviewLiked(this.index, this.isLiked);
+}
 
 class RoomCountUpdated extends ServiceStates {}
 

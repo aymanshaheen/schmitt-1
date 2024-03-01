@@ -7,6 +7,7 @@ import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
+import 'package:schmitt/src/features/services/domain/entities/review.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service_state.dart';
@@ -16,6 +17,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:schmitt/src/features/services/presentation/widgets/image_service_container.dart';
 import 'package:schmitt/src/features/services/presentation/widgets/offers_listview_item.dart';
 import 'package:schmitt/src/features/services/presentation/widgets/service_reviews.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceScreen extends StatefulWidget {
   final Service service;
@@ -29,14 +31,18 @@ class _ServiceScreenState extends State<ServiceScreen> {
   bool isFavourite = false;
   @override
   void initState() {
+    super.initState();
     AppConstants.service = widget.service;
     ServiceCubit.get(context)
-        .getServices(
-          widget.service.id,
-          AppConstants.addressID,
-        )
-        .then((value) => ServiceCubit.get(context)
-            .getReviews(widget.service.id.toString(), AppStrings.allId));
+        .getReviews(widget.service.id.toString(), AppStrings.allId)
+        .then((value) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<String> likedReviews = (prefs.getStringList('likedReviews') ?? []);
+      for (Review review in ServiceCubit.get(context).reviews!) {
+        review.isLiked = likedReviews.contains(review.id.toString());
+        review.likes = prefs.getInt(review.id.toString() + "_likes") ?? 0;
+      }
+    });
     isFavourite = widget.service.isFavorited!;
     super.initState();
   }

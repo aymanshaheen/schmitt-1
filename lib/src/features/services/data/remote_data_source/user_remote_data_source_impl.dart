@@ -98,10 +98,10 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
     try {
       Response response = await dio.postData(
           data: {'review': review, 'rating': rating},
-          url: Endpoints.service + ':id/' + Endpoints.reviews,
+          url: Endpoints.services + ':id/' + Endpoints.reviews,
           path: {'id': id},
           token: AppConstants.token);
-      return response.data;
+      return response.data['message'];
     } catch (e) {
       debugPrint('An unexpected error occurred: ${e.toString()}');
       rethrow;

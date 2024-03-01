@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:schmitt/src/core/entities/meta.dart';
-import 'package:schmitt/src/core/entities/order.dart';
 
 class ServiceEntity extends Equatable {
   final List<Service>? data;

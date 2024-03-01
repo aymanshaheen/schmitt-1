@@ -18,14 +18,18 @@ class Review extends Equatable {
   final Author? author;
   final String? createdAt;
   final String? createdAtFormatted;
+  bool isLiked;
+  int likes;
 
-  const Review({
+   Review({
     this.id,
     this.review,
     this.rating,
     this.author,
     this.createdAt,
     this.createdAtFormatted,
+    required this.isLiked,
+    required this.likes,
   });
 
   @override
