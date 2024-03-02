@@ -1,11 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:schmitt/src/features/booking_details/constants/my_colors.dart';
 import 'package:schmitt/src/features/booking_details/data/models/place_direction_model.dart';
 import 'package:schmitt/src/features/booking_details/data/models/place_model.dart';
