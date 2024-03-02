@@ -334,7 +334,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
           Navigator.pushNamed(
               context,
               AppConstants.service!.category!.id == 3
-                  ? Routes.carWash
+                  ? Routes.carWashServiceDetails
                   : Routes.selectRooms);
         },
       ),

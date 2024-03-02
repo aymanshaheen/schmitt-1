@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schmitt/src/features/booking_details/presentation/cubit/booking_details_states.dart';
+import 'package:schmitt/src/features/booking_details/presentation/cubit/booking_details/booking_details_states.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class BookingDetailsCubit extends Cubit<BookingDetailsStates> {

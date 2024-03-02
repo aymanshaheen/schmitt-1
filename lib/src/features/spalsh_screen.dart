@@ -20,25 +20,46 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   AppPreferences? appPreferences;
-  @override
-  void initState() {
-    HomeCubit.get(context).appStarted();
-    appPreferences = sl<AppPreferences>();
-    var token = appPreferences!.getData(key: 'token') ?? '';
-    getDeviceToken();
-    AppConstants.token = (token != '') ? token : '';
-    if (AppConstants.token != '') {
-      HomeCubit.get(context).showProfile().then((value) => {
-            Future.wait([
-              HomeCubit.get(context).getSlides("15"),
-              HomeCubit.get(context).getServices(1, "15", "0"),
-            ])
-          });
-    }
-
-    super.initState();
+ @override
+void initState() {
+  super.initState();
+  appPreferences = sl<AppPreferences>();
+  var token = appPreferences!.getData(key: 'token') ?? '';
+ // getDeviceToken();
+  AppConstants.token = (token != '') ? token : '';
+  if (AppConstants.token != '') {
+    HomeCubit.get(context).showProfile().then((value) => {
+     
+        Future.delayed(const Duration(seconds: 3), () {
+          navigateBasedOnCondition();
+        })
+   
+    });
   }
+  else{
+     Future.delayed(const Duration(seconds: 5), () {
+          navigateBasedOnCondition();
+        });
+  }
+  super.initState();
+}
 
+void navigateBasedOnCondition() async {
+  bool isOnBoardingScreenViewed = await appPreferences!.isOnBoardingScreenViewed();
+  if (isOnBoardingScreenViewed) {
+    if (AppConstants.token != '') {
+      Navigator.pushReplacementNamed(
+          context,
+          AppConstants.profile!.email != "customer2@demo.com"
+              ? Routes.home
+              : Routes.homeTech);
+    } else {
+      Navigator.pushReplacementNamed(context, Routes.login);
+    }
+  } else {
+    Navigator.pushReplacementNamed(context, Routes.onboarding);
+  }
+}
   getDeviceToken() async {
     AppConstants.deviceToken = await FirebaseMessaging.instance.getToken();
   }
@@ -47,23 +68,12 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return BlocListener<HomeCubit, HomeStates>(
       listener: (context, state) async {
-        await Future.delayed(const Duration(seconds: 5), () async {
-          bool isOnBoardingScreenViewed =
-              await appPreferences!.isOnBoardingScreenViewed();
-          if (isOnBoardingScreenViewed) {
-            if (AppConstants.token != '') {
-              Navigator.pushReplacementNamed(
-                  context,
-                  AppConstants.profile!.email != "customer2@demo.com"
-                      ? Routes.home
-                      : Routes.homeTech);
-            } else {
-              Navigator.pushReplacementNamed(context, Routes.login);
-            }
-          } else {
-            Navigator.pushReplacementNamed(context, Routes.onboarding);
-          }
-        });
+       if(state is ShowProfileLoaded){
+        Future.wait([
+        HomeCubit.get(context).getSlides("15"),
+        HomeCubit.get(context).getServices(1, "15", "0"),
+      ]);
+       }
       },
       child: Scaffold(
         backgroundColor: AppColors.primary,

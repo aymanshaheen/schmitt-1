@@ -9,7 +9,6 @@ import 'package:schmitt/src/features/auth/presentation/screens/sign_in_screen.da
 import 'package:schmitt/src/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:schmitt/src/features/auth/presentation/screens/started_login_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/booking_date_screen.dart';
-import 'package:schmitt/src/features/booking_details/presentation/screens/cleaning_items_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/location_layout_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/service_type_screen.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
@@ -238,13 +237,10 @@ class AppRouter {
         return FadeRoute(
           builder: (context) => const BookingDate(),
         );
-      case Routes.cleaningItems:
-        return FadeRoute(
-          builder: (context) => const CleaningItemsScreen(),
-        );
+     
       case Routes.location:
         return FadeRoute(
-          builder: (context) => const LocationLayoutScreen(),
+          builder: (context) => const MapScreen(),
         );
       case Routes.cameraRoute:
         final arguments = settings.arguments as Map<String, dynamic>;

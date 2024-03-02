@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
-import 'package:schmitt/src/features/booking_details/presentation/cubit/booking_details_cubit.dart';
+import 'package:schmitt/src/features/booking_details/presentation/cubit/booking_details/booking_details_cubit.dart';
 
 class BookingTimeSelectionItem extends StatelessWidget {
   const BookingTimeSelectionItem(

@@ -50,4 +50,5 @@ class AppImage {
   static const String babyStroller = "${baseBath}baby_stroller.png";
   static const String vaccumCleaner = "${baseBath}vaccum_cleaner.png";
   static const String car = "${baseBath}car.svg";
+  static const String error = "${baseBath}error.png";
 }
