@@ -8,7 +8,7 @@ import 'package:schmitt/src/core/utils/theme/app_themes/theme_data_light.dart';
 import 'package:schmitt/src/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
 import 'config/app_route.dart';
 import 'core/utils/app_strings.dart';
 

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/more_info_circular_icon.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
-import 'package:schmitt/src/features/booking/presentation/widgets/main_header.dart';
+import 'package:schmitt/src/features/orders/presentation/widgets/main_header.dart';
 import 'package:schmitt/src/features/calendar/presentation/cubit/calendar_cubit.dart';
 import 'package:schmitt/src/features/calendar/presentation/cubit/calendar_state.dart';
 import 'package:table_calendar/table_calendar.dart';

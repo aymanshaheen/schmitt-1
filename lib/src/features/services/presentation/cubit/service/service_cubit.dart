@@ -7,17 +7,23 @@ import 'package:schmitt/src/features/services/domain/entities/car.dart';
 import 'package:schmitt/src/features/services/domain/entities/color.dart';
 import 'package:schmitt/src/features/services/domain/entities/company.dart';
 import 'package:schmitt/src/features/services/domain/entities/review.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 import 'package:schmitt/src/features/services/domain/usercases/add_review.dart';
 import 'package:schmitt/src/features/services/domain/usercases/create_adress.dart';
 import 'package:schmitt/src/features/services/domain/usercases/create_car.dart';
 import 'package:schmitt/src/features/services/domain/usercases/create_order_use_case.dart';
+import 'package:schmitt/src/features/services/domain/usercases/delete_address.dart';
+import 'package:schmitt/src/features/services/domain/usercases/delete_car.dart';
 import 'package:schmitt/src/features/services/domain/usercases/get_adresses.dart';
 import 'package:schmitt/src/features/services/domain/usercases/get_cars.dart';
 import 'package:schmitt/src/features/services/domain/usercases/get_colors.dart';
 import 'package:schmitt/src/features/services/domain/usercases/get_companies.dart';
 import 'package:schmitt/src/features/services/domain/usercases/get_reviews.dart';
+import 'package:schmitt/src/features/services/domain/usercases/show_car.dart';
 import 'package:schmitt/src/features/services/domain/usercases/show_service_use_case.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_state.dart';
+import 'package:schmitt/src/features/services/domain/usercases/update_address.dart';
+import 'package:schmitt/src/features/services/domain/usercases/update_car.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_state.dart';
 
 class ServiceCubit extends Cubit<ServiceStates> {
   final AddReviweUseCase addReviweUseCase;
@@ -25,16 +31,26 @@ class ServiceCubit extends Cubit<ServiceStates> {
   final ShowServicesUseCase getServicesUseCase;
   final CreateOrderUseCase createOrderUseCase;
   final GetAdressesUseCase getAdressesUseCase;
+  final UpdateAddressUseCase updateAddressUseCase;
+  final DeleteAddressUseCase deleteAddressUseCase;
   final CreateAdressesUseCase createAdressesUseCase;
   final GetCarsUseCase getCarsUseCase;
+  final ShowCarUseCase showCarUseCase;
   final CreateCarUseCase createCarUseCase;
+  final UpdateCarUseCase updateCarUseCase;
+  final DeleteCarUseCase deleteCarUseCase;
   final GetColorsUseCase getColorsUseCase;
   final GetCompaniesUseCase getCompaniesUseCase;
   ServiceCubit(
       {required this.addReviweUseCase,
       required this.createAdressesUseCase,
       required this.getColorsUseCase,
+      required this.deleteAddressUseCase,
+      required this.updateAddressUseCase,
+      required this.updateCarUseCase,
+      required this.showCarUseCase,
       required this.getCompaniesUseCase,
+      required this.deleteCarUseCase,
       required this.createOrderUseCase,
       required this.createCarUseCase,
       required this.getCarsUseCase,
@@ -71,7 +87,7 @@ class ServiceCubit extends Cubit<ServiceStates> {
     5,
   ];
   int numberOfChilds = 0;
-  int carWashPrice=30;
+  int carWashPrice = 30;
   void decrementRoomCount(int index) {
     if (roomsCount[index] == 0) {
       return;
@@ -80,6 +96,17 @@ class ServiceCubit extends Cubit<ServiceStates> {
     roomsCount[index]--;
     calculateTotalPrice();
     emit(RoomCountUpdated());
+  }
+
+  void clearData() {
+    tabbedOffer = 0;
+    selectedAddressIndex = null;
+    roomsCount = [0, 0, 0, 0, 0];
+    numberOfChilds = 0;
+    currentStep = 1;
+    selectedDate = DateTime.now().add(const Duration(days: 0));
+    selectedIndex = 0;
+    selectedHour = null;
   }
 
   void incrementRoomCount(int index) {
@@ -118,7 +145,7 @@ class ServiceCubit extends Cubit<ServiceStates> {
   }
 
   DateTime selectedDate = DateTime.now().add(const Duration(days: 0));
-  int? selectedIndex;
+  int selectedIndex = 0;
 
   void setSelectedDate(DateTime date, int index) {
     selectedDate = date;
@@ -137,6 +164,7 @@ class ServiceCubit extends Cubit<ServiceStates> {
     emit(ServiceTabbedOfferChanged(index));
   }
 
+  Service? service;
   Future<void> getServices(int page, String id) async {
     emit(ServicesLoading());
 
@@ -146,7 +174,8 @@ class ServiceCubit extends Cubit<ServiceStates> {
         message: failure.message,
       )),
       (right) {
-        emit(ServicesLoaded(right));
+        service = right.data;
+        emit(ServiceLoaded(right.data));
       },
     );
   }
@@ -173,6 +202,8 @@ class ServiceCubit extends Cubit<ServiceStates> {
     );
   }
 
+
+
   List<Review>? reviews = [];
   Future<void> getReviews(String id, String category) async {
     emit(GetReviwesLoading());
@@ -186,7 +217,16 @@ class ServiceCubit extends Cubit<ServiceStates> {
       emit(GetReviwesLoaded(right.data));
     });
   }
-
+double getAverageRating() {
+  if (reviews == null || reviews!.isEmpty) {
+    return 0.0;
+  }
+  double total = 0.0;
+  for (var review in reviews!) {
+    total += review.rating!;
+  }
+  return total / reviews!.length;
+}
   void likeReview(int index, bool isLiked) {
     if (isLiked) {
       reviews![index].isLiked = true;
@@ -253,6 +293,20 @@ class ServiceCubit extends Cubit<ServiceStates> {
     });
   }
 
+  CarDataEntity? car;
+  Future<void> showCar(int id) async {
+    emit(ShowCarLoading());
+
+    final result = await showCarUseCase.call(id);
+    result.fold(
+        (failure) => emit(ShowCarError(
+              failure.message,
+            )), (right) {
+      car = right.data;
+      emit(ShowCarLoaded(right.data));
+    });
+  }
+
   Future<void> createCar(CarParams params) async {
     emit(CreateCarLoading());
 
@@ -262,6 +316,54 @@ class ServiceCubit extends Cubit<ServiceStates> {
         failure.message,
       )),
       (right) => emit(CreateCarLoaded()),
+    );
+  }
+
+  Future<void> updateCar(CarParams params, int id) async {
+    emit(CreateCarLoading());
+
+    final result = await updateCarUseCase.call(params, id);
+    result.fold(
+      (failure) => emit(CreateCarError(
+        failure.message,
+      )),
+      (right) => emit(CreateCarLoaded()),
+    );
+  }
+
+  Future<void> deleteCar(int id) async {
+    emit(DeleteCarLoading());
+
+    final result = await deleteCarUseCase.call(id);
+    result.fold(
+      (failure) => emit(DeleteCarError(
+        failure.message,
+      )),
+      (right) => emit(DeleteCarLoaded()),
+    );
+  }
+
+  Future<void> updateAddress(AddressParams params, int id) async {
+    emit(CreateCarLoading());
+
+    final result = await updateAddressUseCase.call(params, id);
+    result.fold(
+      (failure) => emit(CreateCarError(
+        failure.message,
+      )),
+      (right) => emit(CreateCarLoaded()),
+    );
+  }
+
+  Future<void> deleteAddress(int id) async {
+    emit(DeleteCarLoading());
+
+    final result = await deleteAddressUseCase.call(id);
+    result.fold(
+      (failure) => emit(DeleteCarError(
+        failure.message,
+      )),
+      (right) => emit(DeleteCarLoaded()),
     );
   }
 

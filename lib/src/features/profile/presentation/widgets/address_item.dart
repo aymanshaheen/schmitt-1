@@ -1,28 +1,22 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/app_image.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
-import 'package:schmitt/src/core/widgets/full_rounded_container.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
-import 'package:schmitt/src/features/profile/presentation/widgets/add_car_bottom_sheet.dart';
 import 'package:schmitt/src/features/profile/presentation/widgets/bottom_sheet_custom.dart';
-import 'package:schmitt/src/features/services/domain/entities/car.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
+import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
 
-class CarItem extends StatefulWidget {
-  final CarDataEntity services;
-  const CarItem({super.key, required this.services});
+class AddressItem extends StatefulWidget {
+  final Address services;
+  const AddressItem({super.key, required this.services});
 
   @override
-  State<CarItem> createState() => _CarItemState();
+  State<AddressItem> createState() => _AddressItemState();
 }
 
-class _CarItemState extends State<CarItem> {
-  bool isFavourite = false;
-
+class _AddressItemState extends State<AddressItem> {
   @override
   void initState() {
     super.initState();
@@ -46,23 +40,6 @@ class _CarItemState extends State<CarItem> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: R.sW(context, 50),
-                  height: R.sH(context, 50),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: SvgPicture.asset(
-                      AppImage.car,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: R.sW(context, 10),
-                ),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   SizedBox(
                     height: R.sH(context, 5),
@@ -79,7 +56,7 @@ class _CarItemState extends State<CarItem> {
                     height: R.sH(context, 10),
                   ),
                   Text(
-                    widget.services.plate!,
+                    widget.services.address!,
                     style: TextStyle(
                       color: AppColors.grey,
                       fontSize: R.F(context, 12),
@@ -97,19 +74,10 @@ class _CarItemState extends State<CarItem> {
                       children: [
                         InkWell(
                           onTap: () {
-                            ServiceCubit.get(context).car = null;
+                            AppConstants.currentAddress = widget.services;
                             AppConstants.selectEdit = widget.services.id!;
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (context) => SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.7,
-                                child: const MyBottomSheet(
-                                  isEdit: true,
-                                ),
-                              ),
-                            );
+                            Navigator.pushNamed(context, Routes.location,
+                                arguments: true);
                           },
                           child: SvgPicture.asset(AppImage.edit,
                               fit: BoxFit.cover,
@@ -121,7 +89,6 @@ class _CarItemState extends State<CarItem> {
                         ),
                         InkWell(
                           onTap: () {
-                            ServiceCubit.get(context).car = null;
                             AppConstants.selectEdit = widget.services.id!;
                             showModalBottomSheet(
                               context: context,
@@ -144,20 +111,6 @@ class _CarItemState extends State<CarItem> {
                 )
               ],
             ),
-            SizedBox(
-              height: R.sH(context, 20),
-            ),
-            InkWell(
-              onTap: () {
-                AppConstants.currentCar = widget.services;
-                Navigator.pushNamed(context, Routes.orderService, arguments: 1);
-              },
-              child: FullRounderContainer(
-                  title: "order_service_for_it".tr(),
-                  containerColor: AppColors.white,
-                  textColor: AppColors.darkBlue,
-                  circular: 10),
-            )
           ],
         ),
       ),

@@ -21,18 +21,32 @@ class ServiceModel extends ServiceEntity {
   }
 }
 
+class ServiceShowModel extends ServiceShowEntity {
+  const ServiceShowModel({
+    required Service? data,
+  }) : super(
+          data: data,
+        );
 
+  factory ServiceShowModel.fromJson(Map<String, dynamic> json) {
+    return ServiceShowModel(
+      data: json['data'] != null
+          ? ServiceDataModel.fromJson(json['data'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
 
 class ServiceDataModel extends Service {
   const ServiceDataModel({
     required int id,
     required String title,
-  required  String description,
- required   String price,
+    required String description,
+    required String price,
     String? discountPrice,
     Category? category,
-    Image? image,
-    List<Image>? images,
+    ImageData? image,
+    List<ImageData>? images,
     String? fileType,
     String? videoUrl,
     bool? isFavorited,
@@ -63,20 +77,27 @@ class ServiceDataModel extends Service {
       description: json['description'] ?? "",
       price: json['price'] ?? "",
       discountPrice: json['discount_price'] ?? "",
-      category: json['category'] != null ? CategoryModel.fromJson(json['category'] as Map<String, dynamic>) : null,
-      image: json['image'] != null ? ImageModel.fromJson(json['image'] as Map<String, dynamic>) : null,
+      category: json['category'] != null
+          ? CategoryModel.fromJson(json['category'] as Map<String, dynamic>)
+          : null,
+      image: json['image'] != null
+          ? ImageModel.fromJson(json['image'] as Map<String, dynamic>)
+          : null,
       images: (json['images'] as List?)
           ?.map((i) => ImageModel.fromJson(i as Map<String, dynamic>))
           .toList(),
       fileType: json['file_type'] ?? "",
       videoUrl: json['video_url'] ?? "",
       isFavorited: json['is_favorited'] as bool?,
-      authorize: json['authorize'] != null ? AuthorizeModel.fromJson(json['authorize'] as Map<String, dynamic>) : null,
+      authorize: json['authorize'] != null
+          ? AuthorizeModel.fromJson(json['authorize'] as Map<String, dynamic>)
+          : null,
       createdAt: json['created_at'] ?? "",
       createdAtFormatted: json['created_at_formatted'] ?? "",
     );
   }
 }
+
 class CategoryModel extends Category {
   const CategoryModel({
     int? id,
@@ -106,7 +127,7 @@ class CategoryModel extends Category {
   }
 }
 
-class ImageModel extends Image {
+class ImageModel extends ImageData {
   const ImageModel({
     int? id,
     String? url,
@@ -148,10 +169,14 @@ class ImageModel extends Image {
       mimeType: json['mime_type'] as String?,
       size: json['size'] as int?,
       humanReadableSize: json['human_readable_size'] as String?,
-      details: json['details'] != null ? DetailsModel.fromJson(json['details'] as Map<String, dynamic>) : null,
+      details: json['details'] != null
+          ? DetailsModel.fromJson(json['details'] as Map<String, dynamic>)
+          : null,
       status: json['status'] as String?,
       progress: json['progress'] as int?,
-      links: json['links'] != null ? LinksModel.fromJson(json['links'] as Map<String, dynamic>) : null,
+      links: json['links'] != null
+          ? LinksModel.fromJson(json['links'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -185,7 +210,9 @@ class LinksModel extends Links {
 
   factory LinksModel.fromJson(Map<String, dynamic> json) {
     return LinksModel(
-      delete: json['delete'] != null ? DeleteModel.fromJson(json['delete'] as Map<String, dynamic>) : null,
+      delete: json['delete'] != null
+          ? DeleteModel.fromJson(json['delete'] as Map<String, dynamic>)
+          : null,
     );
   }
 }

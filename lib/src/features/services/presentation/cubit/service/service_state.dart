@@ -10,14 +10,7 @@ class ServiceStates {}
 
 class ServiceInitial extends ServiceStates {}
 
-class ServiceLoading extends ServiceStates {}
 
-class ServiceLoaded extends ServiceStates {}
-
-class ServiceError extends ServiceStates {
-  final String message;
-  ServiceError(this.message);
-}
 
 class StepUpdated extends ServiceStates {
   final int step;
@@ -120,6 +113,13 @@ class CreateCarError extends ServiceStates {
   final String message;
   CreateCarError(this.message);
 }
+class DeleteCarLoading extends ServiceStates {}
+class DeleteCarLoaded extends ServiceStates {
+}
+class DeleteCarError extends ServiceStates {
+  final String message;
+  DeleteCarError(this.message);
+}
 class GetCarsLoading extends ServiceStates {}
 
 class GetCarsLoaded extends ServiceStates {
@@ -130,6 +130,17 @@ class GetCarsLoaded extends ServiceStates {
 class GetCarsError extends ServiceStates {
   final String message;
   GetCarsError(this.message);
+}
+class ShowCarLoading extends ServiceStates {}
+
+class ShowCarLoaded extends ServiceStates {
+  final CarDataEntity? car;
+  ShowCarLoaded(this.car);
+}
+
+class ShowCarError extends ServiceStates {
+  final String message;
+  ShowCarError(this.message);
 }
 class GetColorsLoading extends ServiceStates {}
 
@@ -156,9 +167,9 @@ class GetCompaniesError extends ServiceStates {
 }
 class ServicesLoading extends ServiceStates {}
 
-class ServicesLoaded extends ServiceStates {
-  final Service services;
-  ServicesLoaded(this.services);
+class ServiceLoaded extends ServiceStates {
+  final Service? services;
+  ServiceLoaded(this.services);
 }
 
 class ServicesError extends ServiceStates {

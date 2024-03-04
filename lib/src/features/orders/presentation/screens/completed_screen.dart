@@ -2,29 +2,25 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
-import 'package:schmitt/src/features/booking/presentation/widgets/expandeble_map.dart';
-import 'package:schmitt/src/features/booking/presentation/widgets/header_exbanded.dart';
-import 'package:schmitt/src/features/booking/presentation/widgets/main_header.dart';
+import 'package:schmitt/src/features/orders/presentation/widgets/expandeble_map.dart';
+import 'package:schmitt/src/features/orders/presentation/widgets/header_exbanded.dart';
+import 'package:schmitt/src/features/orders/presentation/widgets/main_header.dart';
 
-class UpcomingScreen extends StatefulWidget {
-  const UpcomingScreen({super.key});
+class CompletedScreen extends StatefulWidget {
+  const CompletedScreen({super.key});
 
   @override
-  State<UpcomingScreen> createState() => _UpcomingScreenState();
+  State<CompletedScreen> createState() => _CompletedScreenState();
 }
 
-class _UpcomingScreenState extends State<UpcomingScreen> {
+class _CompletedScreenState extends State<CompletedScreen> {
   bool isExpanded = false;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Padding(
-        padding: EdgeInsets.only(
-          top: R.sH(context, 10),
-          right: R.sW(context, 10),
-          left: R.sW(context, 10),
-        ),
+        padding: EdgeInsets.all(R.sW(context, 10)),
         child: ListView.builder(
           itemCount: 4,
           physics: const BouncingScrollPhysics(),
@@ -33,33 +29,34 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
             return Container(
               margin: EdgeInsets.symmetric(
                 vertical: R.sH(context, 5),
-                horizontal: R.sW(context, 5),
+                horizontal: R.sW(context, 15),
               ),
               decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
-                padding: EdgeInsets.all(
-                  R.sW(context, 10)
+                padding: EdgeInsets.only(
+                  top: R.sH(context, 15),
+                  right: R.sW(context, 15),
+                  left: R.sW(context, 15),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AnimatedCrossFade(
                       duration: const Duration(milliseconds: 400),
-                      firstChild: HeaderExpanded(
-                        title: "upcoming".tr(),
-                        color: AppColors.darkBlue,
-                        onTap: () {
+                      firstChild: MainHeader(
+                        title: "completed".tr(),
+                        color: AppColors.green,
+                      ),
+                      secondChild: HeaderExpanded(
+                        title: "completed".tr(),
+                        color: AppColors.green,onTap: () {
                            setState(() {
                             isExpanded = !isExpanded;
                           });
                         },
-                      ),
-                      secondChild: MainHeader(
-                        title: "upcoming".tr(),
-                        color: AppColors.darkBlue,
                       ),
                       crossFadeState: isExpanded
                           ? CrossFadeState.showSecond
@@ -68,7 +65,10 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                     SizedBox(
                       height: R.sH(context, 5),
                     ),
-                   
+                    Divider(
+                      color: AppColors.grey1,
+                      thickness: 1,
+                    ),
                     Center(
                       child: AnimatedCrossFade(
                         duration: const Duration(milliseconds: 400),
@@ -79,7 +79,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                             : CrossFadeState.showFirst,
                       ),
                     ),
-                   isExpanded? Center(
+                    Center(
                       child: IconButton(
                         onPressed: () {
                           setState(() {
@@ -94,7 +94,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                           size: R.sW(context, 22),
                         ),
                       ),
-                    ):Container(),
+                    ),
                   ],
                 ),
               ),

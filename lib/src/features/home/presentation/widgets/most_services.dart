@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/config/app_route.dart';
@@ -41,7 +42,11 @@ class _MostServicesState extends State<MostServices> {
                 padding: EdgeInsets.symmetric(horizontal: R.sW(context, 10)),
                 child: HomeTextTile(
                     onTab: () {
-                      Navigator.pushNamed(context, Routes.allServices);
+                      Navigator.pushNamed(
+                        context,
+                        Routes.serviceType,
+                        arguments: ServiceArguments('0', 'services'.tr()),
+                      );
                     },
                     rightText: 'see_all',
                     leftText: 'most_special_offers'),
@@ -67,9 +72,12 @@ class _MostServicesState extends State<MostServices> {
                     }),
               ),
               if (state is ServicesLoading)
-                Center(
-                  child: CircularIndicator(
-                    color: AppColors.darkBlue,
+                SizedBox(
+                  height: R.sH(context, 100),
+                  child: Center(
+                    child: CircularIndicator(
+                      color: AppColors.darkBlue,
+                    ),
                   ),
                 ),
               if (state is ServicesError)
@@ -97,8 +105,10 @@ class _MostServicesState extends State<MostServices> {
                   ),
                 ),
               if (HomeCubit.get(context).services!.isEmpty)
-                const Center(
-                  child: Text('there is no services available at the moment'),
+                Container(
+                  child: const Center(
+                    child: Text('there is no services available at the moment'),
+                  ),
                 ),
             ],
           );

@@ -5,8 +5,8 @@ import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/utils/app_image.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_state.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_state.dart';
 
 class ServiceOrder extends StatefulWidget {
   const ServiceOrder({super.key});

@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
-import 'package:schmitt/src/features/booking/presentation/screens/upcoming_screen.dart';
+import 'package:schmitt/src/features/orders/presentation/screens/upcoming_screen.dart';
 
 class OrderSettingScreen extends StatefulWidget {
   const OrderSettingScreen({super.key});

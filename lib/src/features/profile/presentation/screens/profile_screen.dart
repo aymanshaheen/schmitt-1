@@ -97,6 +97,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   title: 'my_orders',
                                 )
                               : const SizedBox.shrink(),
+                          AppConstants.profile!.email != "customer2@demo.com"
+                              ? ProfileListTile(
+                                  switchModeValue: true,
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, Routes.carWash);
+                                  },
+                                  isTrailing: true,
+                                  icon: AppImage.car,
+                                  title: 'my_cars',
+                                )
+                              : const SizedBox.shrink(),
+                          AppConstants.profile!.email != "customer2@demo.com"
+                              ? ProfileListTile(
+                                  switchModeValue: true,
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, Routes.myAddress);
+                                  },
+                                  isTrailing: true,
+                                  icon: AppImage.car,
+                                  title: 'my_places',
+                                )
+                              : const SizedBox.shrink(),
                           ProfileListTile(
                             switchModeValue: true,
                             onTap: () {
@@ -224,8 +248,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               onTap: () {
                                                 appPreferences.clearAllData();
                                                 AppConstants.token = '';
-                                                HomeCubit.get(context).currentIndex =
-                                                    0;
+                                                HomeCubit.get(context)
+                                                    .currentIndex = 0;
                                                 Navigator
                                                     .pushNamedAndRemoveUntil(
                                                         context,

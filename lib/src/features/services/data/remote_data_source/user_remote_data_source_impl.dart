@@ -39,14 +39,14 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
   }
 
   @override
-  Future<ServiceDataModel> getService(int id, String addressId) async {
+  Future<ServiceShowModel> getService(int id, String addressId) async {
     try {
       Response response = await dio.getData(
           url: Endpoints.services + ':id',
           token: AppConstants.token,
           path: {'id': id},
           addressId: addressId);
-      ServiceDataModel userModel = ServiceDataModel.fromJson(response.data);
+      ServiceShowModel userModel = ServiceShowModel.fromJson(response.data);
       return userModel;
     } on DioException catch (error) {
       debugPrint(error.message);
@@ -129,11 +129,56 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
   }
 
   @override
+  Future<CarsShowModel> showCar(int id) async {
+    try {
+      Response response = await dio.getData(
+          url: Endpoints.cars + '/:id',
+          path: {'id': id.toString()},
+          token: AppConstants.token);
+      CarsShowModel userModel = CarsShowModel.fromJson(response.data);
+      return userModel;
+    } catch (e) {
+      debugPrint('An unexpected error occurred: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
   Future<void> createCar(CarParams params) async {
     try {
       await dio.postData(
           data: params.toJson(),
           url: Endpoints.cars,
+          token: AppConstants.token);
+    } catch (e) {
+      debugPrint('An unexpected error occurred: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> updateCar(CarParams params, int id) async {
+    try {
+      await dio.postData(
+          data: params.toJson(),
+          url: Endpoints.cars + '/:id',
+          query: {
+            '_method': 'put',
+          },
+          path: {'id': id.toString()},
+          token: AppConstants.token);
+    } catch (e) {
+      debugPrint('An unexpected error occurred: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteCar(int id) async {
+    try {
+      await dio.deleteData(
+          url: Endpoints.cars + '/:id',
+          path: {'id': id.toString()},
           token: AppConstants.token);
     } catch (e) {
       debugPrint('An unexpected error occurred: ${e.toString()}');
@@ -174,4 +219,34 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
       rethrow;
     }
   }
+   @override
+  Future<void> updateAddress(AddressParams params, int id) async {
+    try {
+      await dio.postData(
+          data: params.toJson(),
+          url: Endpoints.addresses + '/:id',
+          query: {
+            '_method': 'put',
+          },
+          path: {'id': id.toString()},
+          token: AppConstants.token);
+    } catch (e) {
+      debugPrint('An unexpected error occurred: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteAddress(int id) async {
+    try {
+      await dio.deleteData(
+          url: Endpoints.addresses + '/:id',
+          path: {'id': id.toString()},
+          token: AppConstants.token);
+    } catch (e) {
+      debugPrint('An unexpected error occurred: ${e.toString()}');
+      rethrow;
+    }
+  }
+
 }

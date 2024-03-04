@@ -5,8 +5,8 @@ import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/core/widgets/snakbar_builder.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_state.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_state.dart';
 import 'package:schmitt/src/features/services/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:schmitt/src/features/services/presentation/widgets/order_content.dart';
 
@@ -71,21 +71,18 @@ class ServiceOrderScreen extends StatelessWidget {
             onTap2: () {
               if (currentStep < 3) {
                 if (currentStep == 2 &&
-                    ServiceCubit.get(context).selectedDate == null &&
                     ServiceCubit.get(context).selectedHour == null) {
                   buildSnakBar(
                       context: context,
                       message: "please_select_date_and_time_first".tr(),
                       color: AppColors.error);
-                }
-                else if (currentStep == 1 &&
+                } else if (currentStep == 1 &&
                     ServiceCubit.get(context).selectedAddressIndex == null) {
                   buildSnakBar(
                       context: context,
                       message: "please_select_address_first".tr(),
                       color: AppColors.error);
-                } 
-                else {
+                } else {
                   ServiceCubit.get(context).updateStep(currentStep + 1);
                 }
               }

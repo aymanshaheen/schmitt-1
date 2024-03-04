@@ -9,14 +9,16 @@ import 'package:schmitt/src/features/auth/presentation/screens/sign_in_screen.da
 import 'package:schmitt/src/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:schmitt/src/features/auth/presentation/screens/started_login_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/booking_date_screen.dart';
-import 'package:schmitt/src/features/booking_details/presentation/screens/location_layout_screen.dart';
+import 'package:schmitt/src/features/home/presentation/screens/all_services_screen.dart';
+import 'package:schmitt/src/features/profile/presentation/screens/my_adresses_screen.dart';
+import 'package:schmitt/src/features/services/presentation/screens/map_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/service_type_screen.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
 import 'package:schmitt/src/features/services/presentation/screens/car_wash_details_screen.dart';
-import 'package:schmitt/src/features/services/presentation/screens/car_wash_screen.dart';
+import 'package:schmitt/src/features/profile/presentation/screens/car_wash_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/select_rooms_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/service_order_screen.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
 import 'package:schmitt/src/features/services/presentation/screens/service_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/book_mark_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/home_screen.dart';
@@ -82,6 +84,7 @@ class Routes {
   static const String serviceType = "serviceType";
   static const String carWashServiceDetails = "carWashServiceDetails";
   static const String carWash = "carWash";
+  static const String myAddress = "myAddress";
 }
 
 class AppRouter {
@@ -229,18 +232,26 @@ class AppRouter {
         return FadeRoute(
           builder: (context) => const SelectLanguageScreen(),
         );
-      /*  case Routes.allServices:
+      case Routes.allServices:
+        final arguments = settings.arguments as List<Service>;
         return FadeRoute(
-          builder: (context) => const AllServicesScreen(),
-        );*/
+          builder: (context) => AllServicesScreen(
+            services: arguments,
+          ),
+        );
       case Routes.bookingDate:
         return FadeRoute(
           builder: (context) => const BookingDate(),
         );
-     
+
       case Routes.location:
+        final arguments = settings.arguments as bool;
         return FadeRoute(
-          builder: (context) => const MapScreen(),
+          builder: (context) => MapScreen(isEdit: arguments),
+        );
+      case Routes.myAddress:
+        return FadeRoute(
+          builder: (context) => const MyAddressesScreen(),
         );
       case Routes.cameraRoute:
         final arguments = settings.arguments as Map<String, dynamic>;

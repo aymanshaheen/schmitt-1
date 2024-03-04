@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/dotted_check_box.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
 import 'package:schmitt/src/features/services/presentation/widgets/get_location_step.dart';
 import 'package:schmitt/src/features/services/presentation/widgets/set_time_content.dart';
 

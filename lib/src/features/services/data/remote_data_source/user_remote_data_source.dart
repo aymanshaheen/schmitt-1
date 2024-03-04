@@ -14,10 +14,15 @@ abstract class ServiceRemoteDataSource {
   Future<String> addReview(String id, String review, String rating);
   Future<AddressModel> getAddresses();
   Future<AddressDataModel> createAddress(AddressParams params);
-  Future<ServiceDataModel> getService(int id,String addressId,);
+  Future<ServiceShowModel> getService(int id,String addressId,);
   Future<OrderModel> createOrder(OrderParams params,String addressId);
   Future<CarsModel> getCars(int page);
+  Future<CarsShowModel> showCar(int id);
   Future<void> createCar(CarParams params);
+  Future<void> updateCar(CarParams params,int id);
+  Future<void> deleteCar(int id);
+  Future<void> updateAddress(AddressParams params,int id);
+  Future<void> deleteAddress(int id);
   Future<CompanyModel> getCompanies(int id,String addressId,);
   Future<ColorModel> getColors(String addressId,);
 

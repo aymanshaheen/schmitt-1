@@ -117,7 +117,7 @@ class ServiceRepositoryImpl implements ServiceRepository {
   }
 
   @override
-  ResultFuture<Service> getService(
+  ResultFuture<ServiceShowEntity> getService(
     int id,
     String addressId,
   ) async {
@@ -154,7 +154,22 @@ class ServiceRepositoryImpl implements ServiceRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
-
+  @override
+  ResultFuture<CarShowEntity> showCar(int id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.showCar(id);
+        return right(result);
+      } on DioException catch (e) {
+        return Left(
+            Failure(message: e.response!.data['message'].toString(), code: 0));
+      } catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.networkConnectError.getFailure());
+    }
+  }
   @override
   ResultVoid createCar(CarParams params) async {
     if (await networkInfo.isConnected) {
@@ -171,7 +186,70 @@ class ServiceRepositoryImpl implements ServiceRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
-
+ @override
+  ResultVoid updateCar(CarParams params,int id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.updateCar(params,id);
+        return right(result);
+      } on DioException catch (e) {
+        return Left(
+            Failure(message: e.response!.data['message'].toString(), code: 0));
+      } catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.networkConnectError.getFailure());
+    }
+  }
+ @override
+  ResultVoid deleteCar(int id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.deleteCar(id);
+        return right(result);
+      } on DioException catch (e) {
+        return Left(
+            Failure(message: e.response!.data['message'].toString(), code: 0));
+      } catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.networkConnectError.getFailure());
+    }
+  }
+  @override
+  ResultVoid updateAddress(AddressParams params,int id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.updateAddress(params,id);
+        return right(result);
+      } on DioException catch (e) {
+        return Left(
+            Failure(message: e.response!.data['message'].toString(), code: 0));
+      } catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.networkConnectError.getFailure());
+    }
+  }
+ @override
+  ResultVoid deleteAddress(int id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.deleteAddress(id);
+        return right(result);
+      } on DioException catch (e) {
+        return Left(
+            Failure(message: e.response!.data['message'].toString(), code: 0));
+      } catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.networkConnectError.getFailure());
+    }
+  }
   @override
   ResultFuture<CompanyEntity> getCompanies(
     int id,

@@ -10,7 +10,14 @@ class ServiceEntity extends Equatable {
   @override
   List<Object> get props => [data!, meta];
 }
+class ServiceShowEntity extends Equatable {
+  final Service? data;
 
+  const ServiceShowEntity({required this.data,});
+
+  @override
+  List<Object> get props => [data!];
+}
 class Service extends Equatable {
   final int id;
   final String title;
@@ -18,8 +25,8 @@ class Service extends Equatable {
   final String price;
   final String? discountPrice;
   final Category? category;
-  final Image? image;
-  final List<Image>? images;
+  final ImageData? image;
+  final List<ImageData>? images;
   final String? fileType;
   final String? videoUrl;
   final bool? isFavorited;
@@ -91,7 +98,7 @@ class Category extends Equatable {
       ];
 }
 
-class Image extends Equatable {
+class ImageData extends Equatable {
   final int? id;
   final String? url;
   final String? preview;
@@ -106,7 +113,7 @@ class Image extends Equatable {
   final int? progress;
   final Links? links;
 
-  const Image({
+  const ImageData({
     this.id,
     this.url,
     this.preview,
