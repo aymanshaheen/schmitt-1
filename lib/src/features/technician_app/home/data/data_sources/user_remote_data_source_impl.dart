@@ -18,13 +18,13 @@ class TechRemoteDataSourceImpl implements TechRemoteDataSource {
   });
 
   @override
-  Future<OrderModel> getOrders(String status) async {
+  Future<OrderListModel> getOrders(String status) async {
     try {
       Response response = await dio.getData(
           url: Endpoints.orders,
           token: AppConstants.token,
           query: {'page': 1, 'status': status});
-      OrderModel userModel = OrderModel.fromJson(response.data);
+      OrderListModel userModel = OrderListModel.fromJson(response.data);
       return userModel;
     } on DioException catch (error) {
       debugPrint('DioException occurred: ${error.message}');

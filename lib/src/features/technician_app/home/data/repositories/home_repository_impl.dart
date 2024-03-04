@@ -23,7 +23,7 @@ class TechRepositoryImpl implements TechRepository {
   });
 
   @override
-  ResultFuture<OrderEntity> getOrders(String status) async {
+  ResultFuture<OrderListEntity> getOrders(String status) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.getOrders(status);

@@ -1,14 +1,20 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:schmitt/src/core/entities/order.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
-import 'package:schmitt/src/core/utils/app_image.dart';
+import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 
 class MainHeader extends StatelessWidget {
+  final Order order;
   final String title;
   final Color color;
-  const MainHeader({super.key, required this.title, required this.color});
+  const MainHeader(
+      {super.key,
+      required this.title,
+      required this.color,
+      required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +25,7 @@ class MainHeader extends StatelessWidget {
         children: [
           Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Text(
-              'housekeepings'.tr(),
+              order.services!.first.category!.name!,
               style: TextStyle(
                 color: AppColors.homeBlackColor,
                 fontSize: R.F(context, 16),
@@ -27,14 +33,24 @@ class MainHeader extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            CircleAvatar(
-              radius: R.sW(context, 25),
-              backgroundColor: AppColors.whiteBlue,
-              child: SvgPicture.asset(
-                AppImage.message,
-                fit: BoxFit.cover,
+            Container(
+              width: R.sW(context, 50),
+              height: R.sH(context, 50),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
               ),
-            )
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: CachedNetworkImage(
+                    imageUrl: order.services!.first.image!.url!,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => CircularIndicator(
+                      color: AppColors.darkBlue,
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  )),
+            ),
           ]),
           SizedBox(
             height: R.sH(context, 10),
@@ -50,7 +66,7 @@ class MainHeader extends StatelessWidget {
                 ),
               ),
               Text(
-                '54123',
+                order.orderNum!.toString(),
                 style: TextStyle(
                   color: AppColors.homeBlackColor,
                   fontSize: R.F(context, 12),
@@ -69,7 +85,7 @@ class MainHeader extends StatelessWidget {
                 ),
               ),
               Text(
-                '12/12/2021',
+                order.startAt!.substring(0, 10),
                 style: TextStyle(
                   color: AppColors.homeBlackColor,
                   fontSize: R.F(context, 12),
@@ -92,7 +108,7 @@ class MainHeader extends StatelessWidget {
                 ),
               ),
               Text(
-                '\$50',
+                '\$${order.price}',
                 style: TextStyle(
                   color: AppColors.lightBlue,
                   fontSize: R.F(context, 14),

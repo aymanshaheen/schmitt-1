@@ -46,9 +46,6 @@ dependencies:
   audioplayers:
   image_cropper: 
   camera: ^0.10.1
-  agora_uikit: 
-  agora_rtc_engine: 
-  agora_rtm: 
   permission_handler:
   country_picker: ^2.0.24
   firebase_messaging: ^14.7.15

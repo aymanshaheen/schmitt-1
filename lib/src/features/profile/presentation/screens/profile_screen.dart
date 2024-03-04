@@ -85,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SizedBox(
                             height: R.sH(context, 5),
                           ),
-                          AppConstants.profile!.email == "customer2@demo.com"
+                          AppConstants.profile!.localedType == "مزود الخدمة"
                               ? ProfileListTile(
                                   switchModeValue: true,
                                   onTap: () {
@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   title: 'my_orders',
                                 )
                               : const SizedBox.shrink(),
-                          AppConstants.profile!.email != "customer2@demo.com"
+                          AppConstants.profile!.localedType != "مزود الخدمة"
                               ? ProfileListTile(
                                   switchModeValue: true,
                                   onTap: () {
@@ -109,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   title: 'my_cars',
                                 )
                               : const SizedBox.shrink(),
-                          AppConstants.profile!.email != "customer2@demo.com"
+                          AppConstants.profile!.localedType != "مزود الخدمة"
                               ? ProfileListTile(
                                   switchModeValue: true,
                                   onTap: () {
@@ -139,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             icon: AppImage.notification,
                             title: 'Notifications',
                           ),
-                          AppConstants.profile!.email != "customer2@demo.com"
+                          AppConstants.profile!.localedType != "مزود الخدمة"
                               ? ProfileListTile(
                                   switchModeValue: true,
                                   onTap: () {
@@ -186,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             icon: AppImage.help,
                             title: 'help_center',
                           ),
-                          AppConstants.profile!.email != "customer2@demo.com"
+                          AppConstants.profile!.localedType != "مزود الخدمة"
                               ? const ProfileListTile(
                                   switchModeValue: true,
                                   icon: AppImage.help,

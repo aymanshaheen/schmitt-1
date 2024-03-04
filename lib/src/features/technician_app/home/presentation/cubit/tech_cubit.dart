@@ -21,7 +21,7 @@ class TechCubit extends Cubit<TechState> {
     required this.markAsCompleteUseCase,
   }) : super(TechInitial());
   static TechCubit get(context) => BlocProvider.of(context);
-
+  List<Order> orders = [];
   Future<void> getOrders(String status) async {
     emit(OrderLoading());
 
@@ -33,7 +33,10 @@ class TechCubit extends Cubit<TechState> {
           message: failure.message,
         ));
       },
-      (user) => emit(OrderSuccess(user)),
+      (user) {
+        orders = user.data!;
+        emit(OrderSuccess(user.data!));
+      },
     );
   }
 

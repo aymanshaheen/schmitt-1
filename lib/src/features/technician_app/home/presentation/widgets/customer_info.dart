@@ -1,14 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:schmitt/src/core/utils/app_constants.dart';
+import 'package:schmitt/src/core/entities/order.dart';
 import 'package:schmitt/src/core/utils/app_image.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
-import 'package:schmitt/src/core/widgets/circular_image.dart';
+import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 
 class CustomerInfo extends StatefulWidget {
-  const CustomerInfo({super.key});
+  final Order order;
+  const CustomerInfo({super.key,required this.order});
 
   @override
   State<CustomerInfo> createState() => _CustomerInfoState();
@@ -28,13 +30,23 @@ class _CustomerInfoState extends State<CustomerInfo> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: R.sW(context, 50),
-              child: ClipOval(
-                  child: CircularImageBuilder(
-                      photo: AppConstants.profile!.avatar!,
-                      height: R.sW(context, 100),
-                      width: R.sW(context, 100))),
+            Container(
+              width: R.sW(context, 120),
+              height: R.sH(context, 120),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.order.services!.first.image!.url!,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => CircularIndicator(
+                      color: AppColors.darkBlue,
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  )),
             ),
             SizedBox(
               height: R.sH(context, 50),
@@ -57,7 +69,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       height: R.sH(context, 5),
                     ),
                     Text(
-                      AppConstants.profile!.phone!,
+                      widget.order.customer!.phone!,
                       style: TextStyle(
                         fontSize: R.F(context, 16),
                         fontWeight: FontWeight.w500,
@@ -100,7 +112,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       height: R.sH(context, 5),
                     ),
                     Text(
-                      AppConstants.profile!.phone!,
+                      widget.order.address!.address??'',
                       style: TextStyle(
                         fontSize: R.F(context, 16),
                         fontWeight: FontWeight.w500,
@@ -138,7 +150,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
                   onTap: () {
                     setState(() {});
                   },
-                  child:Icon(
+                  child: Icon(
                     Icons.chat_bubble_outline_sharp,
                     color: AppColors.darkBlue,
                     size: R.sH(context, 30),

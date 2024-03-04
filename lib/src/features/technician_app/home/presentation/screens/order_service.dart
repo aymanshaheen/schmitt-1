@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:schmitt/src/config/app_route.dart';
+import 'package:schmitt/src/core/entities/order.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/more_info_circular_icon.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
@@ -9,7 +8,8 @@ import 'package:schmitt/src/features/technician_app/home/presentation/widgets/cu
 import 'package:schmitt/src/features/technician_app/home/presentation/widgets/order_items.dart';
 
 class OrderServiceScreen extends StatefulWidget {
-  const OrderServiceScreen({super.key});
+  final Order order;
+  const OrderServiceScreen({super.key, required this.order});
 
   @override
   State<OrderServiceScreen> createState() => _HomeLayoutScreenState();
@@ -46,19 +46,14 @@ class _HomeLayoutScreenState extends State<OrderServiceScreen>
         leadingWidth: R.sW(context, 25),
         elevation: 0,
         title: Text(
-          'order_number'.tr() + ' #6546213',
+          'order_number'.tr() + ' #${widget.order.orderNum.toString()}',
           style: TextStyle(
             fontSize: R.F(context, 18),
             fontWeight: FontWeight.w600,
           ),
         ),
         actions: [
-          InkWell(
-              onTap: () => Navigator.pushNamed(context, Routes.notifications),
-              child: SvgPicture.asset('assets/images/notifications.svg')),
-          SizedBox(
-            width: R.sW(context, 15),
-          ),
+          
           const MoreInfoIcon(),
           SizedBox(
             width: R.sW(context, 15),
@@ -90,9 +85,9 @@ class _HomeLayoutScreenState extends State<OrderServiceScreen>
       ),
       body: TabBarView(
         controller: controller,
-        children: const <Widget>[
-          OrderItems(),
-          CustomerInfo(),
+        children:  <Widget>[
+          OrderItems(order:widget.order),
+          CustomerInfo(order:widget.order),
         ],
       ),
     );

@@ -44,7 +44,7 @@ class _CompletedScreenState extends State<CompletedScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AnimatedCrossFade(
+                 /*   AnimatedCrossFade(
                       duration: const Duration(milliseconds: 400),
                       firstChild: MainHeader(
                         title: "completed".tr(),
@@ -94,7 +94,7 @@ class _CompletedScreenState extends State<CompletedScreen> {
                           size: R.sW(context, 22),
                         ),
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               ),

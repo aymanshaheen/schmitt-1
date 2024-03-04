@@ -47,8 +47,8 @@ class AddressDataModel extends Address {
   factory AddressDataModel.fromJson(Map<String, dynamic> json) {
     return AddressDataModel(
       id: json['id'] as int? ?? 0,
-      name: json['name'] as String? ?? '',
-      address: json['address'] as String? ?? '',
+      name: json['name'] ?? '',
+      address: json['address'] ?? '',
       locationLatitude: (json['location_latitude'] as num?)?.toDouble() ?? 0.0,
       locationLongitude: (json['location_longitude'] as num?)?.toDouble() ?? 0.0,
       city: json['city'] != null ? json['city']['name'] : "",
@@ -71,7 +71,7 @@ class CityModel extends City {
   factory CityModel.fromJson(Map<String, dynamic> json) {
     return CityModel(
       id: json['id'] as int? ?? 0,
-      name: json['name'] as String? ?? '',
+      name: json['name']  ?? '',
     );
   }
 }

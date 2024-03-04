@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/container_injector.dart';
+import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/network/local/app_prefs.dart';
@@ -9,6 +10,7 @@ import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
+import 'package:schmitt/src/features/technician_app/home/presentation/cubit/tech_cubit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,46 +22,45 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   AppPreferences? appPreferences;
- @override
-void initState() {
-  super.initState();
-  appPreferences = sl<AppPreferences>();
-  var token = appPreferences!.getData(key: 'token') ?? '';
- // getDeviceToken();
-  AppConstants.token = (token != '') ? token : '';
-  if (AppConstants.token != '') {
-    HomeCubit.get(context).showProfile().then((value) => {
-     
-        Future.delayed(const Duration(seconds: 3), () {
-          navigateBasedOnCondition();
-        })
-   
-    });
-  }
-  else{
-     Future.delayed(const Duration(seconds: 5), () {
-          navigateBasedOnCondition();
-        });
-  }
-  super.initState();
-}
-
-void navigateBasedOnCondition() async {
-  bool isOnBoardingScreenViewed = await appPreferences!.isOnBoardingScreenViewed();
-  if (isOnBoardingScreenViewed) {
+  @override
+  void initState() {
+    super.initState();
+    appPreferences = sl<AppPreferences>();
+    var token = appPreferences!.getData(key: 'token') ?? '';
+    // getDeviceToken();
+    AppConstants.token = (token != '') ? token : '';
     if (AppConstants.token != '') {
-      Navigator.pushReplacementNamed(
-          context,
-          AppConstants.profile!.email != "customer2@demo.com"
-              ? Routes.home
-              : Routes.homeTech);
+      HomeCubit.get(context).showProfile().then((value) => {
+            Future.delayed(const Duration(seconds: 3), () {
+              navigateBasedOnCondition();
+            })
+          });
     } else {
-      Navigator.pushReplacementNamed(context, Routes.login);
+      Future.delayed(const Duration(seconds: 5), () {
+        navigateBasedOnCondition();
+      });
     }
-  } else {
-    Navigator.pushReplacementNamed(context, Routes.onboarding);
+    super.initState();
   }
-}
+
+  void navigateBasedOnCondition() async {
+    bool isOnBoardingScreenViewed =
+        await appPreferences!.isOnBoardingScreenViewed();
+    if (isOnBoardingScreenViewed) {
+      if (AppConstants.token != '') {
+        Navigator.pushReplacementNamed(
+            context,
+            AppConstants.profile!.localedType != "مزود الخدمة"
+                ? Routes.home
+                : Routes.homeTech);
+      } else {
+        Navigator.pushReplacementNamed(context, Routes.login);
+      }
+    } else {
+      Navigator.pushReplacementNamed(context, Routes.onboarding);
+    }
+  }
+
   getDeviceToken() async {
     AppConstants.deviceToken = await FirebaseMessaging.instance.getToken();
   }
@@ -68,12 +69,14 @@ void navigateBasedOnCondition() async {
   Widget build(BuildContext context) {
     return BlocListener<HomeCubit, HomeStates>(
       listener: (context, state) async {
-       if(state is ShowProfileLoaded){
-        Future.wait([
-        HomeCubit.get(context).getSlides("15"),
-        HomeCubit.get(context).getServices(1, "15", "0"),
-      ]);
-       }
+        if (state is ShowProfileLoaded) {
+          AppConstants.profile!.localedType != "مزود الخدمة"
+              ? Future.wait([
+                  HomeCubit.get(context).getSlides("15"),
+                  HomeCubit.get(context).getServices(1, "15", "0"),
+                ])
+              : TechCubit.get(context).getOrders(AppStrings.technicianAssigned);
+        }
       },
       child: Scaffold(
         backgroundColor: AppColors.primary,

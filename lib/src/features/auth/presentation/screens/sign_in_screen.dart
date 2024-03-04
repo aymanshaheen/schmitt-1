@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/container_injector.dart';
 import 'package:schmitt/src/core/error/response_status.dart';
+import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/network/local/app_prefs.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
@@ -19,6 +20,7 @@ import 'package:schmitt/src/features/auth/presentation/widgets/custom_remember_m
 import 'package:schmitt/src/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:schmitt/src/features/auth/presentation/widgets/sign_in_custom_row.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
+import 'package:schmitt/src/features/technician_app/home/presentation/cubit/tech_cubit.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -67,13 +69,17 @@ class _SignInViewState extends State<SignInScreen> {
               appPreferences?.saveData(
                   key: 'token', value: credentialState.user.token);
               AppConstants.token = credentialState.user.token!;
-              Future.wait([
-                HomeCubit.get(context).getSlides("15"),
-                HomeCubit.get(context).getServices(1, "15", '0'),
-              ]);
+              AppConstants.profile!.localedType != "مزود الخدمة"
+                  ? Future.wait([
+                      HomeCubit.get(context).getSlides("15"),
+                      HomeCubit.get(context).getServices(1, "15", "0"),
+                    ])
+                  : TechCubit.get(context)
+                      .getOrders(AppStrings.technicianAssigned);
+
               Navigator.pushReplacementNamed(
                   context,
-                  AppConstants.profile!.email != "customer2@demo.com"
+                  AppConstants.profile!.localedType != "مزود الخدمة"
                       ? Routes.home
                       : Routes.homeTech);
             } else {

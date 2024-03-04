@@ -46,7 +46,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AnimatedCrossFade(
+                  /*  AnimatedCrossFade(
                       duration: const Duration(milliseconds: 400),
                       firstChild: HeaderExpanded(
                         title: "upcoming".tr(),
@@ -94,7 +94,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                           size: R.sW(context, 22),
                         ),
                       ),
-                    ):Container(),
+                    ):Container(),*/
                   ],
                 ),
               ),

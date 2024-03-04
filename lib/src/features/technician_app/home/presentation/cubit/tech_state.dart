@@ -16,9 +16,9 @@ class OrderLoading extends TechState {
 
 class OrderSuccess extends TechState {
   const OrderSuccess(this.user);
-  final OrderEntity user;
+  final List<Order>? user;
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [user!];
 }
 
 class OrderFailure extends TechState {

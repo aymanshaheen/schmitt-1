@@ -1,12 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:schmitt/src/config/app_route.dart';
+import 'package:schmitt/src/core/entities/order.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/full_rounded_container.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/widgets/custom_order_row.dart';
 
 class OrderItems extends StatefulWidget {
-  const OrderItems({super.key});
+  final Order order;
+  const OrderItems({super.key, required this.order});
 
   @override
   State<OrderItems> createState() => _OrderItemsState();
@@ -38,11 +41,17 @@ class _OrderItemsState extends State<OrderItems> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FullRounderContainer(
-                  circular: 10,
-                  containerColor: AppColors.white,
-                  textColor: AppColors.darkBlue,
-                  title: 'start_order'.tr(),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.startOrder,
+                        arguments: widget.order);
+                  },
+                  child: FullRounderContainer(
+                    circular: 10,
+                    containerColor: AppColors.white,
+                    textColor: AppColors.darkBlue,
+                    title: 'start_order'.tr(),
+                  ),
                 ),
                 SizedBox(
                   height: R.sH(context, 20),
@@ -61,19 +70,19 @@ class _OrderItemsState extends State<OrderItems> {
                     children: [
                       CustomRow(
                           title: 'service_type',
-                          value: ' 12/12/2021',
+                          value: widget.order.services!.first.category!.name!,
                           valueColor: AppColors.darkBlue),
                       CustomRow(
                           title: 'type_of_service',
-                          value: ' 12/12/2021',
+                          value: widget.order.services!.first.title,
                           valueColor: AppColors.darkBlue),
                       CustomRow(
                           title: 'order_status',
-                          value: ' 12/12/2021',
+                          value: widget.order.statusLocaled!,
                           valueColor: AppColors.darkBlue),
                       CustomRow(
                           title: 'ordernumber',
-                          value: ' 12/12/2021',
+                          value: widget.order.orderNum.toString(),
                           valueColor: AppColors.darkBlue),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,7 +101,7 @@ class _OrderItemsState extends State<OrderItems> {
                                 height: R.sH(context, 5),
                               ),
                               Text(
-                                ' 12/12/2021',
+                                widget.order.address!.address ?? '',
                                 style: TextStyle(
                                   fontSize: R.F(context, 16),
                                   fontWeight: FontWeight.w400,
@@ -137,9 +146,8 @@ class _OrderItemsState extends State<OrderItems> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                      width: R.sW(context, 150),
                       padding: EdgeInsets.symmetric(
-                        horizontal: R.sW(context, 5),
+                        horizontal: R.sW(context, 10),
                         vertical: R.sH(context, 10),
                       ),
                       decoration: BoxDecoration(
@@ -149,16 +157,19 @@ class _OrderItemsState extends State<OrderItems> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Icon(
                             Icons.watch_later_outlined,
                             color: AppColors.darkBlue,
-                            size: R.sW(context, 25),
+                            size: R.sW(context, 20),
+                          ),
+                          SizedBox(
+                            width: R.sW(context, 5),
                           ),
                           Text("time : 4:00 PM",
                               style: TextStyle(
-                                fontSize: R.F(context, 16),
+                                fontSize: R.F(context, 14),
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.darkBlue,
                               )),
@@ -166,9 +177,8 @@ class _OrderItemsState extends State<OrderItems> {
                       ),
                     ),
                     Container(
-                      width: R.sW(context, 150),
                       padding: EdgeInsets.symmetric(
-                        horizontal: R.sW(context, 5),
+                        horizontal: R.sW(context, 10),
                         vertical: R.sH(context, 10),
                       ),
                       decoration: BoxDecoration(
@@ -178,16 +188,22 @@ class _OrderItemsState extends State<OrderItems> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Icon(
                             Icons.calendar_month_outlined,
                             color: AppColors.darkBlue,
-                            size: R.sW(context, 25),
+                            size: R.sW(context, 20),
                           ),
-                          Text("time : 4:00 PM",
+                          SizedBox(
+                            width: R.sW(context, 5),
+                          ),
+                          Text(
+                              'day'.tr() +
+                                  " : " +
+                                  widget.order.startAt!.substring(0, 10),
                               style: TextStyle(
-                                fontSize: R.F(context, 16),
+                                fontSize: R.F(context, 14),
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.darkBlue,
                               )),
@@ -222,27 +238,27 @@ class _OrderItemsState extends State<OrderItems> {
                     children: [
                       CustomRow(
                           title: 'the_count',
-                          value: ' 12/12/2021',
+                          value: "1",
                           valueColor: AppColors.darkBlue),
                       CustomRow(
                           title: 'cost',
-                          value: ' 12/12/2021',
+                          value: widget.order.price.toString(),
                           valueColor: AppColors.darkBlue),
                       CustomRow(
                           title: 'transport',
-                          value: ' 12/12/2021',
+                          value: '22',
                           valueColor: AppColors.darkBlue),
                       CustomRow(
                           title: 'promo',
-                          value: ' 12/12/2021',
+                          value: '10',
                           valueColor: AppColors.darkBlue),
                       CustomRow(
                           title: 'tax',
-                          value: ' 12/12/2021',
+                          value: '10',
                           valueColor: AppColors.darkBlue),
                       CustomRow(
                           title: 'total',
-                          value: ' 12/12/2021',
+                          value: '25',
                           valueColor: AppColors.darkBlue),
                     ],
                   ),

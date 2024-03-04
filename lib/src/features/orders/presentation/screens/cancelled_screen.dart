@@ -44,7 +44,7 @@ class _CancelledScreenState extends State<CancelledScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AnimatedCrossFade(
+                   /* AnimatedCrossFade(
                       duration: const Duration(milliseconds: 400),
                       firstChild: MainHeader(
                         title: "cancelled".tr(),
@@ -94,7 +94,7 @@ class _CancelledScreenState extends State<CancelledScreen> {
                           size: R.sW(context, 22),
                         ),
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               ),

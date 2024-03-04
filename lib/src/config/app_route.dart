@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/container_injector.dart';
+import 'package:schmitt/src/core/entities/order.dart';
 import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/widgets/page_transition.dart';
 import 'package:schmitt/src/features/auth/presentation/screens/forget_password/forgot_password_screen.dart';
@@ -41,10 +44,12 @@ import 'package:schmitt/src/features/profile/presentation/screens/security_scree
 import 'package:schmitt/src/features/profile/presentation/screens/select_language_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/submit_order_screen.dart';
 import 'package:schmitt/src/features/spalsh_screen.dart';
+import 'package:schmitt/src/features/technician_app/home/presentation/screens/camera_order_screen.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/screens/home_layout.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/screens/home_screen.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/screens/order_service.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/screens/order_settings_screen.dart';
+import 'package:schmitt/src/features/technician_app/home/presentation/screens/start_order_screen.dart';
 
 class Routes {
   static const String home = "home";
@@ -85,6 +90,8 @@ class Routes {
   static const String carWashServiceDetails = "carWashServiceDetails";
   static const String carWash = "carWash";
   static const String myAddress = "myAddress";
+  static const String startOrder = "startOrder";
+  static const String cameraOrderScreen = "cameraOrderScreen";
 }
 
 class AppRouter {
@@ -292,8 +299,21 @@ class AppRouter {
           builder: (context) => const OrderSettingScreen(),
         );
       case Routes.techOrderService:
+        final arguments = settings.arguments as Order;
         return FadeRoute(
-          builder: (context) => const OrderServiceScreen(),
+          builder: (context) => OrderServiceScreen(order: arguments),
+        );
+      case Routes.startOrder:
+        final arguments = settings.arguments as Order;
+        return FadeRoute(
+          builder: (context) => StartOrderScreen(order: arguments),
+        );
+      case Routes.cameraOrderScreen:
+        final images = settings.arguments as List<File>;
+        return FadeRoute(
+          builder: (context) => CameraOrderScreen(
+            images: images,
+          ),
         );
     }
 

@@ -107,7 +107,7 @@ class CalendarScreen extends StatelessWidget {
               SizedBox(
                 height: R.sH(context, 10),
               ),
-              Container(
+             /* Container(
                 color: AppColors.grey1,
                 child: Column(
                   children: List.generate(
@@ -131,7 +131,7 @@ class CalendarScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              )*/
             ],
           ),
         ),
