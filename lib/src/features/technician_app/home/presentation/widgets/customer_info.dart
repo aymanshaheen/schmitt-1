@@ -34,10 +34,10 @@ class _CustomerInfoState extends State<CustomerInfo> {
               width: R.sW(context, 120),
               height: R.sH(context, 120),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
+                borderRadius: BorderRadius.circular(80),
               ),
               child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
+                  borderRadius: BorderRadius.circular(80),
                   child: CachedNetworkImage(
                     imageUrl: widget.order.services!.first.image!.url!,
                     fit: BoxFit.cover,

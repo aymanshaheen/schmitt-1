@@ -34,27 +34,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
           AppConstants.country =
               appPreferences.getData(key: 'country') ?? AppConstants.country;
           return Scaffold(
-              appBar: AppBar(
-                centerTitle: false,
-                title: Text(
-                  'profile'.tr(),
-                  style: TextStyle(
-                    color: AppColors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                backgroundColor: AppColors.white,
-                elevation: 0,
-                actions: [
-                  Container(
-                      margin: EdgeInsets.symmetric(vertical: R.sH(context, 17)),
-                      child: const MoreInfoIcon()),
-                  SizedBox(
-                    width: R.sW(context, 15),
-                  )
-                ],
-              ),
+              appBar: AppConstants.profile!.localedType != "مزود الخدمة"
+                  ? AppBar(
+                      centerTitle: false,
+                      title: Text(
+                        'profile'.tr(),
+                        style: TextStyle(
+                          color: AppColors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      backgroundColor: AppColors.white,
+                      elevation: 0,
+                      actions: [
+                        Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: R.sH(context, 17)),
+                            child: const MoreInfoIcon()),
+                        SizedBox(
+                          width: R.sW(context, 15),
+                        )
+                      ],
+                    )
+                  : null,
               body: SingleChildScrollView(
                   child: Column(children: [
                 Container(
@@ -63,40 +66,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Column(children: [
-                          CircleAvatar(
-                            radius: R.sW(context, 35),
-                            child: ClipOval(
-                                child: CircularImageBuilder(
-                                    photo: AppConstants.profile!.avatar!,
-                                    height: R.sW(context, 100),
-                                    width: R.sW(context, 100))),
-                          ),
+                          AppConstants.profile!.localedType != "مزود الخدمة"
+                              ? CircleAvatar(
+                                  radius: R.sW(context, 35),
+                                  child: ClipOval(
+                                      child: CircularImageBuilder(
+                                          photo: AppConstants.profile!.avatar!,
+                                          height: R.sW(context, 100),
+                                          width: R.sW(context, 100))),
+                                )
+                              : const SizedBox.shrink(),
                           SizedBox(
                             height: R.sH(context, 10),
                           ),
-                          Text(
-                            AppConstants.profile!.name!,
-                            style: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(
-                            height: R.sH(context, 5),
-                          ),
-                          AppConstants.profile!.localedType == "مزود الخدمة"
-                              ? ProfileListTile(
-                                  switchModeValue: true,
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, Routes.orderSetting);
-                                  },
-                                  isTrailing: true,
-                                  icon: AppImage.orders,
-                                  title: 'my_orders',
+                          AppConstants.profile!.localedType != "مزود الخدمة"
+                              ? Text(
+                                  AppConstants.profile!.name!,
+                                  style: TextStyle(
+                                    color: AppColors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 )
                               : const SizedBox.shrink(),
+                          AppConstants.profile!.localedType != "مزود الخدمة"
+                              ? SizedBox(
+                                  height: R.sH(context, 5),
+                                )
+                              : SizedBox(
+                                  height: R.sH(context, 30),
+                                ),
+                          AppConstants.profile!.localedType != "مزود الخدمة"
+                              ? const SizedBox.shrink()
+                              : Padding(
+                                  padding: EdgeInsets.only(
+                                      right: R.sW(context, 220),
+                                      bottom: R.sH(context, 10)),
+                                  child: Text(
+                                    'profile'.tr(),
+                                    style: TextStyle(
+                                      color: AppColors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
                           AppConstants.profile!.localedType != "مزود الخدمة"
                               ? ProfileListTile(
                                   switchModeValue: true,
@@ -128,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             },
                             isTrailing: true,
                             icon: AppImage.profilePhoto,
-                            title: 'profile',
+                            title: 'edit_profile',
                           ),
                           ProfileListTile(
                             switchModeValue: true,

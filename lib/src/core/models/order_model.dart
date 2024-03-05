@@ -41,11 +41,11 @@ class OrderModel extends OrderEntity {
 
 class OrderDataModel extends Order {
   OrderDataModel({
-    int? id,
+    num? id,
     String? name,
-    int? orderNum,
-    int? taxPercentage,
-    int? price,
+    num? orderNum,
+    num? taxPercentage,
+    num? price,
     String? status,
     String? statusLocaled,
     String? type,

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/core/entities/order.dart';
+import 'package:schmitt/src/core/functions/date_converter.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/full_rounded_container.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
@@ -41,18 +42,22 @@ class _OrderItemsState extends State<OrderItems> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.startOrder,
-                        arguments: widget.order);
-                  },
-                  child: FullRounderContainer(
-                    circular: 10,
-                    containerColor: AppColors.white,
-                    textColor: AppColors.darkBlue,
-                    title: 'start_order'.tr(),
-                  ),
-                ),
+                widget.order.status != "completed"
+                    ? InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.startOrder,
+                              arguments: widget.order);
+                        },
+                        child: FullRounderContainer(
+                          circular: 10,
+                          containerColor: AppColors.white,
+                          textColor: AppColors.darkBlue,
+                          title: widget.order.status == "starting"
+                              ? "finish_order".tr()
+                              : 'start_order'.tr(),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
                 SizedBox(
                   height: R.sH(context, 20),
                 ),
@@ -78,8 +83,16 @@ class _OrderItemsState extends State<OrderItems> {
                           valueColor: AppColors.darkBlue),
                       CustomRow(
                           title: 'order_status',
-                          value: widget.order.statusLocaled!,
-                          valueColor: AppColors.darkBlue),
+                          value: widget.order.status == "starting"
+                              ? 'on_going'.tr()
+                              : widget.order.status == "completed"
+                                  ? 'completed'.tr()
+                                  : 'upcoming'.tr(),
+                          valueColor: widget.order.status == "starting"
+                              ? AppColors.yellow
+                              : widget.order.status == "completed"
+                                  ? AppColors.green
+                                  : AppColors.darkBlue),
                       CustomRow(
                           title: 'ordernumber',
                           value: widget.order.orderNum.toString(),
@@ -88,6 +101,7 @@ class _OrderItemsState extends State<OrderItems> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'place'.tr(),
@@ -100,12 +114,17 @@ class _OrderItemsState extends State<OrderItems> {
                               SizedBox(
                                 height: R.sH(context, 5),
                               ),
-                              Text(
-                                widget.order.address!.address ?? '',
-                                style: TextStyle(
-                                  fontSize: R.F(context, 16),
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.grey,
+                              SizedBox(
+                                width: R.sW(context, 240),
+                                child: Text(
+                                  widget.order.address!.address ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    fontSize: R.F(context, 16),
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.grey,
+                                  ),
                                 ),
                               ),
                             ],
@@ -167,12 +186,17 @@ class _OrderItemsState extends State<OrderItems> {
                           SizedBox(
                             width: R.sW(context, 5),
                           ),
-                          Text("time : 4:00 PM",
-                              style: TextStyle(
-                                fontSize: R.F(context, 14),
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.darkBlue,
-                              )),
+                          Text(
+                            "clock".tr() +
+                                " : " +
+                                ConverterDate.convertDate(
+                                    widget.order.startAt!, 'en'),
+                            style: TextStyle(
+                              fontSize: R.F(context, 14),
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.darkBlue,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -199,9 +223,7 @@ class _OrderItemsState extends State<OrderItems> {
                             width: R.sW(context, 5),
                           ),
                           Text(
-                              'day'.tr() +
-                                  " : " +
-                                  widget.order.startAt!.substring(0, 10),
+                              '${Localizations.localeOf(context).languageCode != 'en' ? ConverterDate.weekdaysInArabic[DateTime.parse(widget.order.startAt!).weekday] : ConverterDate.weekdaysInEnglish[DateTime.parse(widget.order.startAt!).weekday]} ${DateTime.parse(widget.order.startAt!).day}/${DateTime.parse(widget.order.startAt!).month}/${DateTime.parse(widget.order.startAt!).year}',
                               style: TextStyle(
                                 fontSize: R.F(context, 14),
                                 fontWeight: FontWeight.w600,

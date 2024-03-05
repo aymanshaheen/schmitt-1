@@ -2,18 +2,18 @@ import 'package:schmitt/src/core/functions/date_converter.dart';
 
 extension DateUtil on DateTime {
   String get lastSeen {
-    return 'last seen ${DateConverter.getLastSeenDayTime(this)} at ${DateConverter.dateConverterHoursAmPmMode(this)}';
+    return 'last seen ${ConverterDate.getLastSeenDayTime(this)} at ${ConverterDate.dateConverterHoursAmPmMode(this)}';
   }
   String get amPmMode{
-    return DateConverter.dateConverterHoursAmPmMode(this);
+    return ConverterDate.dateConverterHoursAmPmMode(this);
   }
   String get chatDayTime{
-    return DateConverter.getChatDayTime(this);
+    return ConverterDate.getChatDayTime(this);
   }
   String get chatContactTime{
-    return DateConverter.getChatContactTime(this);
+    return ConverterDate.getChatContactTime(this);
   }
   bool isSameDay(DateTime day2){
-    return DateConverter.isSameDay(this, day2);
+    return ConverterDate.isSameDay(this, day2);
   }
 }

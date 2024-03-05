@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
-import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/more_info_circular_icon.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
+import 'package:schmitt/src/features/profile/presentation/screens/profile_screen.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/cubit/tech_cubit.dart';
-import 'package:schmitt/src/features/technician_app/home/presentation/screens/today_order.dart';
+import 'package:schmitt/src/features/technician_app/home/presentation/widgets/today_order.dart';
 
 class HomeTechLayoutScreen extends StatefulWidget {
   const HomeTechLayoutScreen({super.key});
@@ -30,25 +30,10 @@ class _HomeLayoutScreenState extends State<HomeTechLayoutScreen>
       length: 2,
       vsync: this,
     );
-    controller?.addListener(_handleTabSelection);
-  }
-
-  void _handleTabSelection() {
-    if (!(controller?.indexIsChanging ?? true)) {
-      switch (controller?.index) {
-        case 0:
-          context.read<TechCubit>().getOrders(AppStrings.technicianAssigned);
-          break;
-        case 1:
-          context.read<TechCubit>().getOrders(AppStrings.inProgress);
-          break;
-      }
-    }
   }
 
   @override
   void dispose() {
-    controller?.removeListener(_handleTabSelection);
     controller?.dispose();
     super.dispose();
   }
@@ -71,10 +56,13 @@ class _HomeLayoutScreenState extends State<HomeTechLayoutScreen>
             ));
           }
           return Scaffold(
-            backgroundColor: Colors.grey[50],
+            backgroundColor: Colors.grey[100],
+            drawer: const Drawer(
+              child: ProfileScreen(),
+            ),
             appBar: AppBar(
               centerTitle: false,
-              leadingWidth: R.sW(context, 25),
+              leadingWidth: R.sW(context, 5),
               elevation: 0,
               title: Text(
                 'home'.tr(),
@@ -91,9 +79,14 @@ class _HomeLayoutScreenState extends State<HomeTechLayoutScreen>
                 SizedBox(
                   width: R.sW(context, 20),
                 ),
-                const MoreInfoIcon(),
+                Builder(
+                  builder: (context) => GestureDetector(
+                    onTap: () => Scaffold.of(context).openDrawer(),
+                    child: const MoreInfoIcon(),
+                  ),
+                ),
                 SizedBox(
-                  width: R.sW(context, 10),
+                  width: R.sW(context, 15),
                 ),
               ],
               bottom: PreferredSize(
@@ -167,9 +160,9 @@ class _HomeLayoutScreenState extends State<HomeTechLayoutScreen>
             ),
             body: TabBarView(
               controller: controller,
-              children: const <Widget>[
-                TodayOrder(),
-                TodayOrder(),
+              children: <Widget>[
+                TodayOrder(orders: TechCubit.get(context).todayOrders),
+                TodayOrder(orders: TechCubit.get(context).upcomingOrders),
               ],
             ),
           );

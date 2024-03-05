@@ -26,10 +26,12 @@ Future<List<File>?> pickImagesFromGallery(
   List<XFile> xfilePick = pickedFile;
 
   if (xfilePick.isNotEmpty) {
+    selectedImages.clear();
     for (var i = 0; i < xfilePick.length; i++) {
       selectedImages.add(File(xfilePick[i].path));
     }
     onImagesSelected(selectedImages);
+    Navigator.pop(context);
   } else {
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Nothing is selected')));

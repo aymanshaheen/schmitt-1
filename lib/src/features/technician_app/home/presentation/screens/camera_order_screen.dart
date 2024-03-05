@@ -24,9 +24,11 @@ class _CameraOrderScreenState extends State<CameraOrderScreen> {
   late Future<void> _cameraValue;
   bool isFlashOn = false;
   bool isCameraFront = true;
+
   @override
   void initState() {
     super.initState();
+    widget.images = [];
     _cameraController =
         CameraController(AppConstants.cameras[0], ResolutionPreset.high);
     _cameraValue = _cameraController.initialize();
@@ -154,6 +156,7 @@ class _CameraOrderScreenState extends State<CameraOrderScreen> {
     if (!mounted) return;
 
     widget.images.add(File(file.path));
+    Navigator.pop(context);
   }
 
   @override

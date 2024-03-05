@@ -10,7 +10,7 @@ class MarkAsStartUseCase {
   final TechRepository repository;
 
 
-  ResultFuture<OrderEntity> call(File image, String id) {
+  ResultFuture<OrderEntity> call(List<File>  image, String id) {
     return repository.markAsStart(image, id);
   }
 }

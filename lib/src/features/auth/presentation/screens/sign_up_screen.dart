@@ -10,6 +10,7 @@ import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/app_image.dart';
+import 'package:schmitt/src/core/widgets/exit_bottom_sheet.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/core/widgets/snakbar_builder.dart';
 import 'package:schmitt/src/features/auth/domain/usercases/sign_up_usecase.dart';
@@ -49,7 +50,19 @@ class _SignUpViewState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) async {
+            if (didPop) {
+              return;
+            }
+            final shouldClose = await showModalBottomSheet(
+                context: context,
+                builder: (context) => const ExitBottomSheet());
+
+            return shouldClose ?? false;
+          },
+          child: Scaffold(
       body: BlocConsumer<CredentialCubit, CredentialState>(
         listener: (context, credentialState) {
           if (credentialState is CredentialFailure &&
@@ -95,6 +108,7 @@ class _SignUpViewState extends State<SignUpScreen> {
           return signUpWidget();
         },
       ),
+          )
     );
   }
 

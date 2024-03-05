@@ -8,13 +8,8 @@ import 'package:schmitt/src/core/widgets/responsivity.dart';
 
 class MainHeader extends StatelessWidget {
   final Order order;
-  final String title;
-  final Color color;
-  const MainHeader(
-      {super.key,
-      required this.title,
-      required this.color,
-      required this.order});
+
+  const MainHeader({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -123,19 +118,27 @@ class MainHeader extends StatelessWidget {
           Container(
             width: R.sW(context, 80),
             padding: EdgeInsets.symmetric(
-              vertical: R.sH(context, 8),
-              horizontal: R.sW(context, 8),
+              vertical: R.sH(context, 4),
+              horizontal: R.sW(context, 4),
             ),
             decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(10),
+              color: order.status == "starting"
+                  ? AppColors.yellow
+                  : order.status == "completed"
+                      ? AppColors.green
+                      : AppColors.darkBlue,
+              borderRadius: BorderRadius.circular(5),
             ),
             child: Center(
               child: Text(
-                title,
+                order.status == "starting"
+                    ? 'on_going'.tr()
+                    : order.status == "completed"
+                        ? 'completed'.tr()
+                        : 'upcoming'.tr(),
                 style: TextStyle(
                   color: AppColors.white,
-                  fontSize: R.F(context, 12),
+                  fontSize: R.F(context, 10),
                   fontWeight: FontWeight.w700,
                 ),
               ),

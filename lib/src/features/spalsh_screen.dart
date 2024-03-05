@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/network/local/app_prefs.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
+import 'package:schmitt/src/core/widgets/exit_bottom_sheet.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
@@ -67,57 +68,71 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HomeCubit, HomeStates>(
-      listener: (context, state) async {
-        if (state is ShowProfileLoaded) {
-          AppConstants.profile!.localedType != "مزود الخدمة"
-              ? Future.wait([
-                  HomeCubit.get(context).getSlides("15"),
-                  HomeCubit.get(context).getServices(1, "15", "0"),
-                ])
-              : TechCubit.get(context).getOrders(AppStrings.technicianAssigned);
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) {
+          return;
         }
+        final shouldClose = await showModalBottomSheet(
+            context: context, builder: (context) => const ExitBottomSheet());
+
+        return shouldClose ?? false;
       },
-      child: Scaffold(
-        backgroundColor: AppColors.primary,
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/images/splash_top.svg',
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Center(
-                    child: SvgPicture.asset(
-                      'assets/images/logo.svg',
-                    ),
+      child: BlocListener<HomeCubit, HomeStates>(
+        listener: (context, state) async {
+          if (state is ShowProfileLoaded) {
+            AppConstants.profile!.localedType != "مزود الخدمة"
+                ? Future.wait([
+                    HomeCubit.get(context).getSlides("15"),
+                    HomeCubit.get(context).getServices(1, "15", "0"),
+                  ])
+                : TechCubit.get(context)
+                    .getOrders(AppStrings.technicianAssigned);
+          }
+        },
+        child: Scaffold(
+          backgroundColor: AppColors.primary,
+          body: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/splash_top.svg',
+                      ),
+                    ],
                   ),
-                ]),
-              ),
-              Expanded(
-                flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/images/splash_down.svg',
-                    ),
-                  ],
                 ),
-              ),
-            ],
+                Expanded(
+                  flex: 2,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: SvgPicture.asset(
+                            'assets/images/logo.svg',
+                          ),
+                        ),
+                      ]),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/splash_down.svg',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
