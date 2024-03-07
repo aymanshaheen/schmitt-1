@@ -76,7 +76,9 @@ class _ServiceScreenState extends State<ServiceScreen> {
             return Scaffold(
               body: Center(
                   child: CircularIndicator(
-                color: AppColors.darkBlue,
+                color: AppConstants.service!.category!.id == 4
+                    ? AppColors.purple
+                    : AppColors.darkBlue,
               )),
             );
           }
@@ -133,7 +135,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                     !isFavourite
                                         ? Icons.bookmark_outline_rounded
                                         : Icons.bookmark_rounded,
-                                    color: AppColors.darkBlue,
+                                    color:
+                                        AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            : AppColors.darkBlue,
                                     size: R.sW(context, 25),
                                   ),
                                 ),
@@ -148,7 +153,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                   height: R.sH(context, 25),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
-                                    color: AppColors.whiteBlue,
+                                    color:
+                                        AppConstants.service!.category!.id == 4
+                                            ? AppColors.lightPurble
+                                            : AppColors.whiteBlue,
                                   ),
                                   child: Center(
                                     child: Text(
@@ -158,9 +166,13 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                                       .service!.category!.id ==
                                                   3
                                               ? "carWash".tr()
-                                              : "babySetting".tr(),
+                                              : "babySitting".tr(),
                                       style: TextStyle(
-                                          color: AppColors.darkBlue,
+                                          color: AppConstants
+                                                      .service!.category!.id ==
+                                                  4
+                                              ? AppColors.purple
+                                              : AppColors.darkBlue,
                                           fontSize: R.F(context, 14),
                                           fontWeight: FontWeight.w600),
                                     ),
@@ -169,7 +181,9 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 SizedBox(width: R.sW(context, 12)),
                                 Icon(
                                   Icons.location_on,
-                                  color: AppColors.darkBlue,
+                                  color: AppConstants.service!.category!.id == 4
+                                      ? AppColors.purple
+                                      : AppColors.darkBlue,
                                   size: R.sW(context, 25),
                                 ),
                                 SizedBox(width: R.sW(context, 5)),
@@ -192,7 +206,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 Text(
                                   "\$${widget.service.price}",
                                   style: TextStyle(
-                                    color: AppColors.darkBlue,
+                                    color:
+                                        AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            : AppColors.darkBlue,
                                     fontSize: R.F(context, 26),
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -255,7 +272,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                   'see_all'.tr(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                    color: AppColors.homeBlueColor,
+                                    color:
+                                        AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            : AppColors.homeBlueColor,
                                     fontSize: R.F(context, 16),
                                     fontWeight: FontWeight.w700,
                                     letterSpacing: 0.20,

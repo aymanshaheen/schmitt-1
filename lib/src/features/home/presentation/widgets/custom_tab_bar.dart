@@ -42,11 +42,11 @@ class _CustomTabControllerState extends State<CustomHomeTabController> {
           if (_controller.page != null) {
             if (_controller.page!.round() == widget.slides!.length - 1) {
               _controller.animateToPage(0,
-                  duration: const Duration(milliseconds: 800),
+                  duration: const Duration(milliseconds: 1200),
                   curve: Curves.easeInToLinear);
             } else {
               _controller.nextPage(
-                  duration: const Duration(milliseconds: 800),
+                  duration: const Duration(milliseconds: 1200),
                   curve: Curves.easeInToLinear);
             }
           }
@@ -71,7 +71,7 @@ class _CustomTabControllerState extends State<CustomHomeTabController> {
           height: R.sH(context, 200),
           child: PageView.builder(
             controller: _controller,
-            physics: const BouncingScrollPhysics(),
+            physics: const SlowScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return Stack(
                 children: [
@@ -112,7 +112,7 @@ class _CustomTabControllerState extends State<CustomHomeTabController> {
                   ),
                   Positioned(
                       top: R.sH(context, 85),
-                      left: isArabic ? R.sW(context, 180) : R.sW(context, 45),
+                      left: isArabic ? R.sW(context, 240) : R.sW(context, 45),
                       child: Text(
                         widget.slides![index % widget.slides!.length].title,
                         style: TextStyle(
@@ -122,7 +122,7 @@ class _CustomTabControllerState extends State<CustomHomeTabController> {
                         ),
                       )),
                   Positioned(
-                    left: isArabic ? R.sW(context, 190) : R.sW(context, 45),
+                    left: isArabic ? R.sW(context, 210) : R.sW(context, 45),
                     top: R.sH(context, 120),
                     child: Text(
                       widget.slides![index % widget.slides!.length].media.name!,
@@ -169,5 +169,22 @@ class _CustomTabControllerState extends State<CustomHomeTabController> {
         ),
       ],
     );
+  }
+}
+
+class SlowScrollPhysics extends ScrollPhysics {
+  final double factor;
+
+  const SlowScrollPhysics({this.factor = 0.05, ScrollPhysics? parent})
+      : super(parent: parent);
+
+  @override
+  SlowScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return SlowScrollPhysics(factor: factor, parent: buildParent(ancestor));
+  }
+
+  @override
+  double applyPhysicsToUserOffset(ScrollMetrics position, double offset) {
+    return super.applyPhysicsToUserOffset(position, offset * factor);
   }
 }

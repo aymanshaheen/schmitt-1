@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, state) {
         return Scaffold(
           body: HomeCubit.get(context).slides.isEmpty ||
-                  HomeCubit.get(context).services!.isEmpty
+                  HomeCubit.get(context).services.isEmpty
               ? Center(
                   child: CircularIndicator(
                     color: AppColors.darkBlue,

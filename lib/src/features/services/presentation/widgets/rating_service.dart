@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
@@ -43,7 +44,9 @@ class RatingService extends StatelessWidget {
           'see_all'.tr(),
           textAlign: TextAlign.right,
           style: TextStyle(
-            color: AppColors.homeBlueColor,
+            color: AppConstants.service!.category!.id == 4
+                ? AppColors.purple
+                : AppColors.homeBlueColor,
             fontSize: R.F(context, 16),
             fontWeight: FontWeight.w700,
             letterSpacing: 0.20,

@@ -7,7 +7,6 @@ import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
-import 'package:schmitt/src/core/widgets/more_info_circular_icon.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/core/widgets/snakbar_builder.dart';
 import 'package:schmitt/src/features/auth/presentation/widgets/custom_login_button.dart';
@@ -105,7 +104,9 @@ class _ServiceReviewState extends State<ServiceReview>
       if (state is GetReviwesLoading) {
         return Center(
             child: CircularIndicator(
-          color: AppColors.darkBlue,
+          color: AppConstants.service!.category!.id == 4
+              ? AppColors.purple
+              : AppColors.darkBlue,
         ));
       }
       return Column(
@@ -139,7 +140,9 @@ class _ServiceReviewState extends State<ServiceReview>
                               imageUrl: review.author!.avatar!,
                               fit: BoxFit.cover,
                               placeholder: (context, url) => CircularIndicator(
-                                color: AppColors.darkBlue,
+                                color:  AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            :AppColors.darkBlue,
                               ),
                               errorWidget: (context, url, error) =>
                                   const Icon(Icons.error),
@@ -157,7 +160,6 @@ class _ServiceReviewState extends State<ServiceReview>
                             ),
                           ),
                           const Spacer(),
-                          const MoreInfoIcon(),
                           SizedBox(
                             width: R.sW(context, 10),
                           ),
@@ -168,7 +170,9 @@ class _ServiceReviewState extends State<ServiceReview>
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
                                   border: Border.all(
-                                    color: AppColors.darkBlue,
+                                    color: AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            : AppColors.darkBlue,
                                     width: R.sW(context, 2),
                                   ),
                                   color: AppColors.white),
@@ -177,7 +181,9 @@ class _ServiceReviewState extends State<ServiceReview>
                                   children: [
                                     Icon(
                                       Icons.star,
-                                      color: AppColors.darkBlue,
+                                      color: AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            : AppColors.darkBlue,
                                       size: R.sW(context, 16),
                                     ),
                                     SizedBox(
@@ -186,7 +192,9 @@ class _ServiceReviewState extends State<ServiceReview>
                                     Text(
                                       review.rating!.toString(),
                                       style: TextStyle(
-                                        color: AppColors.darkBlue,
+                                        color:  AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            :AppColors.darkBlue,
                                         fontSize: R.F(context, 14),
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -204,7 +212,9 @@ class _ServiceReviewState extends State<ServiceReview>
                         expandText: 'Read more',
                         collapseText: 'show less',
                         maxLines: 4,
-                        linkColor: AppColors.darkBlue,
+                        linkColor: AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            : AppColors.darkBlue,
                         style: TextStyle(
                           color: AppColors.black,
                           fontSize: R.F(context, 16),
@@ -229,7 +239,9 @@ class _ServiceReviewState extends State<ServiceReview>
                                       : Icons.favorite_rounded,
                                   color: !review.isLiked
                                       ? AppColors.black
-                                      : AppColors.pink,
+                                      : AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            : AppColors.darkBlue,
                                   size: R.sW(context, 25),
                                 ),
                               ),
@@ -292,7 +304,9 @@ class _ServiceReviewState extends State<ServiceReview>
                                 return Icon(
                                   Icons.star,
                                   color: _rating > index
-                                      ? AppColors.darkBlue
+                                      ?  AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            :AppColors.darkBlue
                                       : AppColors.grey1,
                                   size:
                                       30.0 + (10.0 * _controllers[index].value),

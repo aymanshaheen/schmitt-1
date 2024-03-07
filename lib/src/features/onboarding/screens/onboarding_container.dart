@@ -16,7 +16,8 @@ class OnboardingPage extends StatelessWidget {
   final String desc2;
   final PageController controller;
 
-  const OnboardingPage({super.key, 
+  const OnboardingPage({
+    super.key,
     required this.pageIndex,
     required this.imageUrl,
     required this.containerColor,
@@ -95,12 +96,12 @@ class OnboardingPage extends StatelessWidget {
                               if (pageIndex != 2) {
                                 controller.animateToPage(
                                   pageIndex + 1,
-                                  duration: const Duration(milliseconds: 400),
+                                  duration: const Duration(milliseconds: 100),
                                   curve: Curves.easeInOut,
                                 );
                               } else {
                                 Navigator.of(context)
-                                    .pushReplacementNamed(Routes.started);
+                                    .pushReplacementNamed(Routes.login);
                               }
                             },
                             child: Container(
@@ -132,7 +133,7 @@ class OnboardingPage extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.of(context)
-                            .pushReplacementNamed(Routes.started);
+                            .pushReplacementNamed(Routes.login);
                       },
                       child: Text(
                         "skip",

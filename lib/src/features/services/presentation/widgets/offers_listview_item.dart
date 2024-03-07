@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
@@ -21,12 +22,16 @@ class OffersServiceItem extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
               border: Border.all(
-                color: AppColors.darkBlue,
+                color: AppConstants.service!.category!.id == 4
+                    ? AppColors.purple
+                    : AppColors.darkBlue,
                 width: R.sW(context, 2),
               ),
               color: ServiceCubit.get(context).tabbedOffer ==
                       ServiceCubit.get(context).offersList.indexOf(title)
-                  ? AppColors.darkBlue
+                  ? AppConstants.service!.category!.id == 4
+                      ? AppColors.purple
+                      : AppColors.darkBlue
                   : AppColors.white,
             ),
             child: Center(
@@ -36,7 +41,9 @@ class OffersServiceItem extends StatelessWidget {
                     Icons.star,
                     color: ServiceCubit.get(context).tabbedOffer !=
                             ServiceCubit.get(context).offersList.indexOf(title)
-                        ? AppColors.darkBlue
+                        ? AppConstants.service!.category!.id == 4
+                            ? AppColors.purple
+                            : AppColors.darkBlue
                         : AppColors.white,
                     size: R.sW(context, 20),
                   ),
@@ -50,7 +57,9 @@ class OffersServiceItem extends StatelessWidget {
                               ServiceCubit.get(context)
                                   .offersList
                                   .indexOf(title)
-                          ? AppColors.darkBlue
+                          ? AppConstants.service!.category!.id == 4
+                              ? AppColors.purple
+                              : AppColors.darkBlue
                           : AppColors.white,
                       fontSize: R.F(context, 16),
                       fontWeight: FontWeight.w600,

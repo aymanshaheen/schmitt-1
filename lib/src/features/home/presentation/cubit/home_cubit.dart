@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
+import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/features/auth/domain/entities/user_entity.dart';
 import 'package:schmitt/src/features/auth/domain/usercases/sign_up_usecase.dart';
 import 'package:schmitt/src/features/orders/presentation/screens/booking_screen.dart';
@@ -218,16 +219,25 @@ class HomeCubit extends Cubit<HomeStates> {
     );
   }
 
-
+  void getServicesAndMatch(String query) async {
+    emit(ServicesLoading());
+    try {
+      await getServices(1, AppConstants.addressID, AppStrings.allId);
+      List<Service> services = getServicesMatching(query);
+      emit(ServicesLoaded(services));
+    } catch (e) {
+      emit(ServicesError(message: e.toString()));
+    }
+  }
 
   List<Service> getServicesMatching(String query) {
-    return services!
+    return services
         .where((service) =>
             service.title.toLowerCase().contains(query.toLowerCase()))
         .toList();
   }
 
-  List<Service>? services = [];
+  List<Service> services = [];
   Future<void> getServices(int page, String id, String category) async {
     emit(ServicesLoading());
 
@@ -237,7 +247,7 @@ class HomeCubit extends Cubit<HomeStates> {
         message: failure.message,
       )),
       (right) {
-        services = right.data;
+        services = right.data!;
         emit(ServicesLoaded(right.data));
       },
     );

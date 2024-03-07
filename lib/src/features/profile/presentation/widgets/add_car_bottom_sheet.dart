@@ -370,7 +370,12 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                 ),
                 SizedBox(height: R.sH(context, 20)),
                 Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: EasyLocalization.of(context)!
+                              .currentLocale!
+                              .languageCode ==
+                          'ar'
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
                   child: Text('car_color'.tr(),
                       style: TextStyle(
                           fontSize: R.F(

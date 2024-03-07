@@ -86,6 +86,7 @@ class HomeBar extends StatelessWidget {
         SizedBox(
           height: R.sH(context, 15),
         ),
+        Text("العنووووووان"),
         const SearchTextField(),
         SizedBox(
           height: R.sH(context, 10),

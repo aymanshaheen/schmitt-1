@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
@@ -41,7 +42,8 @@ class _CustomTabControllerState extends State<CustomTabController> {
 
         _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
           if (_controller.page != null) {
-            if (_controller.page!.round() == widget.service.images!.length - 1) {
+            if (_controller.page!.round() ==
+                widget.service.images!.length - 1) {
               _controller.animateToPage(0,
                   duration: const Duration(milliseconds: 800),
                   curve: Curves.easeInToLinear);
@@ -75,12 +77,13 @@ class _CustomTabControllerState extends State<CustomTabController> {
               physics: const BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return CachedNetworkImage(
-                  imageUrl: widget
-                      .service.images![index % widget.service.images!.length].url!,
+                  imageUrl: widget.service
+                      .images![index % widget.service.images!.length].url!,
                   fit: BoxFit.cover,
-                  
                   placeholder: (context, url) => CircularIndicator(
-                    color: AppColors.darkBlue,
+                    color: AppConstants.service!.category!.id == 4
+                        ? AppColors.purple
+                        : AppColors.darkBlue,
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 );
@@ -107,7 +110,9 @@ class _CustomTabControllerState extends State<CustomTabController> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: currentPage == index
-                            ? AppColors.darkBlue
+                            ? AppConstants.service!.category!.id == 4
+                                ? AppColors.purple
+                                : AppColors.darkBlue
                             : AppColors.grey1!,
                       ),
                     );

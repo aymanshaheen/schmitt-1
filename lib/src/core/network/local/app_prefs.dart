@@ -19,8 +19,7 @@ class AppPreferences {
     if (language != null && language.isNotEmpty) {
       return language;
     } else {
-      // return default lang
-      return LanguageType.english.getValue();
+      return LanguageType.arabic.getValue();
     }
   }
 

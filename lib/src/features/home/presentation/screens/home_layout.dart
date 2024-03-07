@@ -13,44 +13,50 @@ class HomeLayoutScreen extends StatefulWidget {
 
 class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
   
- 
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: R.sH(context, 10),
-        ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Padding(
-            padding: EdgeInsets.only(
-                top: R.sH(context, 10),
-                left: R.sW(context, 15),
-                right: R.sW(context, 15)),
-            child: const HomeBar(),
+    return  GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: R.sH(context, 10),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: R.sW(context, 15), right: R.sW(context, 15)),
-                    child: const SpecialOffers(),
-                  ),
-                  SizedBox(
-                    height: R.sH(context, 10),
-                  ),
-                  const MostServices(),
-                ],
-              ),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Padding(
+              padding: EdgeInsets.only(
+                  top: R.sH(context, 10),
+                  left: R.sW(context, 15),
+                  right: R.sW(context, 15)),
+              child: const HomeBar(),
             ),
-          )
-        ]),
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: R.sW(context, 15), right: R.sW(context, 15)),
+                      child: const SpecialOffers(),
+                    ),
+                    SizedBox(
+                      height: R.sH(context, 10),
+                    ),
+                     const MostServices( ),
+                     
+                  ],
+                ),
+              ),
+            )
+          ]),
+        ),
       ),
     );
   }
+
 }

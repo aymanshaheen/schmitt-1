@@ -31,13 +31,7 @@ class NotificationsScreen extends StatelessWidget {
         backgroundColor: AppColors.white,
         elevation: 0,
         leadingWidth: R.sW(context, 15),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.black,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.done_all),
@@ -88,19 +82,15 @@ class NotificationsScreen extends StatelessWidget {
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return Dismissible(
-                        key: Key(index
-                            .toString()), 
+                        key: Key(index.toString()),
                         background: Container(
                           alignment: Alignment.centerRight,
                           padding: const EdgeInsets.only(right: 20.0),
                           color: Colors.red,
                           child: const Icon(Icons.delete, color: Colors.white),
                         ),
-                        direction: DismissDirection
-                            .endToStart, 
-                        onDismissed: (direction) {
-                       
-                        },
+                        direction: DismissDirection.endToStart,
+                        onDismissed: (direction) {},
                         child: Padding(
                           padding: EdgeInsets.only(
                               left: R.sW(context, 15),

@@ -44,6 +44,7 @@ class _CarWashScreenState extends State<CarWashScreen> {
         ),
         backgroundColor: AppColors.white,
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),

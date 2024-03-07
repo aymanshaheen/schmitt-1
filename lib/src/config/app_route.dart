@@ -10,7 +10,6 @@ import 'package:schmitt/src/features/auth/presentation/screens/forget_password/r
 import 'package:schmitt/src/features/auth/presentation/screens/forget_password/verify_code_screen.dart';
 import 'package:schmitt/src/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:schmitt/src/features/auth/presentation/screens/sign_up_screen.dart';
-import 'package:schmitt/src/features/auth/presentation/screens/started_login_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/booking_date_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/all_services_screen.dart';
 import 'package:schmitt/src/features/profile/presentation/screens/my_adresses_screen.dart';
@@ -107,10 +106,6 @@ class AppRouter {
             create: (context) => OnboardingBloc(),
             child: const Onboarding(),
           ),
-        );
-      case Routes.started:
-        return FadeRoute(
-          builder: (context) => const StartedLogin(),
         );
       case Routes.login:
         return FadeRoute(
@@ -240,10 +235,10 @@ class AppRouter {
           builder: (context) => const SelectLanguageScreen(),
         );
       case Routes.allServices:
-        final arguments = settings.arguments as List<Service>;
+        final arguments = settings.arguments as String;
         return FadeRoute(
           builder: (context) => AllServicesScreen(
-            services: arguments,
+            query: arguments,
           ),
         );
       case Routes.bookingDate:
