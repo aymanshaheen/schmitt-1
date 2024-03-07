@@ -18,12 +18,55 @@ class TechRemoteDataSourceImpl implements TechRemoteDataSource {
   });
 
   @override
-  Future<OrderModel> getOrders(String status) async {
+  Future<OrderListModel> getOrders(String status) async {
     try {
       Response response = await dio.getData(
           url: Endpoints.orders,
           token: AppConstants.token,
           query: {'page': 1, 'status': status});
+      OrderListModel userModel = OrderListModel.fromJson(response.data);
+      return userModel;
+    } on DioException catch (error) {
+      debugPrint('DioException occurred: ${error.message}');
+      if (error.response != null) {
+        debugPrint('HTTP status code: ${error.response?.statusCode}');
+        debugPrint('Response data: ${error.response?.data}');
+      } else {
+        debugPrint('Response is null');
+      }
+      debugPrint('Request info: ${error.requestOptions}');
+      rethrow;
+    } catch (e) {
+      debugPrint('An unexpected error occurred: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<OrderModel> markAsStart(List<File> image, String id) async {
+    try {
+      var formData = FormData();
+      for (var file in image) {
+        if (file.existsSync()) {
+          formData.files.add(
+            MapEntry(
+              'attachments[]',
+              await MultipartFile.fromFile(file.path,
+                  filename: file.path.split('/').last),
+            ),
+          );
+        }
+      }
+
+      Response response = await dio.postData(
+        data: formData,
+        url: Endpoints.orders + '/:id',
+        token: AppConstants.token,
+        path: {'id': id},
+        query: {
+          '_method': 'put',
+        },
+      );
       OrderModel userModel = OrderModel.fromJson(response.data);
       return userModel;
     } on DioException catch (error) {
@@ -43,46 +86,28 @@ class TechRemoteDataSourceImpl implements TechRemoteDataSource {
   }
 
   @override
-  Future<OrderModel> markAsStart(File image, String id) async {
+  Future<OrderModel> markAsComplete(List<File> image, String id) async {
     try {
-      Response response = await dio.postData(
-          data: {
-            'attachments[]': image,
-          },
-          url: Endpoints.orders + '/:id',
-          token: AppConstants.token,
-          path: {'id': id},
-          query: {
-            '_method': 'put',
-          });
-      OrderModel userModel = OrderModel.fromJson(response.data);
-      return userModel;
-    } on DioException catch (error) {
-      debugPrint('DioException occurred: ${error.message}');
-      if (error.response != null) {
-        debugPrint('HTTP status code: ${error.response?.statusCode}');
-        debugPrint('Response data: ${error.response?.data}');
-      } else {
-        debugPrint('Response is null');
+      var formData = FormData();
+      for (var file in image) {
+        if (file.existsSync()) {
+          formData.files.add(
+            MapEntry(
+              'attachments[]',
+              await MultipartFile.fromFile(file.path,
+                  filename: file.path.split('/').last),
+            ),
+          );
+        }
       }
-      debugPrint('Request info: ${error.requestOptions}');
-      rethrow;
-    } catch (e) {
-      debugPrint('An unexpected error occurred: ${e.toString()}');
-      rethrow;
-    }
-  }
 
-  @override
-  Future<OrderModel> markAsComplete(File image, String id) async {
-    try {
       Response response = await dio.postData(
-          data: {
-            'attachments[]': image,
-          },
+          data: formData,
           url: Endpoints.orders + '/:id',
           token: AppConstants.token,
-          path: {'id': id},
+          path: {
+            'id': id
+          },
           query: {
             '_method': 'put',
           });

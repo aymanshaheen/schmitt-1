@@ -6,10 +6,10 @@ import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/more_info_circular_icon.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
-import 'package:schmitt/src/features/booking/presentation/cubit/booking_cubit.dart';
-import 'package:schmitt/src/features/booking/presentation/screens/cancelled_screen.dart';
-import 'package:schmitt/src/features/booking/presentation/screens/completed_screen.dart';
-import 'package:schmitt/src/features/booking/presentation/screens/upcoming_screen.dart';
+import 'package:schmitt/src/features/orders/presentation/cubit/booking_cubit.dart';
+import 'package:schmitt/src/features/orders/presentation/screens/cancelled_screen.dart';
+import 'package:schmitt/src/features/orders/presentation/screens/completed_screen.dart';
+import 'package:schmitt/src/features/orders/presentation/screens/upcoming_screen.dart';
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({super.key});

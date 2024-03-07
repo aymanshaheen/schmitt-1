@@ -13,11 +13,13 @@ ThemeData getThemeDataLight() {
     highlightColor: Colors.transparent,
     canvasColor: AppColorsLight.white,
     fontFamily: 'Urbanist',
-    colorScheme:  ColorScheme.light(
+    colorScheme: ColorScheme.light(
       background: Colors.white,
       primary: AppColorsLight.primary,
-      
     ), // cardview theme
+    textSelectionTheme: TextSelectionThemeData(
+        cursorColor: AppColorsLight.black,selectionHandleColor: AppColorsLight.black,
+        selectionColor: AppColorsLight.grey,),
     cardTheme: CardTheme(
         color: AppColorsLight.white,
         shadowColor: AppColorsLight.grey,
@@ -25,6 +27,7 @@ ThemeData getThemeDataLight() {
     // app bar theme
     appBarTheme: AppBarTheme(
         centerTitle: false,
+        
         color: AppColorsLight.primary,
         elevation: AppSize.s4,
         shadowColor: AppColorsLight.primary,

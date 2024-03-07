@@ -1,4 +1,3 @@
-import 'package:agora_uikit/agora_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/config/agora_config.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
@@ -16,7 +15,7 @@ class CallScreen extends StatefulWidget {
 }
 
 class _CallScreenState extends State<CallScreen> {
-  AgoraClient? client;
+/*  AgoraClient? client;
   String baseUrl = '';
 
   @override
@@ -34,21 +33,21 @@ class _CallScreenState extends State<CallScreen> {
   void initAgora() async {
     await client!.initialize();
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: client == null
-          ? CircularIndicator(
+      body: /*client == null
+          ?*/ CircularIndicator(
               color: AppColors.darkBlue,
             )
-          : SafeArea(
+          /*: SafeArea(
               child: Stack(
               children: [
                 AgoraVideoViewer(client: client!),
                 AgoraVideoButtons(client: client!),
               ],
-            )),
+            )),*/
     );
   }
 }

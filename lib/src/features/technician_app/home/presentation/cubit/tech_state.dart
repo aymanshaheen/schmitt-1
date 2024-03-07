@@ -9,6 +9,13 @@ class TechInitial extends TechState {
   List<Object> get props => [];
 }
 
+class TechNavigationBarChanged extends TechState {
+  final int index;
+  const TechNavigationBarChanged(this.index);
+  @override
+  List<Object> get props => [index];
+}
+
 class OrderLoading extends TechState {
   @override
   List<Object> get props => [];
@@ -16,9 +23,9 @@ class OrderLoading extends TechState {
 
 class OrderSuccess extends TechState {
   const OrderSuccess(this.user);
-  final OrderEntity user;
+  final List<Order>? user;
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [user!];
 }
 
 class OrderFailure extends TechState {

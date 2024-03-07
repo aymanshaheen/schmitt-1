@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
-import 'package:schmitt/src/core/widgets/more_info_circular_icon.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
@@ -32,6 +31,7 @@ class _ServicetypeScreenState extends State<ServicetypeScreen> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         centerTitle: false,
+        automaticallyImplyLeading: false,
         title: Text(
           widget.serviceName,
           style: TextStyle(
@@ -43,21 +43,7 @@ class _ServicetypeScreenState extends State<ServicetypeScreen> {
         backgroundColor: AppColors.white,
         elevation: 0,
         leadingWidth: R.sW(context, 15),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.black,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        actions: [
-          Container(
-              margin: EdgeInsets.symmetric(vertical: R.sH(context, 17)),
-              child: const MoreInfoIcon()),
-          SizedBox(
-            width: R.sW(context, 15),
-          )
-        ],
+       
       ),
       body: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {},

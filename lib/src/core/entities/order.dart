@@ -23,11 +23,11 @@ class OrderEntity extends Equatable {
 }
 
 class Order extends Equatable {
-  final int? id;
+  final num? id;
   final String? name;
-  final int? orderNum;
-  final int? taxPercentage;
-  final int? price;
+  final num? orderNum;
+  final num? taxPercentage;
+  final num? price;
   final String? status;
   final String? statusLocaled;
   final String? type;
@@ -37,6 +37,7 @@ class Order extends Equatable {
   final Package? package;
   final List<Service>? services;
   final Customer? customer;
+  final Customer? serviceProvider;
   final String? startAt;
   final String? createdAt;
   final String? createdAtFormatted;
@@ -49,6 +50,7 @@ class Order extends Equatable {
     this.taxPercentage,
     this.price,
     this.status,
+    this.serviceProvider,
     this.statusLocaled,
     this.type,
     this.car,
@@ -77,6 +79,7 @@ class Order extends Equatable {
         coupon,
         address,
         package,
+        serviceProvider,
         services,
         customer,
         startAt,

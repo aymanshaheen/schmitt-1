@@ -41,11 +41,11 @@ class OrderModel extends OrderEntity {
 
 class OrderDataModel extends Order {
   OrderDataModel({
-    int? id,
+    num? id,
     String? name,
-    int? orderNum,
-    int? taxPercentage,
-    int? price,
+    num? orderNum,
+    num? taxPercentage,
+    num? price,
     String? status,
     String? statusLocaled,
     String? type,
@@ -55,6 +55,7 @@ class OrderDataModel extends Order {
     Package? package,
     List<Service>? services,
     Customer? customer,
+    Customer? serviceProvider,
     String? startAt,
     String? createdAt,
     String? createdAtFormatted,
@@ -73,7 +74,8 @@ class OrderDataModel extends Order {
           address: address ?? const Address(),
           package: package ?? const Package(),
           services: services ?? [],
-          customer: customer ?? const Customer(),
+          customer: customer ,
+          serviceProvider: serviceProvider,
           startAt: startAt ?? '',
           createdAt: createdAt ?? '',
           createdAtFormatted: createdAtFormatted ?? '',
@@ -107,7 +109,10 @@ class OrderDataModel extends Order {
           : [],
       customer: json['customer'] != null
           ? CustomerModel.fromJson(json['customer'])
-          : const Customer(),
+          : null,
+      serviceProvider: json['service_provider'] != null
+          ? CustomerModel.fromJson(json['service_provider'])
+          : null,
       startAt: json['start_at'] ?? '',
       createdAt: json['created_at'] ?? '',
       createdAtFormatted: json['created_at_formatted'] ?? '',

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/container_injector.dart';
+import 'package:schmitt/src/core/entities/order.dart';
 import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/widgets/page_transition.dart';
 import 'package:schmitt/src/features/auth/presentation/screens/forget_password/forgot_password_screen.dart';
@@ -7,16 +10,17 @@ import 'package:schmitt/src/features/auth/presentation/screens/forget_password/r
 import 'package:schmitt/src/features/auth/presentation/screens/forget_password/verify_code_screen.dart';
 import 'package:schmitt/src/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:schmitt/src/features/auth/presentation/screens/sign_up_screen.dart';
-import 'package:schmitt/src/features/auth/presentation/screens/started_login_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/booking_date_screen.dart';
-import 'package:schmitt/src/features/booking_details/presentation/screens/location_layout_screen.dart';
+import 'package:schmitt/src/features/home/presentation/screens/all_services_screen.dart';
+import 'package:schmitt/src/features/profile/presentation/screens/my_adresses_screen.dart';
+import 'package:schmitt/src/features/services/presentation/screens/map_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/service_type_screen.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
 import 'package:schmitt/src/features/services/presentation/screens/car_wash_details_screen.dart';
-import 'package:schmitt/src/features/services/presentation/screens/car_wash_screen.dart';
+import 'package:schmitt/src/features/profile/presentation/screens/car_wash_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/select_rooms_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/service_order_screen.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
 import 'package:schmitt/src/features/services/presentation/screens/service_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/book_mark_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/home_screen.dart';
@@ -39,10 +43,12 @@ import 'package:schmitt/src/features/profile/presentation/screens/security_scree
 import 'package:schmitt/src/features/profile/presentation/screens/select_language_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/submit_order_screen.dart';
 import 'package:schmitt/src/features/spalsh_screen.dart';
+import 'package:schmitt/src/features/technician_app/home/presentation/screens/camera_order_screen.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/screens/home_layout.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/screens/home_screen.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/screens/order_service.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/screens/order_settings_screen.dart';
+import 'package:schmitt/src/features/technician_app/home/presentation/screens/start_order_screen.dart';
 
 class Routes {
   static const String home = "home";
@@ -82,6 +88,9 @@ class Routes {
   static const String serviceType = "serviceType";
   static const String carWashServiceDetails = "carWashServiceDetails";
   static const String carWash = "carWash";
+  static const String myAddress = "myAddress";
+  static const String startOrder = "startOrder";
+  static const String cameraOrderScreen = "cameraOrderScreen";
 }
 
 class AppRouter {
@@ -97,10 +106,6 @@ class AppRouter {
             create: (context) => OnboardingBloc(),
             child: const Onboarding(),
           ),
-        );
-      case Routes.started:
-        return FadeRoute(
-          builder: (context) => const StartedLogin(),
         );
       case Routes.login:
         return FadeRoute(
@@ -229,18 +234,26 @@ class AppRouter {
         return FadeRoute(
           builder: (context) => const SelectLanguageScreen(),
         );
-      /*  case Routes.allServices:
+      case Routes.allServices:
+        final arguments = settings.arguments as String;
         return FadeRoute(
-          builder: (context) => const AllServicesScreen(),
-        );*/
+          builder: (context) => AllServicesScreen(
+            query: arguments,
+          ),
+        );
       case Routes.bookingDate:
         return FadeRoute(
           builder: (context) => const BookingDate(),
         );
-     
+
       case Routes.location:
+        final arguments = settings.arguments as bool;
         return FadeRoute(
-          builder: (context) => const MapScreen(),
+          builder: (context) => MapScreen(isEdit: arguments),
+        );
+      case Routes.myAddress:
+        return FadeRoute(
+          builder: (context) => const MyAddressesScreen(),
         );
       case Routes.cameraRoute:
         final arguments = settings.arguments as Map<String, dynamic>;
@@ -281,8 +294,21 @@ class AppRouter {
           builder: (context) => const OrderSettingScreen(),
         );
       case Routes.techOrderService:
+        final arguments = settings.arguments as Order;
         return FadeRoute(
-          builder: (context) => const OrderServiceScreen(),
+          builder: (context) => OrderServiceScreen(order: arguments),
+        );
+      case Routes.startOrder:
+        final arguments = settings.arguments as Order;
+        return FadeRoute(
+          builder: (context) => StartOrderScreen(order: arguments),
+        );
+      case Routes.cameraOrderScreen:
+        final images = settings.arguments as List<File>;
+        return FadeRoute(
+          builder: (context) => CameraOrderScreen(
+            images: images,
+          ),
         );
     }
 

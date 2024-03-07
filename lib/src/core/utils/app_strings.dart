@@ -45,7 +45,7 @@ class AppStrings {
   static const String logout = "logout";
   static const String hello = "Hello";
   static const String published = 'published';
-  static const String technicianAssigned = 'technician_assigned';
+  static const String technicianAssigned = 'service_provider_assigned';
   static const String starting = 'starting';
   static const String inProgress = 'in_progress';
   static const String completed = 'completed';
@@ -73,5 +73,5 @@ class AppStrings {
   static const String three = "3";
   static const String four = "4";
   static const String five = "5";
-  
+ 
 }

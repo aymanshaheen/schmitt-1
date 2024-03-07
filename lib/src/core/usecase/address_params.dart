@@ -14,7 +14,7 @@ class AddressParams extends Equatable {
   });
   Map<String, dynamic> toJson() {
     return {
-      'password': name,
+      'name': name,
       'address': address,
       'location_latitude': locationLatitude,
       'location_longitude': locatiogLongitude,

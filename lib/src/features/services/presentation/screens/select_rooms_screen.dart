@@ -9,8 +9,8 @@ import 'package:schmitt/src/core/widgets/full_rounded_container.dart';
 import 'package:schmitt/src/core/widgets/more_info_circular_icon.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/core/widgets/snakbar_builder.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_state.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_state.dart';
 
 class SelectRoomsScreen extends StatelessWidget {
   const SelectRoomsScreen({super.key});
@@ -68,7 +68,6 @@ class SelectRoomsScreen extends StatelessWidget {
                     horizontal: R.sW(context, 30), vertical: R.sH(context, 20)),
                 child: Column(
                   children: [
-                    
                     ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       itemCount: AppConstants.service!.category!.id == 4
@@ -120,7 +119,10 @@ class SelectRoomsScreen extends StatelessWidget {
                                     mini: true,
                                     elevation: 0,
                                     onPressed: () {
-                                      serviceCubit.incrementChilds(index);
+                                      AppConstants.service!.category!.id == 4
+                                          ? serviceCubit.incrementChilds(index)
+                                          : serviceCubit
+                                              .incrementRoomCount(index);
                                     },
                                     child:
                                         Icon(Icons.add, color: AppColors.black),
@@ -142,7 +144,11 @@ class SelectRoomsScreen extends StatelessWidget {
                                     mini: true,
                                     elevation: 0,
                                     onPressed: () {
-                                      serviceCubit.decrementRoomChild(index);
+                                      AppConstants.service!.category!.id == 4
+                                          ? serviceCubit
+                                              .decrementRoomChild(index)
+                                          : serviceCubit
+                                              .decrementRoomCount(index);
                                     },
                                     child: Icon(Icons.remove,
                                         color: AppColors.black),

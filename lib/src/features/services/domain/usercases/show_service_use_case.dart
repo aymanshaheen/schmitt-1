@@ -6,7 +6,7 @@ class ShowServicesUseCase {
   ShowServicesUseCase({required this.repository});
   final ServiceRepository repository;
 
-  ResultFuture<Service> call(int page, String id) {
+  ResultFuture<ServiceShowEntity> call(int page, String id) {
     return repository.getService(page, id);
   }
 }

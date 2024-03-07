@@ -15,10 +15,15 @@ abstract class ServiceRepository {
   ResultFuture<String> addReview(String id, String review, String rating);
   ResultFuture<AddressEntity> getAdresses();
   ResultFuture<Address> createAddress(AddressParams params);
-  ResultFuture<Service> getService(int id, String addressId,);
+  ResultFuture<ServiceShowEntity> getService(int id, String addressId,);
   ResultFuture<ColorEntity> getColors(String addressId,);
   ResultFuture<CompanyEntity> getCompanies(int id, String addressId,);
   ResultFuture<OrderEntity> createOrder(OrderParams params,String addressId);
   ResultFuture<CarEntity> getCars(int page);
+  ResultFuture<CarShowEntity> showCar(int id);
   ResultVoid createCar(CarParams params);
+  ResultVoid updateCar(CarParams params,int id);
+  ResultVoid deleteCar(int id);
+  ResultVoid updateAddress(AddressParams params,int id);
+  ResultVoid deleteAddress(int id);
 }

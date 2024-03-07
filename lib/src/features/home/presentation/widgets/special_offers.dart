@@ -8,7 +8,6 @@ import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
 import 'package:schmitt/src/features/home/presentation/widgets/custom_tab_bar.dart';
-import 'package:schmitt/src/features/home/presentation/widgets/home_text_tile.dart';
 import 'package:schmitt/src/features/home/presentation/widgets/service_list_tile_widget.dart';
 
 class SpecialOffers extends StatelessWidget {
@@ -29,10 +28,12 @@ class SpecialOffers extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HomeTextTile(
-              rightText: 'see_all',
-              leftText: 'special_offers',
-              onTab: () {},
+            Text(
+              'special_offers'.tr(),
+              style: TextStyle(
+                fontSize: R.F(context, 20),
+                fontWeight: FontWeight.w700,
+              ),
             ),
             SizedBox(
               height: R.sH(context, 15),

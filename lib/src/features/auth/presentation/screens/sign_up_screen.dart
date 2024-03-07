@@ -6,9 +6,11 @@ import 'package:intl_phone_field/phone_number.dart';
 import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/core/error/response_status.dart';
 import 'package:schmitt/src/core/network/local/app_prefs.dart';
+import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/app_image.dart';
+import 'package:schmitt/src/core/widgets/exit_bottom_sheet.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/core/widgets/snakbar_builder.dart';
 import 'package:schmitt/src/features/auth/domain/usercases/sign_up_usecase.dart';
@@ -20,6 +22,7 @@ import 'package:schmitt/src/features/auth/presentation/widgets/custom_remember_m
 import 'package:schmitt/src/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:schmitt/src/features/auth/presentation/widgets/sign_in_custom_row.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
+import 'package:schmitt/src/features/technician_app/home/presentation/cubit/tech_cubit.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -47,7 +50,19 @@ class _SignUpViewState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) async {
+            if (didPop) {
+              return;
+            }
+            final shouldClose = await showModalBottomSheet(
+                context: context,
+                builder: (context) => const ExitBottomSheet());
+
+            return shouldClose ?? false;
+          },
+          child: Scaffold(
       body: BlocConsumer<CredentialCubit, CredentialState>(
         listener: (context, credentialState) {
           if (credentialState is CredentialFailure &&
@@ -64,10 +79,12 @@ class _SignUpViewState extends State<SignUpScreen> {
               appPreferences?.saveData(
                   key: 'token', value: credentialState.user.token);
               AppConstants.token = credentialState.user.token!;
-               Future.wait([
-                HomeCubit.get(context).getSlides("15"),
-                HomeCubit.get(context).getServices(1, "15",'0'),
-              ]);
+             AppConstants.profile!.localedType != "مزود الخدمة"
+              ? Future.wait([
+                  HomeCubit.get(context).getSlides("15"),
+                  HomeCubit.get(context).getServices(1, "15", "0"),
+                ])
+              : TechCubit.get(context).getOrders(AppStrings.technicianAssigned);
               Navigator.pushReplacementNamed(context, Routes.home);
             } else {
               buildSnakBar(
@@ -91,6 +108,7 @@ class _SignUpViewState extends State<SignUpScreen> {
           return signUpWidget();
         },
       ),
+          )
     );
   }
 

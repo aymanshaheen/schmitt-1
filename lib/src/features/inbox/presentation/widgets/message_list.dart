@@ -84,7 +84,7 @@ class _MessageListWidgetState extends State<MessageListWidget> {
                 return Column(
                   children: [
                     if (index == 0 ||
-                        !DateConverter.isSameDay(
+                        !ConverterDate.isSameDay(
                           message.timeSent,
                           snapshot.data![index - 1].timeSent,
                         ))

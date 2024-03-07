@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/utils/app_image.dart';
+import 'package:schmitt/src/core/widgets/exit_bottom_sheet.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/auth/presentation/widgets/custom_button.dart';
 import 'package:schmitt/src/features/auth/presentation/widgets/custom_divider_row.dart';
@@ -14,7 +15,19 @@ class StartedLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) async {
+            if (didPop) {
+              return;
+            }
+            final shouldClose = await showModalBottomSheet(
+                context: context,
+                builder: (context) => const ExitBottomSheet());
+
+            return shouldClose ?? false;
+          },
+          child: Scaffold(
       body: Padding(
         padding: EdgeInsets.all(R.sW(context, 20)),
         child: Column(
@@ -159,6 +172,7 @@ class StartedLogin extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

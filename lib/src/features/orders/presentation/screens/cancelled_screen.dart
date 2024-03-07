@@ -2,18 +2,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
-import 'package:schmitt/src/features/booking/presentation/widgets/expandeble_map.dart';
-import 'package:schmitt/src/features/booking/presentation/widgets/header_exbanded.dart';
-import 'package:schmitt/src/features/booking/presentation/widgets/main_header.dart';
+import 'package:schmitt/src/features/orders/presentation/widgets/expandeble_map.dart';
+import 'package:schmitt/src/features/orders/presentation/widgets/header_exbanded.dart';
+import 'package:schmitt/src/features/orders/presentation/widgets/main_header.dart';
 
-class CompletedScreen extends StatefulWidget {
-  const CompletedScreen({super.key});
+class CancelledScreen extends StatefulWidget {
+  const CancelledScreen({super.key});
 
   @override
-  State<CompletedScreen> createState() => _CompletedScreenState();
+  State<CancelledScreen> createState() => _CancelledScreenState();
 }
 
-class _CompletedScreenState extends State<CompletedScreen> {
+class _CancelledScreenState extends State<CancelledScreen> {
   bool isExpanded = false;
   @override
   Widget build(BuildContext context) {
@@ -44,15 +44,15 @@ class _CompletedScreenState extends State<CompletedScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AnimatedCrossFade(
+                   /* AnimatedCrossFade(
                       duration: const Duration(milliseconds: 400),
                       firstChild: MainHeader(
-                        title: "completed".tr(),
-                        color: AppColors.green,
+                        title: "cancelled".tr(),
+                        color: AppColors.error,
                       ),
                       secondChild: HeaderExpanded(
-                        title: "completed".tr(),
-                        color: AppColors.green,onTap: () {
+                        title: "cancelled".tr(),
+                        color: AppColors.error,onTap: () {
                            setState(() {
                             isExpanded = !isExpanded;
                           });
@@ -94,7 +94,7 @@ class _CompletedScreenState extends State<CompletedScreen> {
                           size: R.sW(context, 22),
                         ),
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               ),

@@ -89,6 +89,7 @@ class _BookMarkScreenState extends State<BookMarkScreen>
           appBar: AppBar(
             centerTitle: false,
             leadingWidth: R.sW(context, 15),
+            automaticallyImplyLeading: false,
             title: Text(
               'bookmarks'.tr(),
               style: TextStyle(
@@ -99,17 +100,7 @@ class _BookMarkScreenState extends State<BookMarkScreen>
             ),
             backgroundColor: AppColors.white,
             elevation: 0,
-            leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: AppColors.black,
-                ),
-                onPressed: () {
-                  HomeCubit.get(context).tabbedOffer = 0;
-                  HomeCubit.get(context)
-                      .getServices(1, AppConstants.addressID, AppStrings.allId);
-                  Navigator.pop(context);
-                }),
+           
             actions: [
               Container(
                   margin: EdgeInsets.symmetric(vertical: R.sH(context, 17)),
@@ -180,7 +171,7 @@ class _BookMarkScreenState extends State<BookMarkScreen>
                                     onTap: () => Navigator.pushNamed(
                                         context, Routes.service,
                                         arguments: HomeCubit.get(context)
-                                            .services![index]),
+                                            .services[index]),
                                     child: FavouriteItem(
                                       bookMark: HomeCubit.get(context)
                                           .bookmarks![index],

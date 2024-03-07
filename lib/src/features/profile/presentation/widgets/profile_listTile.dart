@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 
@@ -29,7 +30,9 @@ class ProfileListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: R.sH(context, 50),
-      width: R.W(context) * 0.95,
+      width: AppConstants.profile!.localedType != "مزود الخدمة"
+          ? R.W(context) * 0.95
+          : R.W(context) * 0.84,
       child: GestureDetector(
         onTap: onTap,
         child: ListTile(
@@ -49,13 +52,14 @@ class ProfileListTile extends StatelessWidget {
               fontWeight: FontWeight.w600,
               height: 0.08,
               letterSpacing: 0.20,
-              fontFamily: 'Urbanist',
             ),
           ),
           trailing: isTrailing
               ? Icon(
                   Icons.arrow_forward_ios,
-                  color: AppColors.black,size: R.sW(context, 20),)
+                  color: AppColors.black,
+                  size: R.sW(context, 20),
+                )
               : modeSwitch
                   ? Switch(
                       value: switchModeValue,

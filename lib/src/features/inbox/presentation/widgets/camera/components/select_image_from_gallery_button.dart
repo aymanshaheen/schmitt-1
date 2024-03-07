@@ -15,7 +15,7 @@ class SelectImageFromGalleryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        selectImageFromGallery(context);
+      //  selectImageFromGallery(context);
       },
       child: const CircleAvatar(
         radius: 30,
@@ -27,7 +27,7 @@ class SelectImageFromGalleryButton extends StatelessWidget {
       ),
     );
   }
-
+/*
   void selectImageFromGallery(BuildContext context) async {
     File? image = await pickImageFromGallery(context);
     //if (!mounted) return;
@@ -42,5 +42,5 @@ class SelectImageFromGalleryButton extends StatelessWidget {
         },
       );
     }
-  }
+  }*/
 }

@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
@@ -15,7 +14,7 @@ class ServiceItem extends StatefulWidget {
 }
 
 class _ServiceItemState extends State<ServiceItem> {
-  bool isFavourite = false;
+  bool? isFavourite;
 
   @override
   void initState() {
@@ -57,10 +56,10 @@ class _ServiceItemState extends State<ServiceItem> {
             ),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               SizedBox(
-                height: R.sH(context, 5),
+                height: R.sH(context, 10),
               ),
               Text(
-                widget.services.title!,
+                widget.services.title,
                 style: TextStyle(
                   color: AppColors.homeBlackColor,
                   fontSize: R.F(context, 16),
@@ -68,7 +67,7 @@ class _ServiceItemState extends State<ServiceItem> {
                 ),
               ),
               SizedBox(
-                height: R.sH(context, 5),
+                height: R.sH(context, 15),
               ),
               Text(
                 "\$${widget.services.price}",
@@ -78,32 +77,21 @@ class _ServiceItemState extends State<ServiceItem> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(
-                height: R.sH(context, 5),
-              ),
-              Text(
-                "7,000 ${"reviews".tr()}",
-                style: TextStyle(
-                  color: AppColors.grey,
-                  fontSize: R.F(context, 12),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
             ]),
             const Spacer(),
             GestureDetector(
               onTap: () {
-                isFavourite
+                isFavourite!
                     ? HomeCubit.get(context)
                         .deleteBookMark(widget.services.id.toString())
                     : HomeCubit.get(context)
                         .addBookMark(widget.services.id.toString());
                 setState(() {
-                  isFavourite = !isFavourite;
+                  isFavourite = !isFavourite!;
                 });
               },
               child: Icon(
-                !isFavourite
+                !isFavourite!
                     ? Icons.bookmark_outline_rounded
                     : Icons.bookmark_rounded,
                 color: AppColors.darkBlue,

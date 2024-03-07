@@ -8,7 +8,7 @@ class GetOrdersUseCase {
   final TechRepository repository;
 
 
-  ResultFuture<OrderEntity> call(String status) {
+  ResultFuture<OrderListEntity> call(String status) {
     return repository.getOrders(status);
   }
 }

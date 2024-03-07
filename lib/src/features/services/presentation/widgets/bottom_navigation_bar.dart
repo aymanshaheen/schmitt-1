@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 
@@ -20,11 +21,10 @@ class BottomServiceNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-          right: R.sW(context, 10),
-          left: R.sW(context, 10),
-          bottom: R.sH(context, 15),
-          top: R.sH(context, 10
-          ),
+        right: R.sW(context, 10),
+        left: R.sW(context, 10),
+        bottom: R.sH(context, 15),
+        top: R.sH(context, 10),
       ),
       height: R.sH(context, 70),
       color: AppColors.white,
@@ -38,13 +38,15 @@ class BottomServiceNavigationBar extends StatelessWidget {
               height: R.sH(context, 50),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: AppColors.whiteBlue,
+                color: AppConstants.service!.category!.id == 4
+                    ? AppColors.lightPurble
+                    : AppColors.whiteBlue,
               ),
               child: Center(
                 child: Text(
                   text1,
                   style: TextStyle(
-                    color: AppColors.darkBlue,
+                    color: AppColors.white,
                     fontSize: R.F(context, 16),
                     fontWeight: FontWeight.w600,
                   ),
@@ -59,7 +61,9 @@ class BottomServiceNavigationBar extends StatelessWidget {
               height: R.sH(context, 50),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: AppColors.darkBlue,
+                color: AppConstants.service!.category!.id == 4
+                    ? AppColors.purple
+                    : AppColors.darkBlue,
               ),
               child: Center(
                 child: Text(

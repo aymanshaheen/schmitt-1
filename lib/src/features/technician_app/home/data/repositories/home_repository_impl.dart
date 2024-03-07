@@ -23,7 +23,7 @@ class TechRepositoryImpl implements TechRepository {
   });
 
   @override
-  ResultFuture<OrderEntity> getOrders(String status) async {
+  ResultFuture<OrderListEntity> getOrders(String status) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.getOrders(status);
@@ -39,7 +39,7 @@ class TechRepositoryImpl implements TechRepository {
   }
 
   @override
-  ResultFuture<OrderEntity> markAsStart(File image, String id) async {
+  ResultFuture<OrderEntity> markAsStart(List<File>  image, String id) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.markAsStart(image, id);
@@ -55,7 +55,7 @@ class TechRepositoryImpl implements TechRepository {
   }
 
   @override
-  ResultFuture<OrderEntity> markAsComplete(File image, String id) async {
+  ResultFuture<OrderEntity> markAsComplete(List<File>  image, String id) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.markAsComplete(image, id);

@@ -7,12 +7,12 @@ import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
-import 'package:schmitt/src/core/widgets/more_info_circular_icon.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
+import 'package:schmitt/src/core/widgets/snakbar_builder.dart';
 import 'package:schmitt/src/features/auth/presentation/widgets/custom_login_button.dart';
 import 'package:schmitt/src/features/services/domain/entities/review.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_cubit.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service_state.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceReview extends StatefulWidget {
@@ -46,6 +46,14 @@ class _ServiceReviewState extends State<ServiceReview>
   }
 
   @override
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     void toggleLikeReview(int index) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -69,18 +77,21 @@ class _ServiceReviewState extends State<ServiceReview>
     }
 
     Future<void> createReview() async {
-      ServiceCubit.get(context).addReview(
-          id: AppConstants.service!.id.toString(),
-          review: _reviewController.text,
-          rating: _rating.toString());
-    }
-
-    @override
-    void dispose() {
-      for (var controller in _controllers) {
-        controller.dispose();
+      if (_reviewController.text.isNotEmpty && _rating != 0) {
+        Future.wait([
+          ServiceCubit.get(context).addReview(
+              id: AppConstants.service!.id.toString(),
+              review: _reviewController.text,
+              rating: _rating.toString()),
+          ServiceCubit.get(context)
+              .getServices(1, AppConstants.service!.id.toString())
+        ]);
+      } else {
+        buildSnakBar(
+            context: context,
+            message: "please_add_review_or_rating".tr(),
+            color: AppColors.error);
       }
-      super.dispose();
     }
 
     return BlocConsumer<ServiceCubit, ServiceStates>(
@@ -93,7 +104,9 @@ class _ServiceReviewState extends State<ServiceReview>
       if (state is GetReviwesLoading) {
         return Center(
             child: CircularIndicator(
-          color: AppColors.darkBlue,
+          color: AppConstants.service!.category!.id == 4
+              ? AppColors.purple
+              : AppColors.darkBlue,
         ));
       }
       return Column(
@@ -127,7 +140,9 @@ class _ServiceReviewState extends State<ServiceReview>
                               imageUrl: review.author!.avatar!,
                               fit: BoxFit.cover,
                               placeholder: (context, url) => CircularIndicator(
-                                color: AppColors.darkBlue,
+                                color:  AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            :AppColors.darkBlue,
                               ),
                               errorWidget: (context, url, error) =>
                                   const Icon(Icons.error),
@@ -145,7 +160,6 @@ class _ServiceReviewState extends State<ServiceReview>
                             ),
                           ),
                           const Spacer(),
-                          const MoreInfoIcon(),
                           SizedBox(
                             width: R.sW(context, 10),
                           ),
@@ -156,7 +170,9 @@ class _ServiceReviewState extends State<ServiceReview>
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
                                   border: Border.all(
-                                    color: AppColors.darkBlue,
+                                    color: AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            : AppColors.darkBlue,
                                     width: R.sW(context, 2),
                                   ),
                                   color: AppColors.white),
@@ -165,7 +181,9 @@ class _ServiceReviewState extends State<ServiceReview>
                                   children: [
                                     Icon(
                                       Icons.star,
-                                      color: AppColors.darkBlue,
+                                      color: AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            : AppColors.darkBlue,
                                       size: R.sW(context, 16),
                                     ),
                                     SizedBox(
@@ -174,7 +192,9 @@ class _ServiceReviewState extends State<ServiceReview>
                                     Text(
                                       review.rating!.toString(),
                                       style: TextStyle(
-                                        color: AppColors.darkBlue,
+                                        color:  AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            :AppColors.darkBlue,
                                         fontSize: R.F(context, 14),
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -192,7 +212,9 @@ class _ServiceReviewState extends State<ServiceReview>
                         expandText: 'Read more',
                         collapseText: 'show less',
                         maxLines: 4,
-                        linkColor: AppColors.darkBlue,
+                        linkColor: AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            : AppColors.darkBlue,
                         style: TextStyle(
                           color: AppColors.black,
                           fontSize: R.F(context, 16),
@@ -217,7 +239,9 @@ class _ServiceReviewState extends State<ServiceReview>
                                       : Icons.favorite_rounded,
                                   color: !review.isLiked
                                       ? AppColors.black
-                                      : AppColors.pink,
+                                      : AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            : AppColors.darkBlue,
                                   size: R.sW(context, 25),
                                 ),
                               ),
@@ -257,60 +281,66 @@ class _ServiceReviewState extends State<ServiceReview>
               );
             },
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(5, (index) {
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _rating = index + 1;
-                    _controllers[index].forward(from: 0.0);
-                  });
-                },
-                child: SizedBox(
-                  width: 30.0,
-                  height: 30.0,
-                  child: AnimatedBuilder(
-                    animation: _controllers[index],
-                    builder: (_, __) {
-                      return Icon(
-                        Icons.star,
-                        color: _rating > index
-                            ? AppColors.darkBlue
-                            : AppColors.grey1,
-                        size: 30.0 +
-                            (10.0 *
-                                _controllers[index]
-                                    .value), // Set a base size of 20.0
-                      );
-                    },
-                  ),
+          ServiceCubit.get(context).service!.authorize!.review!
+              ? const SizedBox.shrink()
+              : Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(5, (index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _rating = index + 1;
+                              _controllers[index].forward(from: 0.0);
+                            });
+                          },
+                          child: SizedBox(
+                            width: 30.0,
+                            height: 30.0,
+                            child: AnimatedBuilder(
+                              animation: _controllers[index],
+                              builder: (_, __) {
+                                return Icon(
+                                  Icons.star,
+                                  color: _rating > index
+                                      ?  AppConstants.service!.category!.id == 4
+                                            ? AppColors.purple
+                                            :AppColors.darkBlue
+                                      : AppColors.grey1,
+                                  size:
+                                      30.0 + (10.0 * _controllers[index].value),
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                    SizedBox(
+                      height: R.sH(context, 20),
+                    ),
+                    TextField(
+                      controller: _reviewController,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: 'write_review'.tr(),
+                      ),
+                      maxLines: 5,
+                    ),
+                    SizedBox(
+                      height: R.sH(context, 20),
+                    ),
+                    CustomLoginButton(
+                      text: "add_review".tr(),
+                      onPressed: createReview,
+                      isLoading: state is AddReviweLoading,
+                    ),
+                    SizedBox(
+                      height: R.sH(context, 20),
+                    ),
+                  ],
                 ),
-              );
-            }),
-          ),
-          SizedBox(
-            height: R.sH(context, 20),
-          ),
-          TextField(
-            controller: _reviewController,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: 'write_review'.tr(),
-            ),
-            maxLines: 5,
-          ),
-          SizedBox(
-            height: R.sH(context, 20),
-          ),
-          CustomLoginButton(
-            text: "add_review".tr(),
-            onPressed: createReview,
-            isLoading: state is AddReviweLoading,
-          ),
-          SizedBox(
-            height: R.sH(context, 20),
-          ),
         ],
       );
     });

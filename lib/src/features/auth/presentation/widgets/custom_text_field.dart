@@ -10,7 +10,8 @@ class CustomTextField extends StatefulWidget {
   final bool isPassword;
   final TextInputType keyboardType;
 
-  const CustomTextField({super.key, 
+  const CustomTextField({
+    super.key,
     required this.labelText,
     required this.prefixIcon,
     required this.validator,
@@ -28,10 +29,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      cursorColor: AppColors.darkBlue,
+      cursorWidth: R.sW(context, 2),
+      mouseCursor: MouseCursor.defer,
       controller: widget.controller,
+      
       obscureText: obscureText,
       style: TextStyle(
-        fontSize: R.F(context, 14),
+        fontSize: R.F(context, 15),
       ),
       decoration: InputDecoration(
         labelText: widget.labelText,
@@ -39,6 +44,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         prefixIcon: Icon(widget.prefixIcon, color: AppColors.grey, size: 20),
         fillColor: AppColors.grey1,
         filled: true,
+        border: InputBorder.none,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(10.0),
@@ -48,6 +54,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             color: AppColors.darkBlue,
           ),
         ),
+        hoverColor: Colors.transparent,
         suffixIcon: widget.isPassword
             ? IconButton(
                 icon: Icon(

@@ -7,7 +7,10 @@ import 'package:schmitt/src/core/utils/app_image.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/full_rounded_container.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
+import 'package:schmitt/src/features/profile/presentation/widgets/add_car_bottom_sheet.dart';
+import 'package:schmitt/src/features/profile/presentation/widgets/bottom_sheet_custom.dart';
 import 'package:schmitt/src/features/services/domain/entities/car.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
 
 class CarItem extends StatefulWidget {
   final CarDataEntity services;
@@ -92,17 +95,48 @@ class _CarItemState extends State<CarItem> {
                     ),
                     Row(
                       children: [
-                        SvgPicture.asset(AppImage.edit,
-                            fit: BoxFit.cover,
-                            width: R.sW(context, 20),
-                            height: R.sH(context, 20)),
-                        SizedBox(
-                          width: R.sW(context, 10),
+                        InkWell(
+                          onTap: () {
+                            ServiceCubit.get(context).car = null;
+                            AppConstants.selectEdit = widget.services.id!;
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context) => SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.7,
+                                child: const MyBottomSheet(
+                                  isEdit: true,
+                                ),
+                              ),
+                            );
+                          },
+                          child: SvgPicture.asset(AppImage.edit,
+                              fit: BoxFit.cover,
+                              width: R.sW(context, 25),
+                              height: R.sH(context, 25)),
                         ),
-                        Icon(
-                          Icons.delete_outline,
-                          color: AppColors.error,
-                          size: R.sW(context, 20),
+                        SizedBox(
+                          width: R.sW(context, 15),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            ServiceCubit.get(context).car = null;
+                            AppConstants.selectEdit = widget.services.id!;
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return const DeleteCarBottomSheet(
+                                  isCar: false,
+                                );
+                              },
+                            );
+                          },
+                          child: Icon(
+                            Icons.delete_outline,
+                            color: AppColors.error,
+                            size: R.sW(context, 25),
+                          ),
                         ),
                       ],
                     ),
@@ -116,7 +150,7 @@ class _CarItemState extends State<CarItem> {
             InkWell(
               onTap: () {
                 AppConstants.currentCar = widget.services;
-                Navigator.pushNamed(context, Routes.orderService,arguments: 1);
+                Navigator.pushNamed(context, Routes.orderService, arguments: 1);
               },
               child: FullRounderContainer(
                   title: "order_service_for_it".tr(),

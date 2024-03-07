@@ -1,18 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:schmitt/src/core/entities/order.dart';
+import 'package:schmitt/src/core/functions/date_converter.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
-import 'package:schmitt/src/core/utils/app_image.dart';
+import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 
 class HeaderExpanded extends StatelessWidget {
-  final String title;
-  final Color color;
+  final Order order;
   final void Function() onTap;
-  const HeaderExpanded(
-      {super.key,
-      required this.title,
-      required this.color,
-      required this.onTap});
+  const HeaderExpanded({super.key, required this.order, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +26,16 @@ class HeaderExpanded extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  AppImage.houseKeeping,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(20),
+                  child: CachedNetworkImage(
+                    imageUrl: order.services!.first.image!.url!,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => CircularIndicator(
+                      color: AppColors.darkBlue,
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  )),
             ),
             SizedBox(
               width: R.sW(context, 10),
@@ -47,7 +49,7 @@ class HeaderExpanded extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'order_number'.tr() + ' #6546213',
+                        'order_number'.tr() + ' #${order.orderNum}',
                         style: TextStyle(
                           color: AppColors.grey,
                           fontSize: R.F(context, 12),
@@ -55,18 +57,25 @@ class HeaderExpanded extends StatelessWidget {
                         ),
                       ),
                       Container(
-
                         padding: EdgeInsets.symmetric(
                           vertical: R.sH(context, 4),
                           horizontal: R.sW(context, 4),
                         ),
                         decoration: BoxDecoration(
-                          color: color,
+                          color: order.status == "starting"
+                              ? AppColors.yellow
+                              : order.status == "completed"
+                                  ? AppColors.green
+                                  : AppColors.darkBlue,
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Center(
                           child: Text(
-                            title,
+                            order.status == "starting"
+                                ? 'on_going'.tr()
+                                : order.status == "completed"
+                                    ? 'completed'.tr()
+                                    : 'upcoming'.tr(),
                             style: TextStyle(
                               color: AppColors.white,
                               fontSize: R.F(context, 10),
@@ -87,7 +96,7 @@ class HeaderExpanded extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'housekeepings'.tr(),
+                        order.services!.first.category!.name!,
                         style: TextStyle(
                           color: AppColors.darkBlue,
                           fontSize: R.F(context, 16),
@@ -96,7 +105,7 @@ class HeaderExpanded extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          '125 دولار',
+                          order.services!.first.price.toString() + ' \$',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColors.darkBlue,
@@ -119,7 +128,7 @@ class HeaderExpanded extends StatelessWidget {
                           color: AppColors.grey, size: R.F(context, 16)),
                       Flexible(
                         child: Text(
-                          '51, 5th Avenue, New York, USA',
+                          order.address!.address ?? '',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColors.grey,
@@ -158,7 +167,7 @@ class HeaderExpanded extends StatelessWidget {
               width: R.sW(context, 5),
             ),
             Text(
-              ' الاثنين 15/2/2024',
+              '${Localizations.localeOf(context).languageCode != 'en' ? ConverterDate.weekdaysInArabic[DateTime.parse(order.startAt!).weekday] : ConverterDate.weekdaysInEnglish[DateTime.parse(order.startAt!).weekday]} ${DateTime.parse(order.startAt!).day}/${DateTime.parse(order.startAt!).month}/${DateTime.parse(order.startAt!).year}',
               style: TextStyle(
                 color: AppColors.grey,
                 fontSize: R.F(context, 12),
