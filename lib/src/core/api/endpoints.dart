@@ -20,5 +20,7 @@ class Endpoints {
   static const cars = "cars";
   static const companies = "companies";
   static const colors = "colors";
+  static const package = "packages";
+
 
 }

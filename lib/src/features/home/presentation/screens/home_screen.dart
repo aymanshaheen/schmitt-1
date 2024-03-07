@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: SvgPicture.asset('assets/images/booking.svg'),
               ),
               BottomNavigationBarItem(
-                label: 'calendar'.tr(),
+                label: 'Packages'.tr(),
                 icon: SvgPicture.asset(AppImage.calendarBar),
               ),
               BottomNavigationBarItem(
