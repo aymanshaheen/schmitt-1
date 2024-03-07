@@ -20,6 +20,7 @@ import 'package:schmitt/src/features/home/domain/use_cases/update_profile_usecas
 import 'package:schmitt/src/features/inbox/presentation/screens/inbox_screen.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
 import 'package:schmitt/src/features/home/presentation/screens/home_layout.dart';
+import 'package:schmitt/src/features/packages/presentation/screens/package_screen.dart';
 import 'package:schmitt/src/features/profile/presentation/screens/profile_screen.dart';
 import 'package:schmitt/src/features/home/domain/entities/slides.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
@@ -67,7 +68,7 @@ class HomeCubit extends Cubit<HomeStates> {
   List<Widget> screens = [
     const HomeLayoutScreen(),
     const BookingScreen(),
-    const CalendarScreen(),
+    // const PackagesScreen(),
     const InboxScreen(),
     const ProfileScreen(),
   ];
