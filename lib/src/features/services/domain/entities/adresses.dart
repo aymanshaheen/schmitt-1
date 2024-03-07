@@ -11,8 +11,16 @@ class AddressEntity extends Equatable {
   List<Object?> get props => [data, meta];
 }
 
+class AddressCreateEntity extends Equatable {
+  final Address? data;
+
+  const AddressCreateEntity({this.data, });
+
+  @override
+  List<Object?> get props => [data, ];
+}
 class Address extends Equatable {
-  final int? id;
+  final int id;
   final String? name;
   final String? address;
   final double? locationLatitude;
@@ -23,7 +31,7 @@ class Address extends Equatable {
   final String? createdAtFormatted;
 
   const Address({
-    this.id,
+    required this.id,
     this.name,
     this.address,
     this.locationLatitude,

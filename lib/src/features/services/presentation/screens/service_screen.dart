@@ -123,10 +123,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                         : HomeCubit.get(context).addBookMark(
                                             widget.service.id.toString());
                                     HomeCubit.get(context).services = [];
-                                    HomeCubit.get(context).getServices(
-                                        1,
-                                        AppConstants.addressID,
-                                        AppStrings.allId);
+                                    HomeCubit.get(context)
+                                        .getServices(1, AppStrings.allId);
                                     setState(() {
                                       isFavourite = !isFavourite;
                                     });

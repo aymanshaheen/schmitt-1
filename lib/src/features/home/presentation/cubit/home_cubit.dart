@@ -204,10 +204,10 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   List<Slide> slides = [];
-  Future<void> getSlides(String id) async {
+  Future<void> getSlides() async {
     emit(SlidesLoading());
 
-    final result = await getSlidesUseCase.call(id);
+    final result = await getSlidesUseCase.call();
     result.fold(
       (failure) => emit(SlidesError(
         message: failure.message,
@@ -222,7 +222,7 @@ class HomeCubit extends Cubit<HomeStates> {
   void getServicesAndMatch(String query) async {
     emit(ServicesLoading());
     try {
-      await getServices(1, AppConstants.addressID, AppStrings.allId);
+      await getServices(1,  AppStrings.allId);
       List<Service> services = getServicesMatching(query);
       emit(ServicesLoaded(services));
     } catch (e) {
@@ -238,10 +238,10 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   List<Service> services = [];
-  Future<void> getServices(int page, String id, String category) async {
+  Future<void> getServices(int page,String category) async {
     emit(ServicesLoading());
 
-    final result = await getServicesUseCase.call(page, id, category);
+    final result = await getServicesUseCase.call(page,  category);
     result.fold(
       (failure) => emit(ServicesError(
         message: failure.message,
@@ -253,10 +253,10 @@ class HomeCubit extends Cubit<HomeStates> {
     );
   }
 
-  Future<void> getCategoryServices(int page, String id, String category) async {
+  Future<void> getCategoryServices(int page,  String category) async {
     emit(ServicesLoading());
 
-    final result = await getServicesUseCase.call(page, id, category);
+    final result = await getServicesUseCase.call(page, category);
     result.fold(
       (failure) => emit(ServicesError(
         message: failure.message,

@@ -6,7 +6,7 @@ class GetSlidesUseCase {
   GetSlidesUseCase({required this.repository});
   final HomeRepository repository;
 
-  ResultFuture<SliderEntity> call(String id) {
-    return repository.getSlides(id);
+  ResultFuture<SliderEntity> call() {
+    return repository.getSlides();
   }
 }

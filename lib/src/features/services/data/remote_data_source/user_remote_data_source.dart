@@ -13,7 +13,7 @@ abstract class ServiceRemoteDataSource {
   Future<ReviewModel> getReviwes(String id, String category);
   Future<String> addReview(String id, String review, String rating);
   Future<AddressModel> getAddresses();
-  Future<AddressDataModel> createAddress(AddressParams params);
+  Future<AddressCreateModel> createAddress(AddressParams params);
   Future<ServiceShowModel> getService(int id,String addressId,);
   Future<OrderModel> createOrder(OrderParams params,String addressId);
   Future<CarsModel> getCars(int page);

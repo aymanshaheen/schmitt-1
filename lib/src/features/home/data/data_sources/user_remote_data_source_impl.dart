@@ -167,10 +167,10 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   }
 
   @override
-  Future<SliderModel> getSlides(String id) async {
+  Future<SliderModel> getSlides() async {
     try {
       Response response = await dio.getData(
-          url: Endpoints.slides, token: AppConstants.token, addressId: id);
+          url: Endpoints.slides, token: AppConstants.token, addressId: AppConstants.addressID);
       SliderModel userModel = SliderModel.fromJson(response.data);
       return userModel;
     } on DioException catch (error) {
@@ -183,13 +183,13 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   @override
   Future<ServiceModel> getServices(
-      int page, String addressId, String category) async {
+      int page, String category) async {
     try {
       Response response = await dio.getData(
           url: Endpoints.service,
           token: AppConstants.token,
           query: {'page': page, 'category_id': category},
-          addressId: addressId);
+          addressId: AppConstants.addressID);
       ServiceModel userModel = ServiceModel.fromJson(response.data);
       return userModel;
     } on DioException catch (error) {

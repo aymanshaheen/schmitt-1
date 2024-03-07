@@ -21,6 +21,7 @@ import 'package:schmitt/src/features/auth/presentation/widgets/custom_remember_m
 import 'package:schmitt/src/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:schmitt/src/features/auth/presentation/widgets/sign_in_custom_row.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
+import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/cubit/tech_cubit.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -54,70 +55,78 @@ class _SignInViewState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-          canPop: false,
-          onPopInvoked: (didPop) async {
-            if (didPop) {
-              return;
-            }
-            final shouldClose = await showModalBottomSheet(
-                context: context,
-                builder: (context) => const ExitBottomSheet());
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) {
+          return;
+        }
+        final shouldClose = await showModalBottomSheet(
+            context: context, builder: (context) => const ExitBottomSheet());
 
-            return shouldClose ?? false;
-          },
-          child: Scaffold(
-      body: BlocConsumer<CredentialCubit, CredentialState>(
-        listener: (context, credentialState) {
-          if (credentialState is CredentialFailure &&
-              credentialState.message ==
-                  DataSource.networkConnectError.getFailure().message) {
-            buildSnakBar(
-                context: context,
-                message: credentialState.message,
-                color: AppColors.error);
-          }
-          if (credentialState is CredentialSuccess) {
-            if (credentialState.user.message == '') {
-              AppConstants.profile = credentialState.user;
-              appPreferences?.saveData(
-                  key: 'token', value: credentialState.user.token);
-              AppConstants.token = credentialState.user.token!;
-              AppConstants.profile!.localedType != "مزود الخدمة"
-                  ? Future.wait([
-                      HomeCubit.get(context).getSlides("15"),
-                      HomeCubit.get(context).getServices(1, "15", "0"),
-                    ])
-                  : TechCubit.get(context)
-                      .getOrders(AppStrings.technicianAssigned);
-
-              Navigator.pushReplacementNamed(
-                  context,
-                  AppConstants.profile!.localedType != "مزود الخدمة"
-                      ? Routes.home
-                      : Routes.homeTech);
-            } else {
+        return shouldClose ?? false;
+      },
+      child: Scaffold(
+        body: BlocConsumer<CredentialCubit, CredentialState>(
+          listener: (context, credentialState) {
+            if (credentialState is CredentialFailure &&
+                credentialState.message ==
+                    DataSource.networkConnectError.getFailure().message) {
               buildSnakBar(
                   context: context,
-                  message: credentialState.user.message!,
+                  message: credentialState.message,
                   color: AppColors.error);
             }
-          } else if (credentialState is CredentialGoogleSuccess) {
-            appPreferences?.saveData(key: 'token', value: AppConstants.token);
-            HomeCubit.get(context).showProfile();
-            Navigator.pushReplacementNamed(context, Routes.home);
-          }
-          if (credentialState is CredentialFailure) {
-            buildSnakBar(
-                context: context,
-                message: credentialState.message,
-                color: AppColors.error);
-          }
-        },
-        builder: (context, credentialState) {
-          return loginBuilder();
-        },
+            if (credentialState is CredentialSuccess) {
+              if (credentialState.user.message == '') {
+                AppConstants.profile = credentialState.user;
+                appPreferences?.saveData(
+                    key: 'token', value: credentialState.user.token);
+                AppConstants.token = credentialState.user.token!;
+                AppConstants.profile!.localedType != "مزود الخدمة"
+                    ? AppConstants.addressID == ""
+                        ? ServiceCubit.get(context).getAdresses().then((value) {
+                          AppConstants.addressID = ServiceCubit.get(context).addresses![0].id.toString();
+                            Future.wait([
+                              HomeCubit.get(context).getSlides(),
+                              HomeCubit.get(context)
+                                  .getServices(1, AppStrings.allId),
+                            ]);
+                          })
+                        : Future.wait([
+                            HomeCubit.get(context).getSlides(),
+                            HomeCubit.get(context)
+                                .getServices(1, AppStrings.allId),
+                          ])
+                    : TechCubit.get(context)
+                        .getOrders(AppStrings.technicianAssigned);
+                Navigator.pushReplacementNamed(
+                    context,
+                    AppConstants.profile!.localedType != "مزود الخدمة"
+                        ? Routes.home
+                        : Routes.homeTech);
+              } else {
+                buildSnakBar(
+                    context: context,
+                    message: credentialState.user.message!,
+                    color: AppColors.error);
+              }
+            } else if (credentialState is CredentialGoogleSuccess) {
+              appPreferences?.saveData(key: 'token', value: AppConstants.token);
+              HomeCubit.get(context).showProfile();
+              Navigator.pushReplacementNamed(context, Routes.home);
+            }
+            if (credentialState is CredentialFailure) {
+              buildSnakBar(
+                  context: context,
+                  message: credentialState.message,
+                  color: AppColors.error);
+            }
+          },
+          builder: (context, credentialState) {
+            return loginBuilder();
+          },
+        ),
       ),
-    ),
     );
   }
 

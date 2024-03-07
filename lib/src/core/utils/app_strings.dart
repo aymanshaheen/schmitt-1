@@ -73,5 +73,14 @@ class AppStrings {
   static const String three = "3";
   static const String four = "4";
   static const String five = "5";
- 
+ static const loginScreen = '/login-screen';
+ static const otpScreen = '/otp-screen';
+ static const mapScreen = '/map-screen';
+ static const googleAPIKey = 'AIzaSyBryXUXwm9UvgIlo0C_DMsxFe2iHOQqrMM';
+static  const suggestionsBaseUrl =
+      'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+static  const placeLocationBaseUrl =
+      'https://maps.googleapis.com/maps/api/place/details/json';
+static  const directionsBaseUrl =
+      'https://maps.googleapis.com/maps/api/directions/json';
 }

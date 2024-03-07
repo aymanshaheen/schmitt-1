@@ -82,7 +82,7 @@ class ServiceRepositoryImpl implements ServiceRepository {
   }
 
   @override
-  ResultFuture<Address> createAddress(AddressParams params) async {
+  ResultFuture<AddressCreateEntity> createAddress(AddressParams params) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.createAddress(params);

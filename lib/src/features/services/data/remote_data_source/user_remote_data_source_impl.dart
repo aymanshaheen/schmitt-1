@@ -70,13 +70,13 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
   }
 
   @override
-  Future<AddressDataModel> createAddress(AddressParams params) async {
+  Future<AddressCreateModel> createAddress(AddressParams params) async {
     try {
       Response response = await dio.postData(
           data: params.toJson(),
           url: Endpoints.addresses,
           token: AppConstants.token);
-      AddressDataModel userModel = AddressDataModel.fromJson(response.data);
+      AddressCreateModel userModel = AddressCreateModel.fromJson(response.data);
       return userModel;
     } catch (e) {
       debugPrint('An unexpected error occurred: ${e.toString()}');

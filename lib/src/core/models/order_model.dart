@@ -71,7 +71,7 @@ class OrderDataModel extends Order {
           type: type ?? '',
           car: car ?? const Car(),
           coupon: coupon ?? const Coupon(),
-          address: address ?? const Address(),
+          address: address,
           package: package ?? const Package(),
           services: services ?? [],
           customer: customer ,
@@ -98,7 +98,7 @@ class OrderDataModel extends Order {
           : const Coupon(),
       address: json['address'] != null
           ? AddressDataModel.fromJson(json['address'])
-          : const Address(),
+          : null,
       package: json['package'] != null
           ? PackageModel.fromJson(json['package'])
           : const Package(),

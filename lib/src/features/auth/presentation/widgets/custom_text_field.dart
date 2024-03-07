@@ -33,7 +33,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
       cursorWidth: R.sW(context, 2),
       mouseCursor: MouseCursor.defer,
       controller: widget.controller,
-      
       obscureText: obscureText,
       style: TextStyle(
         fontSize: R.F(context, 15),

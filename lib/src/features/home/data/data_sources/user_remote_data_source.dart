@@ -15,7 +15,7 @@ abstract class HomeRemoteDataSource {
   Future<String> markAllSeen();
   Stream<UserModelSave> getUserById(String id);
   Future<UserModel> updateProfile(SignUpParams parameters);
-  Future<SliderModel> getSlides(String id);
+  Future<SliderModel> getSlides();
   Future<ServiceModel> getServices(
-      int pageNum, String addressId, String category);
+      int pageNum,  String category);
 }

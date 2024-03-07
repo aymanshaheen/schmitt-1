@@ -182,7 +182,7 @@ class ServiceCubit extends Cubit<ServiceStates> {
 
   void selectAddressIndex(int index) {
     selectedAddressIndex = index;
-    AppConstants.addressId = addresses![index].id!;
+    AppConstants.addressId = addresses![index].id;
     emit(AddressUpdate());
   }
 
@@ -202,8 +202,6 @@ class ServiceCubit extends Cubit<ServiceStates> {
     );
   }
 
-
-
   List<Review>? reviews = [];
   Future<void> getReviews(String id, String category) async {
     emit(GetReviwesLoading());
@@ -217,16 +215,18 @@ class ServiceCubit extends Cubit<ServiceStates> {
       emit(GetReviwesLoaded(right.data));
     });
   }
-double getAverageRating() {
-  if (reviews == null || reviews!.isEmpty) {
-    return 0.0;
+
+  double getAverageRating() {
+    if (reviews == null || reviews!.isEmpty) {
+      return 0.0;
+    }
+    double total = 0.0;
+    for (var review in reviews!) {
+      total += review.rating!;
+    }
+    return total / reviews!.length;
   }
-  double total = 0.0;
-  for (var review in reviews!) {
-    total += review.rating!;
-  }
-  return total / reviews!.length;
-}
+
   void likeReview(int index, bool isLiked) {
     if (isLiked) {
       reviews![index].isLiked = true;
@@ -255,6 +255,7 @@ double getAverageRating() {
     );
   }
 
+  Address? address;
   Future<void> createAddress(AddressParams params) async {
     emit(CreateAddressLoading());
 
@@ -263,7 +264,10 @@ double getAverageRating() {
       (failure) => emit(CreateAddressError(
         failure.message,
       )),
-      (right) => emit(CreateAddressLoaded(right)),
+      (right) {
+        address = right.data;   
+        emit(CreateAddressLoaded(right.data!));
+      },
     );
   }
 

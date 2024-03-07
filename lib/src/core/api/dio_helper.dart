@@ -21,8 +21,10 @@ class DioHelper {
       contentType:
           'multipart/form-data; boundary=<calculated when request is sent>',
       maxRedirects: 0,
-      receiveTimeout: const Duration(minutes: 1),
-      connectTimeout: const Duration(minutes: 1),
+      receiveTimeout: const Duration(minutes: 2),
+      connectTimeout: const Duration(minutes: 2),
+      sendTimeout: const Duration(minutes: 2),
+      
       headers: headers,
     );
     dio.interceptors.add(sl<LogInterceptor>());

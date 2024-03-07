@@ -37,7 +37,6 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
   void initState() {
     if (!widget.isEdit) {
       ServiceCubit.get(context).getCompanies(1, AppConstants.addressID);
-      ServiceCubit.get(context).getColors(AppConstants.addressID);
     } else {
       ServiceCubit.get(context).showCar(AppConstants.selectEdit!);
     }

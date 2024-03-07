@@ -158,10 +158,10 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  ResultFuture<SliderEntity> getSlides(String id) async {
+  ResultFuture<SliderEntity> getSlides() async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.getSlides(id);
+        final result = await remoteDataSource.getSlides();
         return right(result);
       } on DioException catch (e) {
         return Left(Failure(message: e.response!.data['message'], code: 0));
@@ -174,10 +174,10 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  ResultFuture<ServiceEntity> getServices(int page, String id,String category) async {
+  ResultFuture<ServiceEntity> getServices(int page, String category) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.getServices(page, id, category);
+        final result = await remoteDataSource.getServices(page, category);
         return right(result);
       } on DioException catch (e) {
         return Left(Failure(message: e.response!.data['message'], code: 0));

@@ -14,7 +14,7 @@ abstract class ServiceRepository {
   ResultFuture<ReviewEntity> getReviews(String id, String category);
   ResultFuture<String> addReview(String id, String review, String rating);
   ResultFuture<AddressEntity> getAdresses();
-  ResultFuture<Address> createAddress(AddressParams params);
+  ResultFuture<AddressCreateEntity> createAddress(AddressParams params);
   ResultFuture<ServiceShowEntity> getService(int id, String addressId,);
   ResultFuture<ColorEntity> getColors(String addressId,);
   ResultFuture<CompanyEntity> getCompanies(int id, String addressId,);

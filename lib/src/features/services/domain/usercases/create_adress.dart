@@ -7,7 +7,7 @@ class CreateAdressesUseCase {
   CreateAdressesUseCase({required this.repository});
   final ServiceRepository repository;
 
-  ResultFuture<Address> call(AddressParams params) {
+  ResultFuture<AddressCreateEntity> call(AddressParams params) {
     return repository.createAddress(params);
   }
 }

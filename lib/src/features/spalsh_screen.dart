@@ -28,8 +28,11 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     appPreferences = sl<AppPreferences>();
     var token = appPreferences!.getData(key: 'token') ?? '';
-    // getDeviceToken();
     AppConstants.token = (token != '') ? token : '';
+    var myPlace = appPreferences!.getData(key: 'myPlace') ?? '';
+    AppConstants.myPlace = (myPlace != '') ? myPlace : '';
+    var addressID = appPreferences!.getData(key: 'addressID') ?? '';
+    AppConstants.addressID = (addressID != '') ? addressID : '';
     if (AppConstants.token != '') {
       HomeCubit.get(context).showProfile().then((value) => {
             Future.delayed(const Duration(seconds: 3), () {
@@ -83,10 +86,12 @@ class _SplashScreenState extends State<SplashScreen>
         listener: (context, state) async {
           if (state is ShowProfileLoaded) {
             AppConstants.profile!.localedType != "مزود الخدمة"
-                ? Future.wait([
-                    HomeCubit.get(context).getSlides("15"),
-                    HomeCubit.get(context).getServices(1, "15", "0"),
-                  ])
+                ? AppConstants.addressID == ""
+                    ? null
+                    : Future.wait([
+                        HomeCubit.get(context).getSlides(),
+                        HomeCubit.get(context).getServices(1, AppStrings.allId),
+                      ])
                 : TechCubit.get(context)
                     .getOrders(AppStrings.technicianAssigned);
           }

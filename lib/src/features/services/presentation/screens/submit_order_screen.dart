@@ -216,13 +216,16 @@ class SubmitOrderScreen extends StatelessWidget {
                   CustomRow(
                     label: AppConstants.service!.title,
                     value: AppConstants.service!.category!.id == 3
-                        ? ServiceCubit.get(context).carWashPrice.toString()+" \$"
+                        ? ServiceCubit.get(context).carWashPrice.toString() +
+                            " \$"
                         : AppConstants.service!.category!.id == 2
                             ? ServiceCubit.get(context)
-                                .calculateTotalPrice()
-                                .toString()+" \$"
+                                    .calculateTotalPrice()
+                                    .toString() +
+                                " \$"
                             : (ServiceCubit.get(context).numberOfChilds * 20)
-                                .toString()+" \$",
+                                    .toString() +
+                                " \$",
                     color: AppColors.black,
                   ),
                   CustomRow(

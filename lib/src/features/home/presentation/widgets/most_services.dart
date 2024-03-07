@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/config/app_route.dart';
-import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
@@ -40,13 +39,13 @@ class _MostServicesState extends State<MostServices> {
   Widget build(BuildContext context) {
     List<Function> functionList = [
       () => HomeCubit.get(context)
-          .getServices(1, AppConstants.addressID, AppStrings.allId),
+          .getServices(1, AppStrings.allId),
       () => HomeCubit.get(context)
-          .getServices(1, AppConstants.addressID, AppStrings.houseId),
+          .getServices(1, AppStrings.houseId),
       () => HomeCubit.get(context)
-          .getServices(1, AppConstants.addressID, AppStrings.carId),
+          .getServices(1, AppStrings.carId),
       () => HomeCubit.get(context)
-          .getServices(1, AppConstants.addressID, AppStrings.babyId),
+          .getServices(1, AppStrings.babyId),
     ];
     return BlocConsumer<HomeCubit, HomeStates>(listener: (context, state) {
       if (state is ServicesLoaded) {

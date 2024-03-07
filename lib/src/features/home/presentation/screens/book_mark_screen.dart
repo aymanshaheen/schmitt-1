@@ -80,7 +80,7 @@ class _BookMarkScreenState extends State<BookMarkScreen>
         }
         HomeCubit.get(context).tabbedOffer = 0;
         HomeCubit.get(context)
-            .getServices(1, AppConstants.addressID, AppStrings.allId);
+            .getServices(1, AppStrings.allId);
         final navigator = Navigator.of(context);
         navigator.pop();
       },

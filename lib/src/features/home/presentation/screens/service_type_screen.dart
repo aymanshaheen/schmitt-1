@@ -21,7 +21,7 @@ class ServicetypeScreen extends StatefulWidget {
 class _ServicetypeScreenState extends State<ServicetypeScreen> {
   @override
   void initState() {
-    HomeCubit.get(context).getCategoryServices(1, "15", widget.services);
+    HomeCubit.get(context).getCategoryServices(1,  widget.services);
     super.initState();
   }
 

@@ -19,6 +19,7 @@ class HomeTechScreen extends StatefulWidget {
 }
 
 class _HomeTechScreenState extends State<HomeTechScreen> {
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeStates>(

@@ -86,7 +86,23 @@ class HomeBar extends StatelessWidget {
         SizedBox(
           height: R.sH(context, 15),
         ),
-        Text("العنووووووان"),
+        Padding(
+          padding:  EdgeInsets.symmetric(horizontal: R.sW(context, 10),
+          ),
+          child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                "your_current_location".tr() + " : " + AppConstants.myPlace,
+                style: TextStyle(
+                  color: AppColors.grey,
+                  fontSize: R.F(context, 14),
+                  fontWeight: FontWeight.w500,
+                ),
+              )),
+        ),
+        SizedBox(
+          height: R.sH(context, 10),
+        ),
         const SearchTextField(),
         SizedBox(
           height: R.sH(context, 10),

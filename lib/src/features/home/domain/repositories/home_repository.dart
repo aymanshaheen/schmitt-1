@@ -16,7 +16,7 @@ abstract class HomeRepository {
   ResultFuture<String> markAllSeen();
   ResultFuture<UserEntity> updateProfile(SignUpParams parameters);
   Stream<UserEntity> getUserById(String id);
-  ResultFuture<SliderEntity> getSlides(String id);
-  ResultFuture<ServiceEntity> getServices(int pageNum,String addressId,String category);
+  ResultFuture<SliderEntity> getSlides();
+  ResultFuture<ServiceEntity> getServices(int pageNum,String category);
 
 }

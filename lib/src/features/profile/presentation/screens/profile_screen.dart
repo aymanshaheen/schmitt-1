@@ -262,6 +262,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               onTap: () {
                                                 appPreferences.clearAllData();
                                                 AppConstants.token = '';
+                                                AppConstants.addressID = '';
+
+                                                HomeCubit.get(context)
+                                                    .services = [];
+                                                HomeCubit.get(context).slides =
+                                                    [];
                                                 HomeCubit.get(context)
                                                     .currentIndex = 0;
                                                 Navigator

@@ -3,27 +3,40 @@ import 'package:schmitt/src/core/models/meta_model.dart';
 import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
 
 class AddressModel extends AddressEntity {
-   AddressModel({
+  AddressModel({
     List<Address>? data,
     required Meta meta,
   }) : super(
           data: data ?? [],
-          meta: meta ,
+          meta: meta,
         );
 
   factory AddressModel.fromJson(Map<String, dynamic> json) {
     return AddressModel(
       data: (json['data'] as List?)
-          ?.map((i) => AddressDataModel.fromJson(i))
-          .toList() ?? [],
-      meta:  MetaModel.fromJson(json['meta']) ,
+              ?.map((i) => AddressDataModel.fromJson(i))
+              .toList() ??
+          [],
+      meta: MetaModel.fromJson(json['meta']),
     );
+  }
+}
+
+class AddressCreateModel extends AddressCreateEntity {
+  const AddressCreateModel({
+    Address? data,
+  }) : super(
+          data: data,
+        );
+
+  factory AddressCreateModel.fromJson(Map<String, dynamic> json) {
+    return AddressCreateModel(data: AddressDataModel.fromJson(json['data']));
   }
 }
 
 class AddressDataModel extends Address {
   const AddressDataModel({
-    int? id,
+    required int id,
     String? name,
     String? address,
     double? locationLatitude,
@@ -33,7 +46,7 @@ class AddressDataModel extends Address {
     String? createdAt,
     String? createdAtFormatted,
   }) : super(
-          id: id ?? 0,
+          id: id,
           name: name ?? '',
           address: address ?? '',
           locationLatitude: locationLatitude ?? 0.0,
@@ -46,11 +59,12 @@ class AddressDataModel extends Address {
 
   factory AddressDataModel.fromJson(Map<String, dynamic> json) {
     return AddressDataModel(
-      id: json['id'] as int? ?? 0,
+      id: json['id'],
       name: json['name'] ?? '',
       address: json['address'] ?? '',
       locationLatitude: (json['location_latitude'] as num?)?.toDouble() ?? 0.0,
-      locationLongitude: (json['location_longitude'] as num?)?.toDouble() ?? 0.0,
+      locationLongitude:
+          (json['location_longitude'] as num?)?.toDouble() ?? 0.0,
       city: json['city'] != null ? json['city']['name'] : "",
       area: json['area'] != null ? json['area']['name'] : "",
       createdAt: json['created_at'] as String? ?? '',
@@ -71,7 +85,7 @@ class CityModel extends City {
   factory CityModel.fromJson(Map<String, dynamic> json) {
     return CityModel(
       id: json['id'] as int? ?? 0,
-      name: json['name']  ?? '',
+      name: json['name'] ?? '',
     );
   }
 }
