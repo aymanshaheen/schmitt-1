@@ -117,7 +117,7 @@ class _OrderItemsState extends State<OrderItems> {
                               SizedBox(
                                 width: R.sW(context, 240),
                                 child: Text(
-                                  widget.order.address!.address ?? '',
+                                  widget.order.address?.address ?? '',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   style: TextStyle(

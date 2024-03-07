@@ -24,9 +24,9 @@ class ReviewModel extends ReviewEntity {
 }
 
 class ReviewDataModel extends Review {
-   bool isLiked;
-   int likes;
-   ReviewDataModel({
+  bool isLiked;
+  int likes;
+  ReviewDataModel({
     int? id,
     String? review,
     int? rating,
@@ -56,7 +56,7 @@ class ReviewDataModel extends Review {
           : null,
       createdAt: json['created_at'] as String?,
       createdAtFormatted: json['created_at_formatted'] as String?,
-       isLiked: json['is_liked'] as bool? ?? false,
+      isLiked: json['is_liked'] as bool? ?? false,
       likes: json['likes'] as int? ?? 0,
     );
   }

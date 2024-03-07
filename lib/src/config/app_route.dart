@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/container_injector.dart';
 import 'package:schmitt/src/core/entities/order.dart';
@@ -12,6 +11,8 @@ import 'package:schmitt/src/features/auth/presentation/screens/sign_in_screen.da
 import 'package:schmitt/src/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/booking_date_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/all_services_screen.dart';
+import 'package:schmitt/src/features/packages/presentation/cubit/package_cubit.dart';
+import 'package:schmitt/src/features/packages/presentation/screens/package_screen.dart';
 import 'package:schmitt/src/features/profile/presentation/screens/my_adresses_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/map_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/service_type_screen.dart';
@@ -20,7 +21,6 @@ import 'package:schmitt/src/features/services/presentation/screens/car_wash_deta
 import 'package:schmitt/src/features/profile/presentation/screens/car_wash_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/select_rooms_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/service_order_screen.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
 import 'package:schmitt/src/features/services/presentation/screens/service_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/book_mark_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/home_screen.dart';
@@ -91,6 +91,7 @@ class Routes {
   static const String myAddress = "myAddress";
   static const String startOrder = "startOrder";
   static const String cameraOrderScreen = "cameraOrderScreen";
+  static const String packageScreen = "packageScreen";
 }
 
 class AppRouter {
@@ -155,41 +156,31 @@ class AppRouter {
         );
       case Routes.selectRooms:
         return FadeRoute(
-          builder: (context) => BlocProvider.value(
-            value: BlocProvider.of<ServiceCubit>(context),
-            child: const SelectRoomsScreen(),
-          ),
+          builder: (context) => const SelectRoomsScreen(),
         );
-
+      case Routes.packageScreen:
+        return FadeRoute(
+          builder: (context) => BlocProvider(
+              create: (context) => sl<PackageCubit>(),
+              child: const PackagesScreen()),
+        );
       case Routes.carWashServiceDetails:
         return FadeRoute(
-          builder: (context) => BlocProvider.value(
-            value: BlocProvider.of<ServiceCubit>(context),
-            child: const CarWashDetailsScreen(),
-          ),
+          builder: (context) => const CarWashDetailsScreen(),
         );
       case Routes.carWash:
         return FadeRoute(
-          builder: (context) => BlocProvider.value(
-            value: BlocProvider.of<ServiceCubit>(context),
-            child: const CarWashScreen(),
-          ),
+          builder: (context) => const CarWashScreen(),
         );
 
       case Routes.submitOrder:
         return FadeRoute(
-          builder: (context) => BlocProvider.value(
-            value: BlocProvider.of<ServiceCubit>(context),
-            child: const SubmitOrderScreen(),
-          ),
+          builder: (context) => const SubmitOrderScreen(),
         );
       case Routes.orderService:
         final arguments = settings.arguments as int;
         return FadeRoute(
-          builder: (context) => BlocProvider.value(
-            value: BlocProvider.of<ServiceCubit>(context),
-            child: ServiceOrderScreen(arguments),
-          ),
+          builder: (context) => ServiceOrderScreen(arguments),
         );
       case Routes.chat:
         final arguments = settings.arguments as Map<String, dynamic>;

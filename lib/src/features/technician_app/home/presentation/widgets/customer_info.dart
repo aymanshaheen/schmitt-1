@@ -112,7 +112,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       height: R.sH(context, 5),
                     ),
                     Text(
-                      widget.order.address!.address??'',
+                      widget.order.address?.address??'',
                       style: TextStyle(
                         fontSize: R.F(context, 16),
                         fontWeight: FontWeight.w500,

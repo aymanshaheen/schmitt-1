@@ -67,8 +67,8 @@ class HomeCubit extends Cubit<HomeStates> {
 
   List<Widget> screens = [
     const HomeLayoutScreen(),
+    const PackagesScreen(),
     const BookingScreen(),
-    // const PackagesScreen(),
     const InboxScreen(),
     const ProfileScreen(),
   ];

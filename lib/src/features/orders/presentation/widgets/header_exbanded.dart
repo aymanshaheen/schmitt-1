@@ -128,7 +128,7 @@ class HeaderExpanded extends StatelessWidget {
                           color: AppColors.grey, size: R.F(context, 16)),
                       Flexible(
                         child: Text(
-                          order.address!.address ?? '',
+                          order.address?.address ?? '',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColors.grey,

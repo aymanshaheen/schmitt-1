@@ -60,87 +60,90 @@ class _HomeLayoutScreenState extends State<OrderSettingScreen>
   ];
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<TechCubit, TechState>(
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      drawer: const Drawer(
+        child: ProfileScreen(),
+      ),
+      appBar: AppBar(
+        centerTitle: false,
+        leadingWidth: R.sW(context, 10),
+        elevation: 0,
+        title: Text(
+          'my_orders'.tr(),
+          style: TextStyle(
+            fontSize: R.F(context, 22),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        actions: [
+          Builder(
+            builder: (context) => GestureDetector(
+              onTap: () => Scaffold.of(context).openDrawer(),
+              child: const MoreInfoIcon(),
+            ),
+          ),
+          SizedBox(
+            width: R.sW(context, 15),
+          ),
+        ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(R.sH(context, 70)),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: R.sW(context, 20),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TabBar(
+                  controller: controller,
+                  indicator: UnderlineTabIndicator(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: R.sW(context, 4),
+                        color: AppColors.darkBlue,
+                      ),
+                      insets:
+                          EdgeInsets.symmetric(horizontal: R.sH(context, -25))),
+                  labelColor: AppColors.darkBlue,
+                  labelStyle: TextStyle(
+                    fontSize: R.F(context, 18),
+                    fontWeight: FontWeight.w600,
+                  ),
+                  unselectedLabelColor: AppColors.lightGrey,
+                  indicatorWeight: R.sW(context, 2),
+                  tabs: tabs,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: BlocConsumer<TechCubit, TechState>(
         listener: (context, state) {},
         builder: (context, state) {
           if (state is OrderLoading) {
-            return Scaffold(
-                body: Center(
-              child: CircularIndicator(
-                color: AppColors.darkBlue,
+            return SizedBox(
+             height:  R.sH(context, 500),
+              child: Center(
+                child: CircularIndicator(
+                  color: AppColors.darkBlue,
+                ),
               ),
-            ));
+            );
           }
-          return Scaffold(
-            backgroundColor: Colors.grey[50],
-            drawer: const Drawer(
-              child: ProfileScreen(),
-            ),
-            appBar: AppBar(
-              centerTitle: false,
-              leadingWidth: R.sW(context, 25),
-              elevation: 0,
-              title: Text(
-                'my_orders'.tr(),
-                style: TextStyle(
-                  fontSize: R.F(context, 22),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              actions: [
-                Builder(
-                  builder: (context) => GestureDetector(
-                    onTap: () => Scaffold.of(context).openDrawer(),
-                    child: const MoreInfoIcon(),
-                  ),
-                ),
-                SizedBox(
-                  width: R.sW(context, 15),
-                ),
-              ],
-              bottom: PreferredSize(
-                preferredSize: Size.fromHeight(R.sH(context, 70)),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: R.sW(context, 20),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TabBar(
-                        controller: controller,
-                        indicator: UnderlineTabIndicator(
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: R.sW(context, 4),
-                              color: AppColors.darkBlue,
-                            ),
-                            insets: EdgeInsets.symmetric(
-                                horizontal: R.sH(context, -25))),
-                        labelColor: AppColors.darkBlue,
-                        labelStyle: TextStyle(
-                          fontSize: R.F(context, 18),
-                          fontWeight: FontWeight.w600,
-                        ),
-                        unselectedLabelColor: AppColors.lightGrey,
-                        indicatorWeight: R.sW(context, 2),
-                        tabs: tabs,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            body: TabBarView(
-              controller: controller,
-              children: <Widget>[
-                UpcomingOrder(orders: TechCubit.get(context).myOrders),
-                UpcomingOrder(orders: TechCubit.get(context).myOrders),
-              ],
-            ),
+          return TabBarView(
+            controller: controller,
+            children: <Widget>[
+              UpcomingOrder(orders: TechCubit.get(context).myOrders),
+              UpcomingOrder(orders: TechCubit.get(context).myOrders),
+            ],
           );
-        });
+        },
+      ),
+    );
   }
 }

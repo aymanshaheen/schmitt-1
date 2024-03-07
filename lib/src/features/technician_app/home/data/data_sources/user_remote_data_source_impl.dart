@@ -87,7 +87,7 @@ class TechRemoteDataSourceImpl implements TechRemoteDataSource {
 
   @override
   Future<OrderModel> markAsComplete(List<File> image, String id) async {
-    try {
+     try {
       var formData = FormData();
       for (var file in image) {
         if (file.existsSync()) {
@@ -102,15 +102,14 @@ class TechRemoteDataSourceImpl implements TechRemoteDataSource {
       }
 
       Response response = await dio.postData(
-          data: formData,
-          url: Endpoints.orders + '/:id',
-          token: AppConstants.token,
-          path: {
-            'id': id
-          },
-          query: {
-            '_method': 'put',
-          });
+        data: formData,
+        url: Endpoints.orders + '/:id',
+        token: AppConstants.token,
+        path: {'id': id},
+        query: {
+          '_method': 'put',
+        },
+      );
       OrderModel userModel = OrderModel.fromJson(response.data);
       return userModel;
     } on DioException catch (error) {

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:schmitt/src/core/api/dio_helper.dart';
@@ -10,10 +9,8 @@ import 'package:schmitt/src/features/packages/data/data_sources/package_remote_d
 
 class PackageRemoteDataSourceImpl implements PackageRemoteDataSource {
   final DioHelper dio;
-  final FirebaseFirestore firestore;
 
   PackageRemoteDataSourceImpl({
-    required this.firestore,
     required this.dio,
   });
 

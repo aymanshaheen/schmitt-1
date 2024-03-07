@@ -30,10 +30,29 @@ class _HomeLayoutScreenState extends State<HomeTechLayoutScreen>
       length: 2,
       vsync: this,
     );
+    controller?.addListener(_handleTabSelection);
+  }
+
+  void _handleTabSelection() {
+    if (!(controller?.indexIsChanging ?? true)) {
+      switch (controller?.index) {
+        case 0:
+          TechCubit.get(context).todayOrders == []
+              ? context.read<TechCubit>().getMyOrders("today")
+              : null;
+          break;
+        case 1:
+          TechCubit.get(context).upcomingOrders == []
+              ? context.read<TechCubit>().getMyOrders("upcoming")
+              : null;
+          break;
+      }
+    }
   }
 
   @override
   void dispose() {
+    controller?.removeListener(_handleTabSelection);
     controller?.dispose();
     super.dispose();
   }
