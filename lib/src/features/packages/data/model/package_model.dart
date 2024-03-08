@@ -1,71 +1,74 @@
-import 'package:schmitt/src/core/entities/meta.dart';
-import 'package:schmitt/src/core/models/meta_model.dart';
-
+import 'package:schmitt/src/features/services/data/model/service_model.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 import '../../domain/entities/package_entity.dart';
 
-class PackageModel extends PackageEntity {
-  const PackageModel({
-    required List<Data> data,
-    required Meta meta,
+class PackagesModel extends PackagesEntity {
+   PackagesModel({
+    List<PackageDataEntity>? data,
   }) : super(
-          data: data,
-          meta: meta,
+          data: data ?? [],
+        );
+
+  factory PackagesModel.fromJson(Map<String, dynamic> json) {
+    return PackagesModel(
+      data: (json['data'] as List?)?.map((i) => DataModel.fromJson(i)).toList() ?? [],
+    );
+  }
+}
+
+class PackageModel extends PackageEntity {
+   PackageModel({
+    PackageDataEntity? data,
+  }) : super(
+          data: data ?? DataModel(),
         );
 
   factory PackageModel.fromJson(Map<String, dynamic> json) {
     return PackageModel(
-      data: (json['data'] as List).map((i) => DataModel.fromJson(i)).toList(),
-      meta: MetaModel.fromJson(json['meta']),
+      data: json['data'] != null ? DataModel.fromJson(json['data']) : DataModel(),
     );
   }
-
 }
-class DataModel extends Data {
-  final int? id;
-  final String? name;
-  final String? description;
-  final int? washesCount;
-  final int? days;
-  final int? price;
-  final bool? hasDiscount;
-  final int? discountPrice;
-  // final Authorize? authorize;
-  final String? createdAt;
-  final String? createdAtFormatted;
+class DataModel extends PackageDataEntity {
+  DataModel({
+    int? id,
+    String? name,
+    String? description,
+    int? washesCount,
+    int? days,
+    int? price,
+    bool? hasDiscount,
+    int? discountPrice,
+    Authorize? authorize,
+    String? createdAt,
+    String? createdAtFormatted,
+  }) : super(
+          id: id ?? 0,
+          name: name ?? '',
+          description: description ?? '',
+          washesCount: washesCount ?? 0,
+          days: days ?? 0,
+          price: price ?? 0,
+          hasDiscount: hasDiscount ?? false,
+          discountPrice: discountPrice ?? 0,
+          authorize: authorize ?? Authorize(),
+          createdAt: createdAt ?? '',
+          createdAtFormatted: createdAtFormatted ?? '',
+        );
 
-  const DataModel({
-    this.id,
-    this.name,
-    this.description,
-    this.washesCount,
-    this.days,
-    this.price,
-    this.hasDiscount,
-    this.discountPrice,
-    // this.authorize,
-    this.createdAt,
-    this.createdAtFormatted,
-  });
   factory DataModel.fromJson(Map<String, dynamic> json) {
     return DataModel(
-      id: json['id'],
-      description: json['description'],
-      price: json['price'],
-      discountPrice: json['discount_price'],
-
-
-      createdAt: json['created_at'],
-      createdAtFormatted: json['created_at_formatted'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      description: json['description'] ?? '',
+      washesCount: json['washes_count'] ?? 0,
+      days: json['days'] ?? 0,
+      price: json['price'] ?? 0,
+      hasDiscount: json['has_discount'] ?? false,
+      discountPrice: json['discount_price'] ?? 0,
+      authorize: json['authorize'] != null ? AuthorizeModel.fromJson(json['authorize']) : AuthorizeModel(),
+      createdAt: json['created_at'] ?? '',
+      createdAtFormatted: json['created_at_formatted'] ?? '',
     );
   }
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'description': description,
-        'price': price,
-        'discount_price': discountPrice,
-        'created_at': createdAt,
-        'created_at_formatted': createdAtFormatted,
-      };
 }
-

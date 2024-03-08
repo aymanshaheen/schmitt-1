@@ -5,6 +5,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:schmitt/src/features/auth/auth_injector.dart';
 import 'package:schmitt/src/features/home/injector.dart';
 import 'package:schmitt/src/features/inbox/chat_injection_container.dart';
+import 'package:schmitt/src/features/packages/injector.dart';
 import 'package:schmitt/src/features/services/injector.dart';
 import 'package:schmitt/src/features/technician_app/home/injector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +22,7 @@ void initApp() {
   initChat();
   initServices();
   initTech();
+  initPackages();
 }
 
 Future<void> initCore() async {

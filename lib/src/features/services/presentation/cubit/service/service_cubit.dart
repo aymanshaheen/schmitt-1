@@ -230,11 +230,11 @@ class ServiceCubit extends Cubit<ServiceStates> {
   void likeReview(int index, bool isLiked) {
     if (isLiked) {
       reviews![index].isLiked = true;
-      reviews![index].likes++; // Increase the number of likes
+      reviews![index].likes++; 
     } else {
       reviews![index].isLiked = false;
       if (reviews![index].likes > 0) {
-        reviews![index].likes--; // Decrease the number of likes
+        reviews![index].likes--; 
       }
     }
     emit(ReviewLiked(index, reviews![index].isLiked));

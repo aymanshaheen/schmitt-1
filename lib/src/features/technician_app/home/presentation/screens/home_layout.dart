@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
+import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/more_info_circular_icon.dart';
@@ -38,12 +39,12 @@ class _HomeLayoutScreenState extends State<HomeTechLayoutScreen>
       switch (controller?.index) {
         case 0:
           TechCubit.get(context).todayOrders == []
-              ? context.read<TechCubit>().getMyOrders("today")
+              ? TechCubit.get(context).getOrders(AppStrings.technicianAssigned)
               : null;
           break;
         case 1:
           TechCubit.get(context).upcomingOrders == []
-              ? context.read<TechCubit>().getMyOrders("upcoming")
+              ? TechCubit.get(context).getOrders(AppStrings.technicianAssigned)
               : null;
           break;
       }
@@ -177,12 +178,27 @@ class _HomeLayoutScreenState extends State<HomeTechLayoutScreen>
                 ),
               ),
             ),
-            body: TabBarView(
-              controller: controller,
-              children: <Widget>[
-                TodayOrder(orders: TechCubit.get(context).todayOrders),
-                TodayOrder(orders: TechCubit.get(context).upcomingOrders),
-              ],
+            body: BlocConsumer<TechCubit, TechState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                if (state is OrderLoading) {
+                  return SizedBox(
+                    height: R.sH(context, 500),
+                    child: Center(
+                      child: CircularIndicator(
+                        color: AppColors.darkBlue,
+                      ),
+                    ),
+                  );
+                }
+                return TabBarView(
+                  controller: controller,
+                  children: <Widget>[
+                    TodayOrder(orders: TechCubit.get(context).todayOrders),
+                    TodayOrder(orders: TechCubit.get(context).upcomingOrders),
+                  ],
+                );
+              },
             ),
           );
         });

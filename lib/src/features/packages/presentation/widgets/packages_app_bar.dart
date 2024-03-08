@@ -1,6 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:schmitt/src/core/widgets/more_info_circular_icon.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 
 PreferredSizeWidget packageAppBar({
@@ -11,7 +9,7 @@ PreferredSizeWidget packageAppBar({
       centerTitle: false,
       elevation: 0,
       title: Text(
-        title.tr(),
+        title,
         style: TextStyle(
           fontSize: R.F(context, 18),
           fontWeight: FontWeight.w600,
@@ -19,16 +17,9 @@ PreferredSizeWidget packageAppBar({
         ),
       ),
       actions: [
-        const Icon(Icons.search),
+        const Icon(Icons.search_rounded),
         SizedBox(
-          width: R.sW(context, 5),
-        ),
-        Container(
-            margin: EdgeInsets.symmetric(vertical: R.sH(context, 17)),
-            child: const MoreInfoIcon()),
-
-        SizedBox(
-          width: R.sW(context, 15),
+          width: R.sW(context, 10),
         ),
       ]);
 }

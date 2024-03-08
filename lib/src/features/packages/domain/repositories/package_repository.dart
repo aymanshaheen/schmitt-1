@@ -1,10 +1,12 @@
 import 'package:schmitt/src/core/utils/typedef.dart';
-
 import 'package:schmitt/src/features/packages/domain/entities/package_entity.dart';
+import 'package:schmitt/src/features/services/domain/entities/review.dart';
 
 
 abstract class PackageRepository {
-  ResultFuture<PackageEntity> getPackages();
-
+  ResultFuture<PackagesEntity> getPackages();
+  ResultFuture<ReviewEntity> getReviews(String id, String category);
+  ResultFuture<String> addReview(String id, String review, String rating);
+  ResultFuture<PackageEntity> getPackage(String id);
 
 }

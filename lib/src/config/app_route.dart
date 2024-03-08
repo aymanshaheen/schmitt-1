@@ -11,7 +11,8 @@ import 'package:schmitt/src/features/auth/presentation/screens/sign_in_screen.da
 import 'package:schmitt/src/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:schmitt/src/features/booking_details/presentation/screens/booking_date_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/all_services_screen.dart';
-import 'package:schmitt/src/features/packages/presentation/cubit/package_cubit.dart';
+import 'package:schmitt/src/features/packages/domain/entities/package_entity.dart';
+import 'package:schmitt/src/features/packages/presentation/screens/package_details_screen.dart';
 import 'package:schmitt/src/features/packages/presentation/screens/package_screen.dart';
 import 'package:schmitt/src/features/profile/presentation/screens/my_adresses_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/map_screen.dart';
@@ -92,6 +93,7 @@ class Routes {
   static const String startOrder = "startOrder";
   static const String cameraOrderScreen = "cameraOrderScreen";
   static const String packageScreen = "packageScreen";
+  static const String packageDetailsScreen = "packageDetailsScreen";
 }
 
 class AppRouter {
@@ -160,9 +162,14 @@ class AppRouter {
         );
       case Routes.packageScreen:
         return FadeRoute(
-          builder: (context) => BlocProvider(
-              create: (context) => sl<PackageCubit>(),
-              child: const PackagesScreen()),
+          builder: (context) => const PackagesScreen(),
+        );
+      case Routes.packageDetailsScreen:
+        final arguments = settings.arguments as PackageDataEntity;
+        return FadeRoute(
+          builder: (context) => PackageDetailsScreen(
+            package: arguments,
+          ),
         );
       case Routes.carWashServiceDetails:
         return FadeRoute(

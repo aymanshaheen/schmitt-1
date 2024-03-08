@@ -1,5 +1,6 @@
 import 'package:schmitt/src/features/auth/domain/entities/user_entity.dart';
 import 'package:camera/camera.dart';
+import 'package:schmitt/src/features/packages/domain/entities/package_entity.dart';
 import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
 import 'package:schmitt/src/features/services/domain/entities/car.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
@@ -31,5 +32,6 @@ class AppConstants {
   static DateTime? selectedDate;
   static int? selectedHour;
   static Service? service;
+  static PackageDataEntity? package;
   static String myPlace = "";
 }

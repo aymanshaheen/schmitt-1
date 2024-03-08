@@ -106,15 +106,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     label: "home".tr(),
                     icon: SvgPicture.asset('assets/images/home.svg'),
                   ),
-                    BottomNavigationBarItem(
-                    label: 'Packages'.tr(),
-                    icon: SvgPicture.asset(AppImage.calendarBar),
+                  BottomNavigationBarItem(
+                    label: 'packages'.tr(),
+                    icon: SvgPicture.asset(
+                      AppImage.packages,
+                      color: Colors.grey[400],
+                    ),
                   ),
                   BottomNavigationBarItem(
                     label: 'bookings'.tr(),
                     icon: SvgPicture.asset('assets/images/booking.svg'),
                   ),
-                
                   BottomNavigationBarItem(
                     label: 'inbox'.tr(),
                     icon: SvgPicture.asset('assets/images/inbox.svg'),

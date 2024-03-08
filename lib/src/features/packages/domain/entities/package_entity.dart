@@ -1,17 +1,29 @@
 import 'package:equatable/equatable.dart';
-import 'package:schmitt/src/core/entities/meta.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
-class PackageEntity extends Equatable {
-  final List<Data> data;
-  final Meta meta;
+class PackagesEntity extends Equatable {
+  final List<PackageDataEntity> data;
 
-  const PackageEntity({required this.data, required this.meta});
+  const PackagesEntity({
+    required this.data,
+  });
 
   @override
-  List<Object> get props => [data, meta];
+  List<Object> get props => [data];
 }
 
-class Data extends Equatable {
+class PackageEntity extends Equatable {
+  final PackageDataEntity data;
+
+  const PackageEntity({
+    required this.data,
+  });
+
+  @override
+  List<Object> get props => [data];
+}
+
+class PackageDataEntity extends Equatable {
   final int? id;
   final String? name;
   final String? description;
@@ -22,8 +34,9 @@ class Data extends Equatable {
   final int? discountPrice;
   final String? createdAt;
   final String? createdAtFormatted;
+  final Authorize? authorize;
 
-  const Data({
+  const PackageDataEntity({
     this.id,
     this.name,
     this.description,
@@ -33,14 +46,10 @@ class Data extends Equatable {
     this.hasDiscount,
     this.discountPrice,
     this.createdAt,
+    this.authorize,
     this.createdAtFormatted,
   });
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'createdAt': createdAt,
-    'createdAtFormatted': createdAtFormatted,
-  };
+
   @override
   List<Object?> get props => [
         id,
@@ -53,6 +62,7 @@ class Data extends Equatable {
         hasDiscount,
         discountPrice,
         createdAt,
+        authorize,
         createdAtFormatted
       ];
 }

@@ -1,20 +1,110 @@
-
- import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:schmitt/src/core/entities/order.dart';
-import 'package:schmitt/src/features/packages/domain/repositories/package_repository.dart';
- part 'package_states.dart';
- class PackageCubit extends Cubit<PackageStates> {
-   PackageCubit(this.packageRepository) : super(PackageInitial());
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:schmitt/src/features/packages/domain/entities/package_entity.dart';
+import 'package:schmitt/src/features/packages/domain/use_cases/add_review.dart';
+import 'package:schmitt/src/features/packages/domain/use_cases/get_package.dart';
+import 'package:schmitt/src/features/packages/domain/use_cases/get_packages.dart';
+import 'package:schmitt/src/features/packages/domain/use_cases/get_reviews.dart';
+import 'package:schmitt/src/features/services/domain/entities/review.dart';
+part 'package_states.dart';
 
-   final PackageRepository packageRepository;
-   Future<void> fetchPackages() async {
-     emit(PackageLoading());
-     var result = await packageRepository.getPackages();
-     result.fold((failure) {
-       emit(PackageFailure(failure.message));
-     }, (packages) {
-      // emit( PackageSuccess(packages));
-     });
-   }
- }
+class PackageCubit extends Cubit<PackageStates> {
+  final GetPackageUseCase getPackageUseCase;
+  final GetPackagesUseCase getPackagesUseCase;
+  final AddReviweUseCase addReviweUseCase;
+  final GetReviwesUseCase getReviwesUseCase;
+
+  PackageCubit(
+      {required this.getPackageUseCase,
+      required this.getPackagesUseCase,
+      required this.addReviweUseCase,
+      required this.getReviwesUseCase})
+      : super(PackageInitial());
+  static PackageCubit get(context) => BlocProvider.of(context);
+
+  List<PackageDataEntity> packages = [];
+  Future<void> getPackages() async {
+    emit(PacakgesLoading());
+
+    final result = await getPackagesUseCase.call();
+    result.fold(
+      (failure) => emit(PacakgesError(
+        message: failure.message,
+      )),
+      (right) {
+        packages = right.data;
+        emit(PacakgesLoaded(right.data));
+      },
+    );
+  }
+
+  PackageDataEntity? package;
+  Future<void> getPackage(String id) async {
+    emit(PacakgeLoading());
+
+    final result = await getPackageUseCase.call(id);
+    result.fold(
+      (failure) => emit(PacakgeError(
+        message: failure.message,
+      )),
+      (right) {
+        package = right.data;
+        emit(PacakgeLoaded(right.data));
+      },
+    );
+  }
+
+  Future<void> addReview(
+      {required String id,
+      required String review,
+      required String rating}) async {
+    emit(AddReviweLoading());
+
+    final result =
+        await addReviweUseCase.call(id: id, review: review, rating: rating);
+    result.fold(
+      (failure) => emit(AddReviweError(
+        failure.message,
+      )),
+      (right) => emit(AddReviweLoaded(right)),
+    );
+  }
+
+  List<Review>? reviews = [];
+  Future<void> getReviews(String id, String category) async {
+    emit(GetReviwesLoading());
+
+    final result = await getReviwesUseCase.call(id: id, category: category);
+    result.fold(
+        (failure) => emit(GetReviwesError(
+              failure.message,
+            )), (right) {
+      reviews = right.data;
+      emit(GetReviwesLoaded(right.data));
+    });
+  }
+
+  double getAverageRating() {
+    if (reviews == null || reviews!.isEmpty) {
+      return 0.0;
+    }
+    double total = 0.0;
+    for (var review in reviews!) {
+      total += review.rating!;
+    }
+    return total / reviews!.length;
+  }
+
+  void likeReview(int index, bool isLiked) {
+    if (isLiked) {
+      reviews![index].isLiked = true;
+      reviews![index].likes++;
+    } else {
+      reviews![index].isLiked = false;
+      if (reviews![index].likes > 0) {
+        reviews![index].likes--;
+      }
+    }
+    emit(ReviewLiked(index, reviews![index].isLiked));
+  }
+}
