@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String keylang = "keylang";
-const String prefsKey =
-    "prefsKey";
+const String prefsKey = "prefsKey";
 const String prefsLoggedIn = "prefsLoggedIn";
 
 class AppPreferences {
@@ -28,12 +27,10 @@ class AppPreferences {
 
     if (currentLang == LanguageType.arabic.getValue()) {
       // set english
-      _sharedPreferences.setString(
-          keylang, LanguageType.english.getValue());
+      _sharedPreferences.setString(keylang, LanguageType.english.getValue());
     } else {
       // set arabic
-      _sharedPreferences.setString(
-          keylang, LanguageType.arabic.getValue());
+      _sharedPreferences.setString(keylang, LanguageType.arabic.getValue());
     }
   }
 
@@ -54,8 +51,7 @@ class AppPreferences {
   }
 
   Future<bool> isOnBoardingScreenViewed() async {
-    return _sharedPreferences.getBool(prefsKey) ??
-        false;
+    return _sharedPreferences.getBool(prefsKey) ?? false;
   }
 
   Future<bool> saveData({

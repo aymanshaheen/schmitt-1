@@ -38,9 +38,9 @@ class BottomServiceNavigationBar extends StatelessWidget {
               height: R.sH(context, 50),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: AppConstants.service!.category!.id == 4
+                color:AppConstants.package==null? AppConstants.service!.category!.id == 4
                     ? AppColors.lightPurble
-                    : AppColors.whiteBlue,
+                    : AppColors.whiteBlue:AppColors.whiteBlue,
               ),
               child: Center(
                 child: Text(
@@ -61,9 +61,9 @@ class BottomServiceNavigationBar extends StatelessWidget {
               height: R.sH(context, 50),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: AppConstants.service!.category!.id == 4
+                color:AppConstants.package==null? AppConstants.service!.category!.id == 4
                     ? AppColors.purple
-                    : AppColors.darkBlue,
+                    : AppColors.darkBlue:AppColors.darkBlue,
               ),
               child: Center(
                 child: Text(

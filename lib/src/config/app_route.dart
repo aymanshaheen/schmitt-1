@@ -9,7 +9,6 @@ import 'package:schmitt/src/features/auth/presentation/screens/forget_password/r
 import 'package:schmitt/src/features/auth/presentation/screens/forget_password/verify_code_screen.dart';
 import 'package:schmitt/src/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:schmitt/src/features/auth/presentation/screens/sign_up_screen.dart';
-import 'package:schmitt/src/features/booking_details/presentation/screens/booking_date_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/all_services_screen.dart';
 import 'package:schmitt/src/features/packages/domain/entities/package_entity.dart';
 import 'package:schmitt/src/features/packages/presentation/screens/package_details_screen.dart';
@@ -239,11 +238,7 @@ class AppRouter {
             query: arguments,
           ),
         );
-      case Routes.bookingDate:
-        return FadeRoute(
-          builder: (context) => const BookingDate(),
-        );
-
+      
       case Routes.location:
         final arguments = settings.arguments as bool;
         return FadeRoute(

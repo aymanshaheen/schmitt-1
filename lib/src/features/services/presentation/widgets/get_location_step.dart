@@ -141,13 +141,17 @@ class LocationStep extends StatelessWidget {
                                                       fontWeight:
                                                           FontWeight.w400,
                                                     )),
-                                                Text(address[index].address!,
-                                                    style: TextStyle(
-                                                      fontSize:
-                                                          R.F(context, 14),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    )),
+                                                SizedBox(
+                                                  width: R.sW(context, 180),
+                                                  child: Text(address[index].address!,
+                                                      style: TextStyle(
+                                                        overflow: TextOverflow.ellipsis,
+                                                        fontSize:
+                                                            R.F(context, 14),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      )),
+                                                ),
                                               ],
                                             ),
                                           ],

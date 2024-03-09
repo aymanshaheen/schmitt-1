@@ -158,11 +158,11 @@ class _PackageDetailsScreenState extends State<PackageDetailsScreen> {
                                   Row(
                                     children: [
                                       Text(
-                                        'duration'.tr(),
+                                        'duration'.tr() + ":",
                                         style: TextStyle(
                                           color: AppColors.darkBlue,
                                           fontSize: R.F(context, 16),
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                       SizedBox(width: R.sH(context, 5)),
@@ -173,7 +173,7 @@ class _PackageDetailsScreenState extends State<PackageDetailsScreen> {
                                         style: TextStyle(
                                           color: AppColors.darkBlue,
                                           fontSize: R.F(context, 16),
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ],
@@ -181,11 +181,11 @@ class _PackageDetailsScreenState extends State<PackageDetailsScreen> {
                                   Row(
                                     children: [
                                       Text(
-                                        'number_of_times'.tr(),
+                                        'number_of_times'.tr() + ":",
                                         style: TextStyle(
                                           color: AppColors.darkBlue,
                                           fontSize: R.F(context, 16),
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                       SizedBox(width: R.sH(context, 5)),
@@ -196,7 +196,7 @@ class _PackageDetailsScreenState extends State<PackageDetailsScreen> {
                                         style: TextStyle(
                                           color: AppColors.darkBlue,
                                           fontSize: R.F(context, 16),
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ],
@@ -208,7 +208,7 @@ class _PackageDetailsScreenState extends State<PackageDetailsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'cleints_opinion'.tr()+ ":",
+                                    'details_of_package'.tr() + ":",
                                     style: TextStyle(
                                       color: AppColors.darkBlue,
                                       fontSize: R.F(context, 18),
@@ -225,12 +225,20 @@ class _PackageDetailsScreenState extends State<PackageDetailsScreen> {
                                     style: TextStyle(
                                       color: AppColors.black,
                                       fontSize: R.F(context, 16),
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ],
                               ),
                               SizedBox(height: R.sH(context, 10)),
+                              Text(
+                                'cleints_opinion'.tr(),
+                                style: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: R.F(context, 18),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                               const PackageReview(),
                             ]),
                       ),

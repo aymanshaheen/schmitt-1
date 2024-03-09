@@ -24,22 +24,30 @@ class SubmitOrderScreen extends StatelessWidget {
     Future<void> createOrder() async {
       ServiceCubit.get(context).createOrder(
           OrderParams(
-            name: AppConstants.service!.title,
-            price: AppConstants.service!.category!.id == 3
-                ? ServiceCubit.get(context).carWashPrice
-                : AppConstants.service!.category!.id == 2
-                    ? ServiceCubit.get(context).calculateTotalPrice()
-                    : ServiceCubit.get(context).numberOfChilds * 20,
+            name: AppConstants.package != null
+                ? AppConstants.package!.name!
+                : AppConstants.service!.title,
+            price: AppConstants.package?.price ??
+                (AppConstants.service?.category?.id == 3
+                    ? ServiceCubit.get(context).carWashPrice
+                    : AppConstants.service?.category?.id == 2
+                        ? ServiceCubit.get(context).calculateTotalPrice()
+                        : ServiceCubit.get(context).numberOfChilds * 20),
             addressId: AppConstants.addressId,
-            carId: AppConstants.service!.category!.id == 3
-                ? AppConstants.currentCar!.id
+            carId: AppConstants.package == null
+                ? (AppConstants.service?.category?.id == 3
+                    ? AppConstants.currentCar?.id
+                    : null)
                 : null,
-            services: [
-              ServiceParams(
-                id: AppConstants.service!.id,
-                inCartCount: 1,
-              )
-            ],
+            services: AppConstants.package == null
+                ? [
+                    ServiceParams(
+                      id: AppConstants.service!.id,
+                      inCartCount: 1,
+                    )
+                  ]
+                : [],
+            packageId: AppConstants.package?.id,
             microServices: const [],
           ),
           AppConstants.addressID);
@@ -78,10 +86,10 @@ class SubmitOrderScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppConstants.service!.category!.id == 2
+                  AppConstants.service?.category!.id == 2
                       ? const ServiceOrder()
                       : const SizedBox.shrink(),
-                  AppConstants.service!.category!.id == 2
+                  AppConstants.service?.category!.id == 2
                       ? SizedBox(
                           height: R.sH(context, 20),
                         )
@@ -214,18 +222,25 @@ class SubmitOrderScreen extends StatelessWidget {
                     height: R.sH(context, 10),
                   ),
                   CustomRow(
-                    label: AppConstants.service!.title,
-                    value: AppConstants.service!.category!.id == 3
-                        ? ServiceCubit.get(context).carWashPrice.toString() +
-                            " \$"
-                        : AppConstants.service!.category!.id == 2
+                    label: AppConstants.package == null
+                        ? AppConstants.service!.title
+                        : AppConstants.package!.name!,
+                    value: AppConstants.package == null
+                        ? AppConstants.service!.category!.id == 3
                             ? ServiceCubit.get(context)
-                                    .calculateTotalPrice()
+                                    .carWashPrice
                                     .toString() +
                                 " \$"
-                            : (ServiceCubit.get(context).numberOfChilds * 20)
-                                    .toString() +
-                                " \$",
+                            : AppConstants.service!.category!.id == 2
+                                ? ServiceCubit.get(context)
+                                        .calculateTotalPrice()
+                                        .toString() +
+                                    " \$"
+                                : (ServiceCubit.get(context).numberOfChilds *
+                                            20)
+                                        .toString() +
+                                    " \$"
+                        : AppConstants.package!.price.toString() + " \$",
                     color: AppColors.black,
                   ),
                   CustomRow(

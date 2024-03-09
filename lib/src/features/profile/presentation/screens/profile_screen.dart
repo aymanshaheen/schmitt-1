@@ -100,8 +100,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ? const SizedBox.shrink()
                               : Padding(
                                   padding: EdgeInsets.only(
-                                      right:Localizations.localeOf(context).languageCode=="ar" ?R.sW(context, 0): R.sW(context, 220),
-                                      left: Localizations.localeOf(context).languageCode=="ar" ?R.sW(context, 220): R.sW(context, 0),
+                                      right: Localizations.localeOf(context)
+                                                  .languageCode ==
+                                              "ar"
+                                          ? R.sW(context, 0)
+                                          : R.sW(context, 220),
+                                      left: Localizations.localeOf(context)
+                                                  .languageCode ==
+                                              "ar"
+                                          ? R.sW(context, 220)
+                                          : R.sW(context, 0),
                                       bottom: R.sH(context, 10)),
                                   child: Text(
                                     'profile'.tr(),
@@ -261,10 +269,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           children: [
                                             InkWell(
                                               onTap: () {
-                                                appPreferences.clearAllData();
                                                 AppConstants.token = '';
                                                 AppConstants.addressID = '';
-
+                                                appPreferences.removeData(key: "token");
+                                                appPreferences.removeData(key: "addressID");
+                                                appPreferences.removeData(key: "myPlace");
                                                 HomeCubit.get(context)
                                                     .services = [];
                                                 HomeCubit.get(context).slides =

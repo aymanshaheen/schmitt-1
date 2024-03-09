@@ -84,6 +84,25 @@ class PackageCubit extends Cubit<PackageStates> {
     });
   }
 
+  Map<int, double> getReviewCounts() {
+    Map<int, double> reviewCounts = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
+
+    if (reviews != null) {
+      for (var review in reviews!) {
+        int rating = review.rating!;
+        if (reviewCounts[rating] != null) {
+          double count = reviewCounts[rating]!;
+          count++;
+          reviewCounts[rating] = count;
+        } else {
+          reviewCounts[rating] = 1;
+        }
+      }
+    }
+
+    return reviewCounts;
+  }
+
   double getAverageRating() {
     if (reviews == null || reviews!.isEmpty) {
       return 0.0;
@@ -92,7 +111,7 @@ class PackageCubit extends Cubit<PackageStates> {
     for (var review in reviews!) {
       total += review.rating!;
     }
-    return total / reviews!.length;
+    return (total / reviews!.length);
   }
 
   void likeReview(int index, bool isLiked) {

@@ -37,7 +37,6 @@ dependencies:
   intl_phone_field: ^3.1.0
   expandable_text: 
   video_player: ^2.4.9
-  table_calendar:
   csc_picker: ^0.2.7
   pin_code_fields: 
   uuid:
@@ -53,6 +52,7 @@ dependencies:
   geolocator: ^11.0.0
   flutter_polyline_points: ^1.0.0
   geocoding: ^2.0.0
+  flutter_rating_bar: ^4.0.0
 
 
 

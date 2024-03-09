@@ -21,7 +21,6 @@ import 'package:schmitt/src/features/auth/presentation/widgets/custom_remember_m
 import 'package:schmitt/src/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:schmitt/src/features/auth/presentation/widgets/sign_in_custom_row.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
-import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/cubit/tech_cubit.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -84,14 +83,7 @@ class _SignInViewState extends State<SignInScreen> {
                 AppConstants.token = credentialState.user.token!;
                 AppConstants.profile!.localedType != "مزود الخدمة"
                     ? AppConstants.addressID == ""
-                        ? ServiceCubit.get(context).getAdresses().then((value) {
-                          AppConstants.addressID = ServiceCubit.get(context).addresses![0].id.toString();
-                            Future.wait([
-                              HomeCubit.get(context).getSlides(),
-                              HomeCubit.get(context)
-                                  .getServices(1, AppStrings.allId),
-                            ]);
-                          })
+                        ? null
                         : Future.wait([
                             HomeCubit.get(context).getSlides(),
                             HomeCubit.get(context)
