@@ -52,6 +52,8 @@ class _TodayOrderState extends State<TodayOrder> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return OrderContent(
+                      isEdit: false,
+                      isUser: false,
                       order: widget.orders[index],
                     );
                   },

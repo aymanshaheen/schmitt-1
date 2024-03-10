@@ -10,6 +10,7 @@ import 'package:schmitt/src/features/auth/presentation/screens/forget_password/v
 import 'package:schmitt/src/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:schmitt/src/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/all_services_screen.dart';
+import 'package:schmitt/src/features/orders/presentation/screens/order_details.dart';
 import 'package:schmitt/src/features/packages/domain/entities/package_entity.dart';
 import 'package:schmitt/src/features/packages/presentation/screens/package_details_screen.dart';
 import 'package:schmitt/src/features/packages/presentation/screens/package_screen.dart';
@@ -93,6 +94,7 @@ class Routes {
   static const String cameraOrderScreen = "cameraOrderScreen";
   static const String packageScreen = "packageScreen";
   static const String packageDetailsScreen = "packageDetailsScreen";
+  static const String orderDetailsScreen = "orderDetailsScreen";
 }
 
 class AppRouter {
@@ -238,7 +240,7 @@ class AppRouter {
             query: arguments,
           ),
         );
-      
+
       case Routes.location:
         final arguments = settings.arguments as bool;
         return FadeRoute(
@@ -290,6 +292,11 @@ class AppRouter {
         final arguments = settings.arguments as Order;
         return FadeRoute(
           builder: (context) => OrderServiceScreen(order: arguments),
+        );
+      case Routes.orderDetailsScreen:
+        final arguments = settings.arguments as Order;
+        return FadeRoute(
+          builder: (context) => OrderDetailsScreen(order: arguments),
         );
       case Routes.startOrder:
         final arguments = settings.arguments as Order;

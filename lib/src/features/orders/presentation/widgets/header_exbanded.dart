@@ -6,11 +6,18 @@ import 'package:schmitt/src/core/functions/date_converter.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
+import 'package:schmitt/src/features/orders/presentation/widgets/cancel_bottom_sheet.dart';
+import 'package:schmitt/src/features/orders/presentation/widgets/edit_bottom_sheet.dart';
 
 class HeaderExpanded extends StatelessWidget {
   final Order order;
+  final bool isEdit;
   final void Function() onTap;
-  const HeaderExpanded({super.key, required this.order, required this.onTap});
+  const HeaderExpanded(
+      {super.key,
+      required this.order,
+      required this.onTap,
+      required this.isEdit});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +73,9 @@ class HeaderExpanded extends StatelessWidget {
                               ? AppColors.yellow
                               : order.status == "completed"
                                   ? AppColors.green
-                                  : AppColors.darkBlue,
+                                  : order.status == "cancelled"
+                                      ? AppColors.error
+                                      : AppColors.darkBlue,
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Center(
@@ -75,7 +84,9 @@ class HeaderExpanded extends StatelessWidget {
                                 ? 'on_going'.tr()
                                 : order.status == "completed"
                                     ? 'completed'.tr()
-                                    : 'upcoming'.tr(),
+                                    : order.status == "cancelled"
+                                        ? "cancelled".tr()
+                                        : 'upcoming'.tr(),
                             style: TextStyle(
                               color: AppColors.white,
                               fontSize: R.F(context, 10),
@@ -105,7 +116,7 @@ class HeaderExpanded extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          order.services!.first.price.toString() + ' \$',
+                          order.services!.first.price.toString() + '\$',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColors.darkBlue,
@@ -183,7 +194,9 @@ class HeaderExpanded extends StatelessWidget {
               width: R.sW(context, 5),
             ),
             Text(
-              'clock'.tr() + ' 12:00 PM',
+              'clock'.tr() +
+                  ': ' +
+                  ConverterDate.formatTime(DateTime.parse(order.startAt!)),
               style: TextStyle(
                 color: AppColors.grey,
                 fontSize: R.F(context, 12),
@@ -196,7 +209,97 @@ class HeaderExpanded extends StatelessWidget {
             Icon(Icons.location_on_outlined,
                 color: AppColors.darkBlue, size: R.F(context, 20)),
           ],
-        )
+        ),
+        isEdit
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: R.sH(context, 10),
+                  ),
+                  Divider(
+                    color: AppColors.grey1,
+                    thickness: 1,
+                    indent: R.sW(context, 5),
+                    endIndent: R.sW(context, 40),
+                  ),
+                  SizedBox(
+                    height: R.sH(context, 10),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return EditBottomSheet(
+                                  order: order,
+                                );
+                              });
+                        },
+                        child: Container(
+                          width: R.sW(context, 150),
+                          height: R.sH(context, 45),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColors.white,
+                            border: Border.all(
+                              color: AppColors.darkBlue,
+                              width: 1,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "edit".tr(),
+                              style: TextStyle(
+                                color: AppColors.darkBlue,
+                                fontSize: R.F(context, 16),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                       onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return CancelBottomSheet(
+                                  order: order,
+                                );
+                              });
+                        },
+                        child: Container(
+                          width: R.sW(context, 150),
+                          height: R.sH(context, 45),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColors.white,
+                            border: Border.all(
+                              color: AppColors.darkBlue,
+                              width: 1,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "cancel".tr(),
+                              style: TextStyle(
+                                color: AppColors.darkBlue,
+                                fontSize: R.F(context, 16),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }

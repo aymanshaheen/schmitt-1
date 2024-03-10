@@ -16,7 +16,16 @@ class ConverterDate {
       return dateConverterMonthNum(dateTime.toString());
     }
   }
+static String formatTime(DateTime dateTime) {
+  final hours = dateTime.hour;
+  final minutes = dateTime.minute;
+  final period = hours >= 12 ? 'PM' : 'AM';
 
+  final formattedHours = hours > 12 ? hours - 12 : (hours == 0 ? 12 : hours);
+  final formattedMinutes = minutes.toString().padLeft(2, '0');
+
+  return '$formattedHours:$formattedMinutes $period';
+}
   static Map<int, String> weekdaysInArabic = {
     1: 'الاثنين',
     2: 'الثلاثاء',

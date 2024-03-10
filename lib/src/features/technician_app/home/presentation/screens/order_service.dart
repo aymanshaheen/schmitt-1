@@ -100,7 +100,7 @@ class _HomeLayoutScreenState extends State<OrderServiceScreen>
           body: TabBarView(
             controller: controller,
             children: <Widget>[
-              OrderItems(order: widget.order),
+              OrderItems(order: widget.order,isUser: false,),
               CustomerInfo(order: widget.order),
             ],
           ),

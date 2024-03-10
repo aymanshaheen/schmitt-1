@@ -127,7 +127,7 @@ class _HomeLayoutScreenState extends State<OrderSettingScreen>
         builder: (context, state) {
           if (state is OrderLoading) {
             return SizedBox(
-             height:  R.sH(context, 500),
+              height: R.sH(context, 500),
               child: Center(
                 child: CircularIndicator(
                   color: AppColors.darkBlue,
@@ -138,8 +138,8 @@ class _HomeLayoutScreenState extends State<OrderSettingScreen>
           return TabBarView(
             controller: controller,
             children: <Widget>[
-              UpcomingOrder(orders: TechCubit.get(context).myOrders),
-              UpcomingOrder(orders: TechCubit.get(context).myOrders),
+              UpcomingOrder(orders: TechCubit.get(context).myOrders,isEdit: false, isUser: false),
+              UpcomingOrder(orders: TechCubit.get(context).myOrders, isEdit: false, isUser: false),
             ],
           );
         },

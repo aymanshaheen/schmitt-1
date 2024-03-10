@@ -11,7 +11,9 @@ import 'package:schmitt/src/features/technician_app/home/presentation/widgets/or
 
 class UpcomingOrder extends StatefulWidget {
   final List<Order> orders;
-  const UpcomingOrder({super.key, required this.orders});
+  final bool isEdit;
+  final bool isUser;
+  const UpcomingOrder( {super.key, required this.orders, required this.isEdit, required this.isUser});
 
   @override
   State<UpcomingOrder> createState() => _UpcomingOrderState();
@@ -46,6 +48,8 @@ class _UpcomingOrderState extends State<UpcomingOrder> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return OrderContent(
+                    isEdit: widget.isEdit,
+                    isUser: widget.isUser,
                     order: widget.orders[index],
                   );
                 },

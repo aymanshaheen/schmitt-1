@@ -9,12 +9,15 @@ import 'package:schmitt/src/features/orders/presentation/widgets/main_header.dar
 
 class OrderContent extends StatefulWidget {
   final Order order;
+  final bool isEdit;
+  final bool isUser;
 
-
-  const OrderContent(
-      {super.key,
-      required this.order,
-});
+  const OrderContent({
+    super.key,
+    required this.order,
+    required this.isEdit,
+    required this.isUser,
+  });
 
   @override
   _OrderContentState createState() => _OrderContentState();
@@ -27,8 +30,11 @@ class _OrderContentState extends State<OrderContent> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.techOrderService,
-            arguments: widget.order);
+        widget.isUser
+            ? Navigator.pushNamed(context, Routes.orderDetailsScreen,
+                arguments: widget.order)
+            : Navigator.pushNamed(context, Routes.techOrderService,
+                arguments: widget.order);
       },
       child: Container(
         margin: EdgeInsets.symmetric(
@@ -48,6 +54,7 @@ class _OrderContentState extends State<OrderContent> {
                 duration: const Duration(milliseconds: 400),
                 firstChild: HeaderExpanded(
                   order: widget.order,
+                  isEdit: widget.isEdit,
                   onTap: () {
                     setState(() {
                       isExpanded = !isExpanded;

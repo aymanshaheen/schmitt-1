@@ -8,6 +8,7 @@ import 'package:schmitt/src/core/utils/theme/app_themes/theme_data_light.dart';
 import 'package:schmitt/src/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
+import 'package:schmitt/src/features/orders/presentation/cubit/booking_cubit.dart';
 import 'package:schmitt/src/features/packages/presentation/cubit/package_cubit.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/cubit/tech_cubit.dart';
@@ -41,7 +42,8 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => sl<ServiceCubit>(),
         ),
-        BlocProvider(create:(context) => sl<PackageCubit>()),
+        BlocProvider(create: (context) => sl<PackageCubit>()),
+        BlocProvider(create: (context) => sl<BookingCubit>()),
         BlocProvider(create: (context) => sl<HomeCubit>()),
         BlocProvider(create: (context) => sl<TechCubit>()),
       ],

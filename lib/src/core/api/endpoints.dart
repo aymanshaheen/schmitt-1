@@ -21,6 +21,7 @@ class Endpoints {
   static const companies = "companies";
   static const colors = "colors";
   static const package = "packages";
+  static const cancel = "cancel";
 
 
 }
