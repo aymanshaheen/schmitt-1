@@ -6,8 +6,9 @@ import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/more_info_circular_icon.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
+import 'package:schmitt/src/features/orders/presentation/widgets/order_status.dart';
+import 'package:schmitt/src/features/orders/presentation/widgets/tech_info.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/cubit/tech_cubit.dart';
-import 'package:schmitt/src/features/technician_app/home/presentation/widgets/customer_info.dart';
 import 'package:schmitt/src/features/technician_app/home/presentation/widgets/order_items.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
@@ -40,7 +41,7 @@ class _HomeLayoutScreenState extends State<OrderDetailsScreen>
   List<Tab> tabs = [
     Tab(text: "details".tr()),
     Tab(text: "order_status".tr()),
-    Tab(text: "customer_information".tr()),
+    Tab(text: "tech_information".tr()),
   ];
   @override
   Widget build(BuildContext context) {
@@ -87,10 +88,10 @@ class _HomeLayoutScreenState extends State<OrderDetailsScreen>
                         color: AppColors.darkBlue,
                       ),
                       insets:
-                          EdgeInsets.symmetric(horizontal: R.sH(context, -25))),
+                          EdgeInsets.symmetric(horizontal: R.sH(context, -15))),
                   labelColor: AppColors.darkBlue,
                   labelStyle: TextStyle(
-                    fontSize: R.F(context, 18),
+                    fontSize: R.F(context, 16),
                     fontWeight: FontWeight.w600,
                   ),
                   unselectedLabelColor: AppColors.lightGrey,
@@ -103,8 +104,8 @@ class _HomeLayoutScreenState extends State<OrderDetailsScreen>
               controller: controller,
               children: <Widget>[
                 OrderItems(order: widget.order,isUser: true,),
-                CustomerInfo(order: widget.order),
-                CustomerInfo(order: widget.order),
+                OrderStatus(order: widget.order),
+                TechInfo(order: widget.order),
               ],
             ),
           );

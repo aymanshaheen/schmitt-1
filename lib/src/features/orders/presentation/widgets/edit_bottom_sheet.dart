@@ -27,7 +27,7 @@ class EditBottomSheet extends StatelessWidget {
         return Container(
             padding: EdgeInsets.symmetric(
                 horizontal: R.sW(context, 10), vertical: R.sH(context, 10)),
-            height: R.sH(context, 200),
+            height: R.sH(context, 140),
             child: Center(
                 child: CircularIndicator(
               color: AppColors.darkBlue,
@@ -36,7 +36,7 @@ class EditBottomSheet extends StatelessWidget {
       return Container(
         padding: EdgeInsets.symmetric(
             horizontal: R.sW(context, 10), vertical: R.sH(context, 10)),
-        height: R.sH(context, 200),
+        height: R.sH(context, 140),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: const BorderRadius.only(

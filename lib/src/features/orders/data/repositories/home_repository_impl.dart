@@ -1,6 +1,7 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:schmitt/src/core/entities/attachments.dart';
 import 'package:schmitt/src/core/entities/order.dart';
 import 'package:schmitt/src/core/error/error_handler.dart';
 import 'package:schmitt/src/core/error/response_status.dart';
@@ -53,6 +54,21 @@ class OrderRepositoryImpl implements OrderRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.cancleOrder(orderId);
+        return right(result);
+      } on DioException catch (e) {
+        return Left(Failure(message: e.response!.data['message'], code: 0));
+      } catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.networkConnectError.getFailure());
+    }
+  }
+   @override
+  ResultFuture<AttachmentsEntity> getAttachments(int orderId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.getAttachments(orderId);
         return right(result);
       } on DioException catch (e) {
         return Left(Failure(message: e.response!.data['message'], code: 0));

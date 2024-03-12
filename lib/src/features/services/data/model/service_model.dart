@@ -129,19 +129,15 @@ class CategoryModel extends Category {
 
 class ImageModel extends ImageData {
   const ImageModel({
-    int? id,
+    num? id,
     String? url,
     String? preview,
     String? name,
     String? fileName,
     String? type,
     String? mimeType,
-    int? size,
     String? humanReadableSize,
-    Details? details,
     String? status,
-    int? progress,
-    Links? links,
   }) : super(
           id: id,
           url: url,
@@ -150,89 +146,31 @@ class ImageModel extends ImageData {
           fileName: fileName,
           type: type,
           mimeType: mimeType,
-          size: size,
           humanReadableSize: humanReadableSize,
-          details: details,
           status: status,
-          progress: progress,
-          links: links,
         );
 
   factory ImageModel.fromJson(Map<String, dynamic> json) {
     return ImageModel(
-      id: json['id'] as int?,
+      id: json['id'] as num?,
       url: json['url'] as String?,
       preview: json['preview'] as String?,
       name: json['name'] as String?,
       fileName: json['file_name'] as String?,
       type: json['type'] as String?,
       mimeType: json['mime_type'] as String?,
-      size: json['size'] as int?,
       humanReadableSize: json['human_readable_size'] as String?,
-      details: json['details'] != null
-          ? DetailsModel.fromJson(json['details'] as Map<String, dynamic>)
-          : null,
+      
       status: json['status'] as String?,
-      progress: json['progress'] as int?,
-      links: json['links'] != null
-          ? LinksModel.fromJson(json['links'] as Map<String, dynamic>)
-          : null,
+ 
     );
   }
 }
 
-class DetailsModel extends Details {
-  const DetailsModel({
-    int? width,
-    int? height,
-    int? ratio,
-  }) : super(
-          width: width,
-          height: height,
-          ratio: ratio,
-        );
 
-  factory DetailsModel.fromJson(Map<String, dynamic> json) {
-    return DetailsModel(
-      width: json['width'] as int?,
-      height: json['height'] as int?,
-      ratio: json['ratio'] as int?,
-    );
-  }
-}
 
-class LinksModel extends Links {
-  const LinksModel({
-    Delete? delete,
-  }) : super(
-          delete: delete,
-        );
 
-  factory LinksModel.fromJson(Map<String, dynamic> json) {
-    return LinksModel(
-      delete: json['delete'] != null
-          ? DeleteModel.fromJson(json['delete'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-}
 
-class DeleteModel extends Delete {
-  const DeleteModel({
-    String? href,
-    String? method,
-  }) : super(
-          href: href,
-          method: method,
-        );
-
-  factory DeleteModel.fromJson(Map<String, dynamic> json) {
-    return DeleteModel(
-      href: json['href'] as String?,
-      method: json['method'] as String?,
-    );
-  }
-}
 
 class AuthorizeModel extends Authorize {
   const AuthorizeModel({

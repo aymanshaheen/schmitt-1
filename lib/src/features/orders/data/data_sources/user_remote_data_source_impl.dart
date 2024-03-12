@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:schmitt/src/core/api/dio_helper.dart';
 import 'package:schmitt/src/core/api/endpoints.dart';
+import 'package:schmitt/src/core/models/attachment_model.dart';
 import 'package:schmitt/src/core/models/order_model.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/features/orders/data/data_sources/user_remote_data_source.dart';
@@ -75,6 +76,31 @@ class OrderDataSourceImpl implements OrderDataSource {
         path: {"id": orderId.toString()},
       );
       return response.data;
+    } on DioException catch (error) {
+      debugPrint('DioException occurred: ${error.message}');
+      if (error.response != null) {
+        debugPrint('HTTP status code: ${error.response?.statusCode}');
+        debugPrint('Response data: ${error.response?.data}');
+      } else {
+        debugPrint('Response is null');
+      }
+      debugPrint('Request info: ${error.requestOptions}');
+      rethrow;
+    } catch (e) {
+      debugPrint('An unexpected error occurred: ${e.toString()}');
+      rethrow;
+    }
+  }
+   @override
+  Future<AttachmentModel> getAttachments(int orderId) async {
+    try {
+      Response response = await dio.getData(
+        url: Endpoints.orders + "/:id/" + Endpoints.attachments,
+        token: AppConstants.token,
+        path: {"id": orderId.toString()},
+      );
+      AttachmentModel userModel = AttachmentModel.fromJson(response.data);
+      return userModel;
     } on DioException catch (error) {
       debugPrint('DioException occurred: ${error.message}');
       if (error.response != null) {

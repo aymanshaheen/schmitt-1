@@ -99,19 +99,15 @@ class Category extends Equatable {
 }
 
 class ImageData extends Equatable {
-  final int? id;
+  final num? id;
   final String? url;
   final String? preview;
   final String? name;
   final String? fileName;
   final String? type;
   final String? mimeType;
-  final int? size;
   final String? humanReadableSize;
-  final Details? details;
   final String? status;
-  final int? progress;
-  final Links? links;
 
   const ImageData({
     this.id,
@@ -121,12 +117,8 @@ class ImageData extends Equatable {
     this.fileName,
     this.type,
     this.mimeType,
-    this.size,
     this.humanReadableSize,
-    this.details,
     this.status,
-    this.progress,
-    this.links,
   });
 
   @override
@@ -138,12 +130,8 @@ class ImageData extends Equatable {
         fileName,
         type,
         mimeType,
-        size,
         humanReadableSize,
-        details,
         status,
-        progress,
-        links,
       ];
 }
 

@@ -35,10 +35,9 @@ class _UpcomingOrderState extends State<UpcomingOrder> {
             return NoDataAvailable(text: "there_is_no_orders_available".tr());
           }
           return SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Padding(
               padding: EdgeInsets.only(
-                top: R.sH(context, 10),
                 right: R.sW(context, 10),
                 left: R.sW(context, 10),
               ),

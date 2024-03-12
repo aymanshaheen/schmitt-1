@@ -210,7 +210,7 @@ class HeaderExpanded extends StatelessWidget {
                 color: AppColors.darkBlue, size: R.F(context, 20)),
           ],
         ),
-        isEdit
+        (isEdit&& order.status == "service_provider_assigned")
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

@@ -23,9 +23,16 @@ class _BookingScreenState extends State<BookingScreen>
   @override
   void initState() {
     super.initState();
-    if (BookingCubit.get(context).myOrders.isEmpty) {
-      context.read<BookingCubit>().getMyOrders(AppStrings.technicianAssigned);
-    }
+    BookingCubit.get(context).recentOrder.clear();
+    Future.wait(
+      [
+        context
+            .read<BookingCubit>()
+            .getRecentOrders(AppStrings.technicianAssigned),
+        context.read<BookingCubit>().getRecentOrders(AppStrings.starting),
+      ],
+    );
+
     controller = TabController(
       length: 3,
       vsync: this,
@@ -37,9 +44,15 @@ class _BookingScreenState extends State<BookingScreen>
     if (!(controller?.indexIsChanging ?? true)) {
       switch (controller?.index) {
         case 0:
-          context
-              .read<BookingCubit>()
-              .getMyOrders(AppStrings.technicianAssigned);
+          BookingCubit.get(context).recentOrder.clear();
+          Future.wait(
+            [
+              context
+                  .read<BookingCubit>()
+                  .getRecentOrders(AppStrings.technicianAssigned),
+              context.read<BookingCubit>().getRecentOrders(AppStrings.starting),
+            ],
+          );
           break;
         case 1:
           context.read<BookingCubit>().getMyOrders(AppStrings.completed);
@@ -122,11 +135,17 @@ class _BookingScreenState extends State<BookingScreen>
             controller: controller,
             children: <Widget>[
               UpcomingOrder(
-                  orders: BookingCubit.get(context).myOrders, isEdit: true, isUser: true),
+                  orders: BookingCubit.get(context).recentOrder,
+                  isEdit: true,
+                  isUser: true),
               UpcomingOrder(
-                  orders: BookingCubit.get(context).myOrders, isEdit: false,  isUser: true),
+                  orders: BookingCubit.get(context).myOrders,
+                  isEdit: false,
+                  isUser: true),
               UpcomingOrder(
-                  orders: BookingCubit.get(context).myOrders, isEdit: false,  isUser: true),
+                  orders: BookingCubit.get(context).myOrders,
+                  isEdit: false,
+                  isUser: true),
             ],
           );
         },

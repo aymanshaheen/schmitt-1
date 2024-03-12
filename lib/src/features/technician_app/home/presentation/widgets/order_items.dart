@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:flutter_svg/svg.dart';
 import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/core/entities/order.dart';
@@ -289,7 +290,7 @@ class _OrderItemsState extends State<OrderItems> {
                 !widget.isUser
                     ? const SizedBox.shrink()
                     : SizedBox(
-                        height: R.sH(context, 10),
+                        height: R.sH(context, 20),
                       ),
                 !widget.isUser
                     ? const SizedBox.shrink()
@@ -305,78 +306,90 @@ class _OrderItemsState extends State<OrderItems> {
                         height: R.sH(context, 10),
                       ),
                 widget.isUser
-                    ? Row(
-                        children: [
-                          SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: NetworkImageWidget(
-                                borderRadiusImageFile: 50,
-                                imageFileBoxFit: BoxFit.cover,
-                                placeHolderBoxFit: BoxFit.cover,
-                                networkImageBoxFit: BoxFit.cover,
-                                imageUrl: widget.order.serviceProvider!.avatar!,
-                                progressIndicatorBuilder: Center(
-                                  child: CircularIndicator(
-                                    color: AppColors.darkBlue,
+                    ? Container(
+                        padding: EdgeInsets.all(R.sW(context, 15)),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: AppColors.grey1!,
+                          ),
+                        ),
+                      child: Row(
+                          children: [
+                            SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: NetworkImageWidget(
+                                  borderRadiusImageFile: 50,
+                                  imageFileBoxFit: BoxFit.cover,
+                                  placeHolderBoxFit: BoxFit.cover,
+                                  networkImageBoxFit: BoxFit.cover,
+                                  imageUrl: widget.order.serviceProvider!.avatar!,
+                                  progressIndicatorBuilder: Center(
+                                    child: CircularIndicator(
+                                      color: AppColors.darkBlue,
+                                    ),
                                   ),
+                                  placeHolder: 'assets/images/profile-photo.svg',
                                 ),
-                                placeHolder: 'assets/images/profile-photo.svg',
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: R.sW(context, 10),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            SizedBox(
+                              width: R.sW(context, 10),
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.order.serviceProvider!.name!,
+                                    style: TextStyle(
+                                      fontSize: R.F(context, 16),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: R.sH(context, 3),
+                                  ),
+                                  Text(
+                                    widget.order.serviceProvider!.phone!,
+                                    style: TextStyle(
+                                      fontSize: R.F(context, 14),
+                                      color: AppColors.grey,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: R.sW(context, 10),
+                            ),
+                            Row(
                               children: [
+                                Icon(
+                                  Icons.chat_bubble_outline_rounded,
+                                  color: AppColors.darkBlue,
+                                  size: R.sW(context, 20),
+                                ),
+                                SizedBox(
+                                  width: R.sW(context, 5),
+                                ),
                                 Text(
-                                  widget.order.serviceProvider!.name!,
+                                  "chat_with_me".tr(),
                                   style: TextStyle(
                                     fontSize: R.F(context, 16),
                                     fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: R.sH(context, 3),
-                                ),
-                                Text(
-                                  widget.order.serviceProvider!.phone!,
-                                  style: TextStyle(
-                                    fontSize: R.F(context, 14),
-                                    color: AppColors.grey,
-                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.darkBlue,
                                   ),
                                 ),
                               ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: R.sW(context, 10),
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.chat_bubble_outline_rounded,
-                                color: AppColors.darkBlue,
-                                size: R.sW(context, 20),
-                              ),
-                              Text(
-                                "chat_with_me".tr(),
-                                style: TextStyle(
-                                  fontSize: R.F(context, 16),
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.darkBlue,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      )
+                            )
+                          ],
+                        ),
+                    )
                     : const SizedBox.shrink(),
                 !widget.isUser
                     ? const SizedBox.shrink()

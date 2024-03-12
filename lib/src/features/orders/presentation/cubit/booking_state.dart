@@ -1,3 +1,4 @@
+import 'package:schmitt/src/core/entities/attachments.dart';
 import 'package:schmitt/src/core/entities/order.dart';
 
 class BookingStates {}
@@ -43,6 +44,21 @@ class CancleOrderFailure extends BookingStates {
   final String message;
 
   CancleOrderFailure({
+    required this.message,
+  });
+}
+class AttachmentLoading extends BookingStates {
+  List<Object> get props => [];
+}
+
+class AttachmentSuccess extends BookingStates {
+  AttachmentSuccess();
+}
+
+class AttachmentFailure extends BookingStates {
+  final String message;
+
+  AttachmentFailure({
     required this.message,
   });
 }

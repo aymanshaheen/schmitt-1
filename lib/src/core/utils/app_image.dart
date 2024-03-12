@@ -53,4 +53,5 @@ class AppImage {
   static const String error = "${baseBath}error.png";
   static const String packages = "${baseBath}layers.svg";
   static const String payment = "${baseBath}payment_card.svg";
+  static const String like ="${baseBath}like.svg";
   }

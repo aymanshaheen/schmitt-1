@@ -22,6 +22,7 @@ class Endpoints {
   static const colors = "colors";
   static const package = "packages";
   static const cancel = "cancel";
+  static const attachments = "attachments";
 
 
 }

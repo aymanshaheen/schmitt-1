@@ -16,7 +16,7 @@ class ConverterDate {
       return dateConverterMonthNum(dateTime.toString());
     }
   }
-static String formatTime(DateTime dateTime) {
+static String formatTime(DateTime dateTime,) {
   final hours = dateTime.hour;
   final minutes = dateTime.minute;
   final period = hours >= 12 ? 'PM' : 'AM';
