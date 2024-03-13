@@ -7,6 +7,7 @@ import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
 import 'package:schmitt/src/features/home/presentation/widgets/service_item.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class ServicetypeScreen extends StatefulWidget {
   final String serviceName;
@@ -64,19 +65,34 @@ class _ServicetypeScreenState extends State<ServicetypeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListView.builder(
-                      itemCount: state.services!.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                            onTap: () => Navigator.pushNamed(
-                                context, Routes.service,
-                                arguments: state.services![index]),
-                            child: ServiceItem(
-                              services: state.services![index],
-                            ));
-                      },
-                    ),
+  itemCount: state.services!.length,
+  physics: const NeverScrollableScrollPhysics(),
+  shrinkWrap: true,
+  itemBuilder: (context, index) {
+    return AnimationConfiguration.staggeredList(
+      position: index,
+      delay: const Duration(milliseconds: 100),
+      child: SlideAnimation(
+        duration:const Duration(milliseconds: 2500),
+        curve: Curves.fastLinearToSlowEaseIn,
+        verticalOffset: -250,
+        child: ScaleAnimation(
+          duration:const Duration(milliseconds: 1500),
+          curve: Curves.fastLinearToSlowEaseIn,
+          child: InkWell(
+            onTap: () => Navigator.pushNamed(
+              context, Routes.service,
+              arguments: state.services![index]
+            ),
+            child: ServiceItem(
+              services: state.services![index],
+            ),
+          ),
+        ),
+      ),
+    );
+  },
+),
                   ],
                 ),
               ),

@@ -21,6 +21,7 @@ class ServiceShowEntity extends Equatable {
 class Service extends Equatable {
   final int id;
   final String title;
+  final int? reviewsCount;
   final String description;
   final String price;
   final String? discountPrice;
@@ -40,6 +41,7 @@ class Service extends Equatable {
     required this.description,
     required this.price,
     this.discountPrice,
+    this.reviewsCount,
     this.category,
     this.image,
     this.images,
@@ -55,6 +57,7 @@ class Service extends Equatable {
   List<Object?> get props => [
         id,
         title,
+        reviewsCount,
         description,
         price,
         discountPrice,

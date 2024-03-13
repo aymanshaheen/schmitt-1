@@ -44,6 +44,7 @@ class ServiceDataModel extends Service {
     required String description,
     required String price,
     String? discountPrice,
+    int? reviewsCount,
     Category? category,
     ImageData? image,
     List<ImageData>? images,
@@ -59,6 +60,7 @@ class ServiceDataModel extends Service {
           description: description,
           price: price,
           discountPrice: discountPrice,
+          reviewsCount: reviewsCount,
           category: category,
           image: image,
           images: images,
@@ -76,6 +78,7 @@ class ServiceDataModel extends Service {
       title: json['title'] ?? "",
       description: json['description'] ?? "",
       price: json['price'] ?? "",
+      reviewsCount: json['reviews_count'] ?? 0,
       discountPrice: json['discount_price'] ?? "",
       category: json['category'] != null
           ? CategoryModel.fromJson(json['category'] as Map<String, dynamic>)

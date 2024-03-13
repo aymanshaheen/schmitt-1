@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/config/app_route.dart';
 import 'package:schmitt/src/core/utils/app_strings.dart';
@@ -13,6 +12,7 @@ import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
 import 'package:schmitt/src/features/home/presentation/widgets/home_text_tile.dart';
 import 'package:schmitt/src/features/home/presentation/widgets/offers_home_listview_item.dart';
 import 'package:schmitt/src/features/home/presentation/widgets/service_item.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class MostServices extends StatefulWidget {
   const MostServices({
@@ -23,42 +23,21 @@ class MostServices extends StatefulWidget {
   _MostServicesState createState() => _MostServicesState();
 }
 
-class _MostServicesState extends State<MostServices> {
+class _MostServicesState extends State<MostServices>
+    with TickerProviderStateMixin {
   num numberItems = 1;
-  final ScrollController _scrollController = ScrollController();
-
-
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     List<Function> functionList = [
-      () => HomeCubit.get(context)
-          .getServices(1, AppStrings.allId),
-      () => HomeCubit.get(context)
-          .getServices(1, AppStrings.houseId),
-      () => HomeCubit.get(context)
-          .getServices(1, AppStrings.carId),
-      () => HomeCubit.get(context)
-          .getServices(1, AppStrings.babyId),
+      () => HomeCubit.get(context).getServices(1, AppStrings.allId),
+      () => HomeCubit.get(context).getServices(1, AppStrings.houseId),
+      () => HomeCubit.get(context).getServices(1, AppStrings.carId),
+      () => HomeCubit.get(context).getServices(1, AppStrings.babyId),
     ];
     return BlocConsumer<HomeCubit, HomeStates>(listener: (context, state) {
       if (state is ServicesLoaded) {
         numberItems = state.services!.length;
-        SchedulerBinding.instance.addPostFrameCallback((_) {
-          if (_scrollController.hasClients) {
-            _scrollController.animateTo(
-              _scrollController.position.minScrollExtent,
-              duration: const Duration(seconds: 1),
-              curve: Curves.easeOut,
-            );
-          }
-        });
       }
     }, builder: (context, state) {
       return Column(
@@ -114,17 +93,32 @@ class _MostServicesState extends State<MostServices> {
             Container(
               color: AppColors.grey.withOpacity(0.05),
               child: ListView.builder(
-                key: const ValueKey('ServicesListView'),
-                controller: _scrollController,
                 itemCount: HomeCubit.get(context).services.length,
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return InkWell(
-                      onTap: () => Navigator.pushNamed(context, Routes.service,
-                          arguments: HomeCubit.get(context).services[index]),
-                      child: ServiceItem(
-                        services: HomeCubit.get(context).services[index],
-                      ));
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    delay: const Duration(milliseconds: 100),
+                    child: SlideAnimation(
+                      duration: const Duration(milliseconds: 2500),
+                      curve: Curves.fastLinearToSlowEaseIn,
+                      verticalOffset: -20,
+                      child: ScaleAnimation(
+                        duration: const Duration(milliseconds: 1500),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        child: InkWell(
+                          onTap: () => Navigator.pushNamed(
+                              context, Routes.service,
+                              arguments:
+                                  HomeCubit.get(context).services[index]),
+                          child: ServiceItem(
+                            services: HomeCubit.get(context).services[index],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                 },
               ),
             ),

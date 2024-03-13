@@ -140,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         context, Routes.myAddress);
                                   },
                                   isTrailing: true,
-                                  icon: AppImage.car,
+                                  icon: AppImage.edit,
                                   title: 'my_places',
                                 )
                               : const SizedBox.shrink(),
@@ -272,8 +272,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 AppConstants.token = '';
                                                 AppConstants.addressID = '';
                                                 appPreferences.removeData(key: "token");
-                                                appPreferences.removeData(key: "addressID");
-                                                appPreferences.removeData(key: "myPlace");
                                                 HomeCubit.get(context)
                                                     .services = [];
                                                 HomeCubit.get(context).slides =

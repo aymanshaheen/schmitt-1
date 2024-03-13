@@ -150,7 +150,11 @@ class _CarItemState extends State<CarItem> {
             InkWell(
               onTap: () {
                 AppConstants.currentCar = widget.services;
-                Navigator.pushNamed(context, Routes.orderService, arguments: 1);
+                Navigator.pushNamed(
+                  context,
+                  Routes.serviceType,
+                  arguments: ServiceArguments("3", 'carWash'.tr()),
+                );
               },
               child: FullRounderContainer(
                   title: "order_service_for_it".tr(),

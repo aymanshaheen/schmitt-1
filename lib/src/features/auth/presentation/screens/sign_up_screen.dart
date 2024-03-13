@@ -78,7 +78,6 @@ class _SignUpViewState extends State<SignUpScreen> {
                   appPreferences?.saveData(
                       key: 'token', value: credentialState.user.token);
                   AppConstants.token = credentialState.user.token!;
-
                   Navigator.pushNamed(context, Routes.home);
                 } else {
                   buildSnakBar(

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:schmitt/src/container_injector.dart';
 import 'package:schmitt/src/core/network/local/app_prefs.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/app_strings.dart';
@@ -43,10 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    super.initState();
+    appPreferences = sl<AppPreferences>();
     if (AppConstants.addressID == "") {
       getCurrentLocation();
     }
-    super.initState();
   }
 
   AppPreferences? appPreferences;
@@ -64,12 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
         return shouldClose ?? false;
       },
-      child:
-          BlocConsumer<ServiceCubit, ServiceStates>(listener: (context, state) {
+      child: BlocConsumer<ServiceCubit, ServiceStates>(
+          listener: (context, state) async {
         if (state is CreateAddressLoaded) {
           AppConstants.addressID =
               ServiceCubit.get(context).address!.id.toString();
-          appPreferences?.saveData(
+          await appPreferences?.saveData(
               key: "addressId", value: AppConstants.addressID);
           Future.wait([
             HomeCubit.get(context).getSlides(),
@@ -80,6 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
         return BlocConsumer<HomeCubit, HomeStates>(
           listener: (context, state) {},
           builder: (context, state) {
+            appPreferences?.saveData(
+                key: "addressId", value: AppConstants.addressID);
             return Scaffold(
               body: HomeCubit.get(context).slides.isEmpty ||
                       HomeCubit.get(context).services.isEmpty

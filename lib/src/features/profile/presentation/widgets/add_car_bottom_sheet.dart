@@ -65,7 +65,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                   .companies!
                   .firstWhere((element) => element.name == selectedCarType)
                   .id!,
-              plate: carNumberController1.text + carNumberController2.text,
+              plate: carNumberController1.text.split('').join(' ') +" "+ carNumberController2.text.split('').join(' '),
               colorID:
                   ServiceCubit.get(context).colors![selectedColorIndex].id!,
               carModelId: 1),
@@ -278,9 +278,9 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                     ],
                   ),
                 ),
-                SizedBox(height: R.sH(context, 20)),
+                SizedBox(height: R.sH(context, 15)),
                 SizedBox(
-                  height: R.sH(context, 120),
+                  height: R.sH(context, 130),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -328,20 +328,41 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                             Row(
                               children: [
                                 Expanded(
-                                  child: BottomTextFeild(
-                                    controller: carNumberController1,
-                                    keyboardType: TextInputType.text,
-                                    labelText: 'G N S',
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'fill'.tr();
-                                      } else if (value.length != 3) {
-                                        return 'wrong'.tr();
-                                      }
-                                      return null;
-                                    },
+                                    child: TextFormField(
+                                  controller: carNumberController1,
+                                  obscureText: false,
+                                  style: TextStyle(
+                                    fontSize: R.F(context, 14),
                                   ),
-                                ),
+                                  decoration: InputDecoration(
+                                    labelText: 'G N S',
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: AppColors.grey1,
+                                    filled: true,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.darkBlue,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.darkBlue,
+                                      ),
+                                    ),
+                                  ),
+                                  autocorrect: false,
+                                  keyboardType: TextInputType.text,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'fill'.tr();
+                                    } else if (value.length != 3) {
+                                      return 'wrong'.tr();
+                                    }
+                                    return null;
+                                  },
+                                )),
                                 SizedBox(width: R.sW(context, 5)),
                                 Expanded(
                                   child: BottomTextFeild(
@@ -367,7 +388,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                     ],
                   ),
                 ),
-                SizedBox(height: R.sH(context, 20)),
+                SizedBox(height: R.sH(context, 25)),
                 Align(
                   alignment: EasyLocalization.of(context)!
                               .currentLocale!

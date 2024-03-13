@@ -7,6 +7,7 @@ import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
 import 'package:schmitt/src/features/home/presentation/widgets/service_item.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class AllServicesScreen extends StatefulWidget {
   final String query;
@@ -47,14 +48,29 @@ class _AllServicesScreenState extends State<AllServicesScreen> {
                           text: 'no_servcies_with_this_name',
                         ),
                       )
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: state.services!.length,
-                        itemBuilder: (context, index) {
-                          return ServiceItem(services: state.services![index]);
-                        },
+                    : AnimationLimiter(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemCount: state.services!.length,
+                itemBuilder: (context, index) {
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    delay: const Duration(milliseconds: 100),
+                    child: SlideAnimation(
+                      duration: const Duration(milliseconds: 2500),
+                      curve: Curves.fastLinearToSlowEaseIn,
+                      verticalOffset: -250,
+                      child: ScaleAnimation(
+                        duration: const Duration(milliseconds: 1500),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        child: ServiceItem(services: state.services![index]),
                       ),
+                    ),
+                  );
+                },
+              ),
+            ),
               ),
             );
           } else if (state is ServicesError) {

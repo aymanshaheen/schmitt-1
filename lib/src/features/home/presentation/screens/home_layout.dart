@@ -12,20 +12,19 @@ class HomeLayoutScreen extends StatefulWidget {
 }
 
 class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
-  
-
   @override
   Widget build(BuildContext context) {
-    return  GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
             top: R.sH(context, 10),
           ),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Padding(
               padding: EdgeInsets.only(
                   top: R.sH(context, 10),
@@ -47,8 +46,7 @@ class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
                     SizedBox(
                       height: R.sH(context, 10),
                     ),
-                     const MostServices( ),
-                     
+                    const MostServices(),
                   ],
                 ),
               ),
@@ -58,5 +56,4 @@ class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
       ),
     );
   }
-
 }

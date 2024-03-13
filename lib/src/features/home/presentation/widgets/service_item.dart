@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
@@ -56,7 +57,7 @@ class _ServiceItemState extends State<ServiceItem> {
             ),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               SizedBox(
-                height: R.sH(context, 10),
+                height: R.sH(context, 5),
               ),
               Text(
                 widget.services.title,
@@ -67,12 +68,23 @@ class _ServiceItemState extends State<ServiceItem> {
                 ),
               ),
               SizedBox(
-                height: R.sH(context, 15),
+                height: R.sH(context, 5),
               ),
               Text(
                 "\$${widget.services.price}",
                 style: TextStyle(
                   color: AppColors.darkBlue,
+                  fontSize: R.F(context, 14),
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              SizedBox(
+                height: R.sH(context, 5),
+              ),
+              Text(
+                "${widget.services.reviewsCount} (${'review'.tr()})",
+                style: TextStyle(
+                  color: AppColors.grey,
                   fontSize: R.F(context, 14),
                   fontWeight: FontWeight.w700,
                 ),

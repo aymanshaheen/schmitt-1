@@ -159,7 +159,7 @@ class _OrderStatusState extends State<OrderStatus> {
                         height: R.sH(context, 40),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: currentStep== 0
+                            color: currentStep == 0
                                 ? AppColors.white
                                 : AppColors.darkBlue,
                             border: Border.all(
@@ -323,17 +323,46 @@ class _OrderStatusState extends State<OrderStatus> {
                                 mainAxisSpacing: 10,
                               ),
                               itemBuilder: (context, index) {
-                                return Container(
-                                  width: R.sW(context, 50),
-                                  height: R.sH(context, 50),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          BookingCubit.get(context)
-                                              .starting[index]
-                                              .url!),
-                                      fit: BoxFit.cover,
+                                return GestureDetector(
+                                   onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => Dialog(
+                                        child: Container(
+                                          width: R.sW(context, 300),
+                                          height: R.sH(context, 300),
+
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                              color: AppColors.white,
+                                              width: R.sW(context, 3)
+                                            ),
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                BookingCubit.get(context)
+                                                    .starting[index]
+                                                    .url!,
+                                              ),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    width: R.sW(context, 50),
+                                    height: R.sH(context, 50),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            BookingCubit.get(context)
+                                                .starting[index]
+                                                .url!),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 );
@@ -402,7 +431,7 @@ class _OrderStatusState extends State<OrderStatus> {
                               ),
                             );
                           }
-                          return Container(
+                          return SizedBox(
                             height: R.sH(context, 200),
                             child: GridView.builder(
                               itemCount:
@@ -414,17 +443,47 @@ class _OrderStatusState extends State<OrderStatus> {
                                 mainAxisSpacing: 10,
                               ),
                               itemBuilder: (context, index) {
-                                return Container(
-                                  width: R.sW(context, 50),
-                                  height: R.sH(context, 50),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
+                                return GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => Dialog(
+                                        child: Container(
+                                          width: R.sW(context, 300),
+                                          height: R.sH(context, 300),
+
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                              color: AppColors.white,
+                                              width: R.sW(context, 3)
+                                            ),
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                BookingCubit.get(context)
+                                                    .completed[index]
+                                                    .url!,
+                                              ),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    width: R.sW(context, 50),
+                                    height: R.sH(context, 50),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
                                           BookingCubit.get(context)
                                               .completed[index]
-                                              .url!),
-                                      fit: BoxFit.cover,
+                                              .url!,
+                                        ),
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
                                   ),
                                 );
