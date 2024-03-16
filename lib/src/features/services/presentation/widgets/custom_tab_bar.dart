@@ -74,7 +74,7 @@ class _CustomTabControllerState extends State<CustomTabController> {
             height: R.sH(context, 350),
             child: PageView.builder(
               controller: _controller,
-              physics: const BouncingScrollPhysics(),
+              physics: const SlowScrollPhysics(factor: 0.05),
               itemBuilder: (BuildContext context, int index) {
                 return CachedNetworkImage(
                   imageUrl: widget.service
@@ -89,6 +89,25 @@ class _CustomTabControllerState extends State<CustomTabController> {
                 );
               },
             ),
+          ),
+        ),
+        Positioned(
+          top: R.sH(context, 20),
+          left: Localizations.localeOf(context).languageCode == "ar"
+              ? R.sW(context, 10)
+              : null,
+          right: Localizations.localeOf(context).languageCode == "ar"
+              ? null
+              : R.sW(context, 10),
+          child: IconButton(
+            icon: Icon(
+                Localizations.localeOf(context).languageCode == "ar"
+                    ? Icons.arrow_forward_ios_outlined
+                    : Icons.arrow_back_ios_new,
+                color: AppColors.white),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
         ),
         Positioned(
@@ -122,5 +141,22 @@ class _CustomTabControllerState extends State<CustomTabController> {
         ),
       ],
     );
+  }
+}
+
+class SlowScrollPhysics extends ScrollPhysics {
+  final double factor;
+
+  const SlowScrollPhysics({this.factor = 0.05, ScrollPhysics? parent})
+      : super(parent: parent);
+
+  @override
+  SlowScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return SlowScrollPhysics(factor: factor, parent: buildParent(ancestor));
+  }
+
+  @override
+  double applyPhysicsToUserOffset(ScrollMetrics position, double offset) {
+    return super.applyPhysicsToUserOffset(position, offset * factor);
   }
 }

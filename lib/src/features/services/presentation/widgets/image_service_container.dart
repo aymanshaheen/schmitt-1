@@ -10,22 +10,48 @@ class ImageServiceContainer extends StatelessWidget {
 
   Widget buildImage(BuildContext context, String url) {
     return AspectRatio(
-      aspectRatio: 1.5,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: CachedNetworkImage(
-            imageUrl: url,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => CircularIndicator(
-              color: AppConstants.service!.category!.id == 4
-                  ? AppColors.purple
-                  : AppColors.darkBlue,
+      aspectRatio: 2,
+      child: GestureDetector(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) => Dialog(
+              child: Container(
+                width: R.sW(context, 300),
+                height: R.sH(context, 500),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                      color: AppColors.white, width: R.sW(context, 3)),
+                  image: DecorationImage(
+                    image: CachedNetworkImageProvider(
+                      url,
+
+                    ),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
             ),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: CachedNetworkImage(
+              imageUrl: url,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => CircularIndicator(
+                color: AppConstants.service!.category!.id == 4
+                    ? AppColors.purple
+                    : AppColors.darkBlue,
+              ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
           ),
         ),
       ),
@@ -54,23 +80,48 @@ class ImageServiceContainer extends StatelessWidget {
           ),
           Expanded(
             child: AspectRatio(
-              aspectRatio: 0.9,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: CachedNetworkImage(
-                    imageUrl: images[0].url!,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => CircularIndicator(
-                      color: AppConstants.service!.category!.id == 4
-                          ? AppColors.purple
-                          : AppColors.darkBlue,
+              aspectRatio: 0.6,
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => Dialog(
+                      child: Container(
+
+                        width: R.sW(context, 300),
+                        height: R.sH(context, 500),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.white,
+                          border: Border.all(
+                              color: AppColors.white, width: R.sW(context, 3)),
+                          image: DecorationImage(
+                            image: CachedNetworkImageProvider(images[0].url!),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
                     ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(R.sW(context, 5)),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: CachedNetworkImage(
+                      imageUrl: images[0].url!,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => CircularIndicator(
+                        color: AppConstants.service!.category!.id == 4
+                            ? AppColors.purple
+                            : AppColors.darkBlue,
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
                   ),
                 ),
               ),

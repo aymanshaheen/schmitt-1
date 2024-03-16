@@ -69,6 +69,9 @@ class ServiceOrderScreen extends StatelessWidget {
               }
             },
             onTap2: () {
+              if (currentStep == 3) {
+                Navigator.pushNamed(context, Routes.submitOrder);
+              }
               if (currentStep < 3) {
                 if (currentStep == 2 &&
                     ServiceCubit.get(context).selectedHour == null) {
@@ -86,9 +89,7 @@ class ServiceOrderScreen extends StatelessWidget {
                   ServiceCubit.get(context).updateStep(currentStep + 1);
                 }
               }
-              if (currentStep == 3) {
-                Navigator.pushNamed(context, Routes.submitOrder);
-              }
+              
             },
           ),
         );

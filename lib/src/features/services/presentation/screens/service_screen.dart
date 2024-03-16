@@ -31,6 +31,7 @@ class ServiceScreen extends StatefulWidget {
 
 class _ServiceScreenState extends State<ServiceScreen> {
   bool isFavourite = false;
+  int reveiwsCount =0;
   @override
   void initState() {
     super.initState();
@@ -70,7 +71,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
           .getReviews(widget.service.id.toString(), AppStrings.one),
     ];
     return BlocConsumer<ServiceCubit, ServiceStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is GetReviwesLoaded){
+            reveiwsCount = state.reviews!.length;
+          }
+        },
         builder: (context, state) {
           if (ServiceCubit.get(context).service == null) {
             return Scaffold(
@@ -266,17 +271,23 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                Text(
-                                  'see_all'.tr(),
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                    color:
-                                        AppConstants.service!.category!.id == 4
-                                            ? AppColors.purple
-                                            : AppColors.homeBlueColor,
-                                    fontSize: R.F(context, 16),
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 0.20,
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, Routes.allImages);
+                                  },
+                                  child: Text(
+                                    'see_all'.tr(),
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                      color:
+                                          AppConstants.service!.category!.id == 4
+                                              ? AppColors.purple
+                                              : AppColors.homeBlueColor,
+                                      fontSize: R.F(context, 16),
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 0.20,
+                                    ),
                                   ),
                                 )
                               ],
@@ -304,7 +315,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                         });
                                   }),
                             ),
-                            const ServiceReview(),
+                             ServiceReview(reveiwsCount:reveiwsCount),
                           ]),
                     ),
                   ],

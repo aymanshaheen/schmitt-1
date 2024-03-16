@@ -167,7 +167,7 @@ class _SignInViewState extends State<SignInScreen> {
                           if (regExp.hasMatch(value)) {
                             return null;
                           }
-                          return 'please_enter_a_valid_email';
+                          return 'please_enter_a_valid_email'.tr();
                         },
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -179,7 +179,7 @@ class _SignInViewState extends State<SignInScreen> {
                         prefixIcon: Icons.lock,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'please_enter_your_password';
+                            return 'please_enter_your_password'.tr();
                           }
                           return null;
                         },

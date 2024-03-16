@@ -15,6 +15,7 @@ import 'package:schmitt/src/features/packages/domain/entities/package_entity.dar
 import 'package:schmitt/src/features/packages/presentation/screens/package_details_screen.dart';
 import 'package:schmitt/src/features/packages/presentation/screens/package_screen.dart';
 import 'package:schmitt/src/features/profile/presentation/screens/my_adresses_screen.dart';
+import 'package:schmitt/src/features/services/presentation/screens/all_images_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/map_screen.dart';
 import 'package:schmitt/src/features/home/presentation/screens/service_type_screen.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
@@ -95,6 +96,7 @@ class Routes {
   static const String packageScreen = "packageScreen";
   static const String packageDetailsScreen = "packageDetailsScreen";
   static const String orderDetailsScreen = "orderDetailsScreen";
+  static const String allImages = "allImages";
 }
 
 class AppRouter {
@@ -160,6 +162,10 @@ class AppRouter {
       case Routes.selectRooms:
         return FadeRoute(
           builder: (context) => const SelectRoomsScreen(),
+        );
+         case Routes.allImages:
+        return FadeRoute(
+          builder: (context) => const AllImagesScreen(),
         );
       case Routes.packageScreen:
         return FadeRoute(

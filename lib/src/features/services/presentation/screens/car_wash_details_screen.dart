@@ -55,12 +55,6 @@ class _CarWashDetailsScreenState extends State<CarWashDetailsScreen> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              actions: [
-                const MoreInfoIcon(),
-                SizedBox(
-                  width: R.sW(context, 15),
-                )
-              ],
             ),
             body: SingleChildScrollView(
               child: Padding(
@@ -160,7 +154,7 @@ class _CarWashDetailsScreenState extends State<CarWashDetailsScreen> {
                         height: R.sH(context, 10),
                       ),
                       Container(
-                        width: R.sW(context, 320),
+                        width: R.sW(context, 350),
                         height: R.sH(context, 55),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -179,7 +173,12 @@ class _CarWashDetailsScreenState extends State<CarWashDetailsScreen> {
                             );
                           }
                           return Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: EasyLocalization.of(context)
+                                        ?.locale
+                                        .languageCode ==
+                                    "ar"
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
                             child: Text(
                               selectedCar != null
                                   ? serviceCubit.car!.car!.name!
@@ -208,7 +207,7 @@ class _CarWashDetailsScreenState extends State<CarWashDetailsScreen> {
                         height: R.sH(context, 10),
                       ),
                       Container(
-                        width: R.sW(context, 320),
+                        width: R.sW(context, 350),
                         height: R.sH(context, 55),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -227,7 +226,12 @@ class _CarWashDetailsScreenState extends State<CarWashDetailsScreen> {
                             );
                           }
                           return Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: EasyLocalization.of(context)
+                                        ?.locale
+                                        .languageCode ==
+                                    "ar"
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
                             child: Text(
                               selectedCar != null
                                   ? serviceCubit.car!.plate!

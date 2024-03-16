@@ -4,6 +4,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
@@ -124,140 +125,104 @@ class _PackageReviewState extends State<PackageReview>
             shrinkWrap: true,
             itemBuilder: (context, index) {
               Review review = PackageCubit.get(context).reviews![index];
-              return Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: R.sW(context, 15),
-                      right: R.sW(context, 15),
-                      bottom: R.sH(context, 10)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: R.sW(context, 25),
-                            child: ClipOval(
-                                child: CachedNetworkImage(
-                              imageUrl: review.author!.avatar!,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => CircularIndicator(
-                                color: AppColors.darkBlue,
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            )),
-                          ),
-                          SizedBox(
-                            width: R.sW(context, 15),
-                          ),
-                          Column(
+              return AnimationConfiguration.staggeredList(
+                position: index,
+                delay: const Duration(milliseconds: 100),
+                child: SlideAnimation(
+                  duration: const Duration(milliseconds: 2500),
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  verticalOffset: -30,
+                  child: ScaleAnimation(
+                      duration: const Duration(milliseconds: 1500),
+                      curve: Curves.fastLinearToSlowEaseIn,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: R.sW(context, 15),
+                              right: R.sW(context, 15),
+                              bottom: R.sH(context, 10)),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                review.author!.name!,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(
+                                    radius: R.sW(context, 25),
+                                    child: ClipOval(
+                                        child: CachedNetworkImage(
+                                      imageUrl: review.author!.avatar!,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          CircularIndicator(
+                                        color: AppColors.darkBlue,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                    )),
+                                  ),
+                                  SizedBox(
+                                    width: R.sW(context, 15),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        review.author!.name!,
+                                        style: TextStyle(
+                                          color: AppColors.homeBlackColor,
+                                          fontSize: R.F(context, 16),
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      RatingBar.builder(
+                                        initialRating: review.rating != null
+                                            ? review.rating!.toDouble()
+                                            : 0.0,
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        itemSize: 16,
+                                        itemBuilder: (context, _) => Icon(
+                                          Icons.star_rounded,
+                                          color: AppColors.yellow,
+                                          size: 10,
+                                        ),
+                                        onRatingUpdate: (rating) {},
+                                        ignoreGestures: true,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: R.sH(context, 8),
+                              ),
+                              ExpandableText(
+                                review.review!,
+                                expandText: 'Read more',
+                                collapseText: 'show less',
+                                maxLines: 4,
+                                linkColor: AppColors.darkBlue,
                                 style: TextStyle(
-                                  color: AppColors.homeBlackColor,
+                                  color: AppColors.black,
                                   fontSize: R.F(context, 16),
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              RatingBar.builder(
-                                initialRating: review.rating != null
-                                    ? review.rating!.toDouble()
-                                    : 0.0,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemSize: 16,
-                                
-                                itemBuilder: (context, _) => Icon(
-                                  Icons.star_rounded,
-                                  color: AppColors.yellow,
-                                  size: 10,
-                                ),
-                                onRatingUpdate: (rating) {},
-                                ignoreGestures: true,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: R.sH(context, 8),
-                      ),
-                      ExpandableText(
-                        review.review!,
-                        expandText: 'Read more',
-                        collapseText: 'show less',
-                        maxLines: 4,
-                        linkColor: AppColors.darkBlue,
-                        style: TextStyle(
-                          color: AppColors.black,
-                          fontSize: R.F(context, 16),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(
-                        height: R.sH(context, 8),
-                      ),
-                      /* Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  toggleLikeReview(index);
-                                },
-                                child: Icon(
-                                  !review.isLiked
-                                      ? Icons.favorite_border_outlined
-                                      : Icons.favorite_rounded,
-                                  color: !review.isLiked
-                                      ? AppColors.black
-                                      : AppColors.darkBlue,
-                                  size: R.sW(context, 25),
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                               SizedBox(
-                                width: R.sW(context, 8),
-                              ),
-                              Text(
-                                PackageCubit.get(context)
-                                    .reviews![index]
-                                    .likes
-                                    .toString(),
-                                style: TextStyle(
-                                  color: AppColors.black,
-                                  fontSize: R.F(context, 14),
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                height: R.sH(context, 8),
                               ),
                             ],
                           ),
-                          Text(
-                            review.createdAtFormatted!,
-                            style: TextStyle(
-                              color: AppColors.grey,
-                              fontSize: R.F(context, 14),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Divider(
-                        color: AppColors.grey1,
-                        thickness: 1,
-                      ),*/
-                    ],
-                  ),
+                        ),
+                      )),
                 ),
               );
             },

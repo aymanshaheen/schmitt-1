@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
@@ -16,7 +17,8 @@ import 'package:schmitt/src/features/services/presentation/cubit/service/service
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceReview extends StatefulWidget {
-  const ServiceReview({super.key});
+  final int reveiwsCount;
+  const ServiceReview({super.key, required this.reveiwsCount});
 
   @override
   _ServiceReviewState createState() => _ServiceReviewState();
@@ -102,185 +104,214 @@ class _ServiceReviewState extends State<ServiceReview>
       }
     }, builder: (context, state) {
       if (state is GetReviwesLoading) {
-        return Center(
-            child: CircularIndicator(
-          color: AppConstants.service!.category!.id == 4
-              ? AppColors.purple
-              : AppColors.darkBlue,
-        ));
+        return SizedBox(
+          height: R.sH(context, 150) * widget.reveiwsCount.toDouble(),
+          child: Center(
+              child: CircularIndicator(
+            color: AppConstants.service!.category!.id == 4
+                ? AppColors.purple
+                : AppColors.darkBlue,
+          )),
+        );
       }
       return Column(
         children: [
           ListView.builder(
-            itemCount: ServiceCubit.get(context).reviews!.length,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              Review review = ServiceCubit.get(context).reviews![index];
-              return Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: R.sW(context, 15),
-                      right: R.sW(context, 15),
-                      bottom: R.sH(context, 10)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: R.sW(context, 25),
-                            child: ClipOval(
-                                child: CachedNetworkImage(
-                              imageUrl: review.author!.avatar!,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => CircularIndicator(
-                                color:  AppConstants.service!.category!.id == 4
-                                            ? AppColors.purple
-                                            :AppColors.darkBlue,
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            )),
-                          ),
-                          SizedBox(
-                            width: R.sW(context, 10),
-                          ),
-                          Text(
-                            review.author!.name!,
-                            style: TextStyle(
-                              color: AppColors.homeBlackColor,
-                              fontSize: R.F(context, 16),
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          const Spacer(),
-                          SizedBox(
-                            width: R.sW(context, 10),
-                          ),
-                          Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: R.sW(context, 8)),
-                              height: R.sH(context, 28),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  border: Border.all(
-                                    color: AppConstants.service!.category!.id == 4
-                                            ? AppColors.purple
-                                            : AppColors.darkBlue,
-                                    width: R.sW(context, 2),
-                                  ),
-                                  color: AppColors.white),
-                              child: Center(
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: AppConstants.service!.category!.id == 4
-                                            ? AppColors.purple
-                                            : AppColors.darkBlue,
-                                      size: R.sW(context, 16),
-                                    ),
-                                    SizedBox(
-                                      width: R.sW(context, 3),
-                                    ),
-                                    Text(
-                                      review.rating!.toString(),
-                                      style: TextStyle(
-                                        color:  AppConstants.service!.category!.id == 4
-                                            ? AppColors.purple
-                                            :AppColors.darkBlue,
-                                        fontSize: R.F(context, 14),
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )),
-                        ],
-                      ),
-                      SizedBox(
-                        height: R.sH(context, 8),
-                      ),
-                      ExpandableText(
-                        review.review!,
-                        expandText: 'Read more',
-                        collapseText: 'show less',
-                        maxLines: 4,
-                        linkColor: AppConstants.service!.category!.id == 4
-                                            ? AppColors.purple
-                                            : AppColors.darkBlue,
-                        style: TextStyle(
-                          color: AppColors.black,
-                          fontSize: R.F(context, 16),
-                          fontWeight: FontWeight.w500,
+              itemCount: ServiceCubit.get(context).reviews!.length,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                Review review = ServiceCubit.get(context).reviews![index];
+                return AnimationConfiguration.staggeredList(
+                  position: index,
+                  delay: const Duration(milliseconds: 100),
+                  child: SlideAnimation(
+                    duration: const Duration(milliseconds: 2500),
+                    curve: Curves.fastLinearToSlowEaseIn,
+                    verticalOffset: -50,
+                    child: ScaleAnimation(
+                      duration: const Duration(milliseconds: 1500),
+                      curve: Curves.fastLinearToSlowEaseIn,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                      ),
-                      SizedBox(
-                        height: R.sH(context, 8),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: R.sW(context, 15),
+                              right: R.sW(context, 15),
+                              bottom: R.sH(context, 10)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  toggleLikeReview(index);
-                                },
-                                child: Icon(
-                                  !review.isLiked
-                                      ? Icons.favorite_border_outlined
-                                      : Icons.favorite_rounded,
-                                  color: !review.isLiked
-                                      ? AppColors.black
-                                      : AppConstants.service!.category!.id == 4
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(
+                                    radius: R.sW(context, 25),
+                                    child: ClipOval(
+                                        child: CachedNetworkImage(
+                                      imageUrl: review.author!.avatar!,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          CircularIndicator(
+                                        color: AppConstants
+                                                    .service!.category!.id ==
+                                                4
                                             ? AppColors.purple
                                             : AppColors.darkBlue,
-                                  size: R.sW(context, 25),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                    )),
+                                  ),
+                                  SizedBox(
+                                    width: R.sW(context, 10),
+                                  ),
+                                  Text(
+                                    review.author!.name!,
+                                    style: TextStyle(
+                                      color: AppColors.homeBlackColor,
+                                      fontSize: R.F(context, 16),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  SizedBox(
+                                    width: R.sW(context, 10),
+                                  ),
+                                  Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: R.sW(context, 8)),
+                                      height: R.sH(context, 28),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          border: Border.all(
+                                            color: AppConstants.service!
+                                                        .category!.id ==
+                                                    4
+                                                ? AppColors.purple
+                                                : AppColors.darkBlue,
+                                            width: R.sW(context, 2),
+                                          ),
+                                          color: AppColors.white),
+                                      child: Center(
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.star_rounded,
+                                              color: AppConstants.service!
+                                                          .category!.id ==
+                                                      4
+                                                  ? AppColors.purple
+                                                  : AppColors.darkBlue,
+                                              size: R.sW(context, 16),
+                                            ),
+                                            SizedBox(
+                                              width: R.sW(context, 3),
+                                            ),
+                                            Text(
+                                              review.rating!.toString(),
+                                              style: TextStyle(
+                                                color: AppConstants.service!
+                                                            .category!.id ==
+                                                        4
+                                                    ? AppColors.purple
+                                                    : AppColors.darkBlue,
+                                                fontSize: R.F(context, 14),
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                ],
+                              ),
+                              SizedBox(
+                                height: R.sH(context, 8),
+                              ),
+                              ExpandableText(
+                                review.review!,
+                                expandText: 'Read more',
+                                collapseText: 'show less',
+                                maxLines: 4,
+                                linkColor:
+                                    AppConstants.service!.category!.id == 4
+                                        ? AppColors.purple
+                                        : AppColors.darkBlue,
+                                style: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: R.F(context, 16),
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                               SizedBox(
-                                width: R.sW(context, 8),
+                                height: R.sH(context, 8),
                               ),
-                              Text(
-                                ServiceCubit.get(context)
-                                    .reviews![index]
-                                    .likes
-                                    .toString(),
-                                style: TextStyle(
-                                  color: AppColors.black,
-                                  fontSize: R.F(context, 14),
-                                  fontWeight: FontWeight.w600,
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          toggleLikeReview(index);
+                                        },
+                                        child: Icon(
+                                          !review.isLiked
+                                              ? Icons.favorite_border_outlined
+                                              : Icons.favorite_rounded,
+                                          color: !review.isLiked
+                                              ? AppColors.black
+                                              : AppConstants.service!.category!
+                                                          .id ==
+                                                      4
+                                                  ? AppColors.purple
+                                                  : AppColors.darkBlue,
+                                          size: R.sW(context, 25),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: R.sW(context, 8),
+                                      ),
+                                      Text(
+                                        ServiceCubit.get(context)
+                                            .reviews![index]
+                                            .likes
+                                            .toString(),
+                                        style: TextStyle(
+                                          color: AppColors.black,
+                                          fontSize: R.F(context, 14),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    review.createdAtFormatted!,
+                                    style: TextStyle(
+                                      color: AppColors.grey,
+                                      fontSize: R.F(context, 14),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                color: AppColors.grey1,
+                                thickness: 1,
                               ),
                             ],
                           ),
-                          Text(
-                            review.createdAtFormatted!,
-                            style: TextStyle(
-                              color: AppColors.grey,
-                              fontSize: R.F(context, 14),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                      Divider(
-                        color: AppColors.grey1,
-                        thickness: 1,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
+                );
+              }),
           ServiceCubit.get(context).service!.authorize!.review!
               ? const SizedBox.shrink()
               : Column(
@@ -304,9 +335,9 @@ class _ServiceReviewState extends State<ServiceReview>
                                 return Icon(
                                   Icons.star,
                                   color: _rating > index
-                                      ?  AppConstants.service!.category!.id == 4
-                                            ? AppColors.purple
-                                            :AppColors.darkBlue
+                                      ? AppConstants.service!.category!.id == 4
+                                          ? AppColors.purple
+                                          : AppColors.darkBlue
                                       : AppColors.grey1,
                                   size:
                                       30.0 + (10.0 * _controllers[index].value),

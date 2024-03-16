@@ -1,4 +1,3 @@
-import 'package:schmitt/src/core/entities/attachments.dart';
 import 'package:schmitt/src/core/entities/order.dart';
 
 class BookingStates {}

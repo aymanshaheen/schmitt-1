@@ -18,7 +18,7 @@ class RatingService extends StatelessWidget {
         Row(
           children: <Widget>[
             Icon(
-              Icons.star,
+              Icons.star_rounded,
               color: AppColors.yellow,
               size: R.sW(context, 25),
             ),

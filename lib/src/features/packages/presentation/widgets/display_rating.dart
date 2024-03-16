@@ -6,8 +6,75 @@ import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/packages/presentation/cubit/package_cubit.dart';
 import 'package:schmitt/src/features/packages/presentation/widgets/display_stars.dart';
 
-class DisplayRating extends StatelessWidget {
+class DisplayRating extends StatefulWidget {
   const DisplayRating({super.key});
+
+  @override
+  State<DisplayRating> createState() => _DisplayRatingState();
+}
+
+class _DisplayRatingState extends State<DisplayRating>
+    with TickerProviderStateMixin {
+  late final AnimationController _controller,
+      _controller1,
+      _controller2,
+      _controller3;
+  late final Animation<double> _animation,
+      _animation1,
+      _animation2,
+      _animation3;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..forward();
+
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    );
+    _controller1 = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..forward();
+
+    _animation1 = CurvedAnimation(
+      parent: _controller1,
+      curve: Curves.easeInOut,
+    );
+
+    _controller2 = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..forward();
+
+    _animation2 = CurvedAnimation(
+      parent: _controller2,
+      curve: Curves.easeInOut,
+    );
+
+    _controller3 = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..forward();
+
+    _animation3 = CurvedAnimation(
+      parent: _controller3,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _controller1.dispose();
+    _controller2.dispose();
+    _controller3.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,32 +90,46 @@ class DisplayRating extends StatelessWidget {
             SizedBox(
               height: R.sH(context, 10),
             ),
-            Center(
-              child: Text(
-                PackageCubit.get(context)
-                    .getAverageRating()
-                    .toString()
-                    .substring(0, 3),
-                style: TextStyle(
-                  color: AppColors.black,
-                  fontSize: R.F(context, 28),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            AnimatedBuilder(
+              animation: _animation,
+              builder: (BuildContext context, Widget? child) {
+                return Center(
+                  child: Text(
+                    (_animation.value *
+                            PackageCubit.get(context).getAverageRating())
+                        .toStringAsFixed(1),
+                    style: TextStyle(
+                      color: AppColors.black,
+                      fontSize: R.F(context, 28),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                );
+              },
             ),
             StarDisplay(value: PackageCubit.get(context).getAverageRating()),
             SizedBox(
               height: R.sH(context, 10),
             ),
             Center(
-              child: Text(
-                "(${PackageCubit.get(context).reviews!.length}) " +
-                    "there_is_50_user_have_rated_this_package".tr(),
-                style: TextStyle(
-                  color: AppColors.lightGrey,
-                  fontSize: R.F(context, 18),
-                  fontWeight: FontWeight.w600,
-                ),
+              child: AnimatedBuilder(
+                animation: _animation1,
+                builder: (BuildContext context, Widget? child) {
+                  return Text(
+                    '(' +
+                        (_animation1.value *
+                                PackageCubit.get(context).reviews!.length)
+                            .round()
+                            .toString() +
+                        ') ' +
+                        "there_is_50_user_have_rated_this_package".tr(),
+                    style: TextStyle(
+                      color: AppColors.lightGrey,
+                      fontSize: R.F(context, 18),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  );
+                },
               ),
             ),
             SizedBox(
@@ -89,26 +170,38 @@ class DisplayRating extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(5),
                               ),
                             ),
-                            Container(
-                              width: R.sW(context, 220) * (count / totalCount),
-                              height: R.sH(context, 20),
-                              decoration: BoxDecoration(
-                                color: AppColors.black,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
+                            AnimatedBuilder(
+                              animation: _animation2,
+                              builder: (BuildContext context, Widget? child) {
+                                return Container(
+                                  width: R.sW(context, 220) * _animation2.value*(count / totalCount),
+                                  height: R.sH(context, 20),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.black,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),
-                        SizedBox(
-                          width: R.sW(context, 45),
-                          child: Text(
-                            '${percentage.toStringAsFixed(1)}%',
-                            style: TextStyle(
-                              color: AppColors.lightGrey,
-                              fontSize: R.F(context, 14),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+                        AnimatedBuilder(
+                          animation: _animation3,
+                          builder: (BuildContext context, Widget? child) {
+                            return SizedBox(
+                              width: R.sW(context, 45),
+                              child: Text(
+                                (_animation3.value * percentage)
+                                        .toStringAsFixed(1) +
+                                    '%',
+                                style: TextStyle(
+                                  color: AppColors.lightGrey,
+                                  fontSize: R.F(context, 14),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),

@@ -49,35 +49,35 @@ class _PackageDetailsScreenState extends State<PackageDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PackageCubit, PackageStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          if (PackageCubit.get(context).package == null) {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) {
+          return;
+        }
+        AppConstants.package = null;
+        Navigator.pop(context);
+      },
+      child: BlocConsumer<PackageCubit, PackageStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (PackageCubit.get(context).package == null) {
+              return Scaffold(
+                body: Center(
+                    child: CircularIndicator(
+                  color: AppColors.darkBlue,
+                )),
+              );
+            }
             return Scaffold(
-              body: Center(
-                  child: CircularIndicator(
-                color: AppColors.darkBlue,
-              )),
-            );
-          }
-          return Scaffold(
-              body: PopScope(
-                canPop: false,
-                onPopInvoked: (didPop) async {
-                  if (didPop) {
-                    return;
-                  }
-                  ServiceCubit.get(context).clearData();
-                  Navigator.pop(context);
-                },
-                child: SingleChildScrollView(
+                body: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Column(
                     children: [
                       SizedBox(height: R.sH(context, 40)),
                       Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: R.sW(context, 15)),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: R.sW(context, 15)),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -102,7 +102,15 @@ class _PackageDetailsScreenState extends State<PackageDetailsScreen> {
                                   height: R.sH(context, 55),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: AppColors.yellow,
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color.fromARGB(255, 241, 243, 129),
+                                        Color.fromARGB(255, 251, 238, 116),
+                                        Color.fromARGB(255, 237, 217, 40),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
                                   ),
                                   child: Center(
                                     child: Text(
@@ -245,27 +253,27 @@ class _PackageDetailsScreenState extends State<PackageDetailsScreen> {
                     ],
                   ),
                 ),
-              ),
-              bottomNavigationBar: Container(
-                  padding: EdgeInsets.only(
-                    right: R.sW(context, 10),
-                    left: R.sW(context, 10),
-                    bottom: R.sH(context, 15),
-                    top: R.sH(context, 10),
-                  ),
-                  height: R.sH(context, 70),
-                  color: AppColors.white,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.orderService,
-                          arguments: 1);
-                    },
-                    child: FullRounderContainer(
-                        title: "susbcribe_now".tr(),
-                        containerColor: AppColors.darkBlue,
-                        textColor: AppColors.white,
-                        circular: 30),
-                  )));
-        });
+                bottomNavigationBar: Container(
+                    padding: EdgeInsets.only(
+                      right: R.sW(context, 10),
+                      left: R.sW(context, 10),
+                      bottom: R.sH(context, 15),
+                      top: R.sH(context, 10),
+                    ),
+                    height: R.sH(context, 70),
+                    color: AppColors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.orderService,
+                            arguments: 1);
+                      },
+                      child: FullRounderContainer(
+                          title: "susbcribe_now".tr(),
+                          containerColor: AppColors.darkBlue,
+                          textColor: AppColors.white,
+                          circular: 30),
+                    )));
+          }),
+    );
   }
 }

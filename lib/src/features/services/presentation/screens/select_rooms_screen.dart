@@ -34,12 +34,7 @@ class SelectRoomsScreen extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              actions: [
-                const MoreInfoIcon(),
-                SizedBox(
-                  width: R.sW(context, 15),
-                )
-              ],
+             
               bottom: PreferredSize(
                 preferredSize: Size.fromHeight(R.sH(context, 20)),
                 child: Align(

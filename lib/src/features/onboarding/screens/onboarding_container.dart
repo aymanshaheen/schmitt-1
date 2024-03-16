@@ -136,14 +136,14 @@ class OnboardingPage extends StatelessWidget {
                             .pushReplacementNamed(Routes.login);
                       },
                       child: Text(
-                        "skip",
+                        "skip".tr(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: R.F(context, 18),
                           fontWeight: FontWeight.bold,
                           color: Colors.grey[400],
                         ),
-                      ).tr(),
+                      ),
                     ),
                   ),
                 ],

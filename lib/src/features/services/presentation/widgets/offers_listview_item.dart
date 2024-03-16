@@ -38,7 +38,7 @@ class OffersServiceItem extends StatelessWidget {
               child: Row(
                 children: [
                   Icon(
-                    Icons.star,
+                    Icons.star_rounded,
                     color: ServiceCubit.get(context).tabbedOffer !=
                             ServiceCubit.get(context).offersList.indexOf(title)
                         ? AppConstants.service!.category!.id == 4

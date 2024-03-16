@@ -164,7 +164,7 @@ class HomeRepositoryImpl implements HomeRepository {
         final result = await remoteDataSource.getSlides();
         return right(result);
       } on DioException catch (e) {
-        return Left(Failure(message: e.response!.data['message'], code: 0));
+        return Left(ErrorHandler.handle(e).failure);
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -180,7 +180,7 @@ class HomeRepositoryImpl implements HomeRepository {
         final result = await remoteDataSource.getServices(page, category);
         return right(result);
       } on DioException catch (e) {
-        return Left(Failure(message: e.response!.data['message'], code: 0));
+        return Left(ErrorHandler.handle(e).failure);
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
