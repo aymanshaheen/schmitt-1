@@ -34,7 +34,6 @@ class _SplashScreenState extends State<SplashScreen>
     var addressID = appPreferences!.getData(key: 'addressId') ?? '';
     AppConstants.addressID = (addressID != '') ? addressID.toString() : '';
 
-    
     if (AppConstants.token != '') {
       HomeCubit.get(context).showProfile().then((value) => {
             Future.delayed(const Duration(seconds: 3), () {
