@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "684683487968",
-    "project_id": "shcmitt-final",
-    "storage_bucket": "shcmitt-final.appspot.com"
+    "project_number": "805117982033",
+    "project_id": "schmitt-app",
+    "storage_bucket": "schmitt-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:684683487968:android:25c3419891c2ecc3e43e85",
+        "mobilesdk_app_id": "1:805117982033:android:168933a2dedab0a69a8f70",
         "android_client_info": {
           "package_name": "com.example.schmitt"
         }
       },
       "oauth_client": [
         {
-          "client_id": "684683487968-p0c7gu75ecmjskg2nh4uon0mihlb3ik6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.schmitt",
-            "certificate_hash": "3028666bd4a0bc86d91f33529dbe78242feb3385"
-          }
-        },
-        {
-          "client_id": "684683487968-6qln863hvfhqci8f6406l64cdu492sef.apps.googleusercontent.com",
+          "client_id": "805117982033-mkv74nki5ft036e2oqaahr1htkai0r3b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAPqOTAf7GZ_N5J_7jYFLNKmghpuIYdPgk"
+          "current_key": "AIzaSyCaTMubABM2LmMYSxHUcGgbo7pL2GUDZ4o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "684683487968-6qln863hvfhqci8f6406l64cdu492sef.apps.googleusercontent.com",
+              "client_id": "805117982033-lr8mp0eroqjikj08k8sml5arjiiibp17.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
