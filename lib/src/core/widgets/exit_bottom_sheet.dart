@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
+import 'package:flutter/services.dart';
+
 
 class ExitBottomSheet extends StatelessWidget {
   const ExitBottomSheet({super.key});
@@ -55,6 +57,8 @@ class ExitBottomSheet extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.of(context).pop(true);
+                      SystemNavigator.pop();
+
                 },
                 child: Container(
                   width: R.sW(context, 150),

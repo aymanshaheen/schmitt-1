@@ -270,7 +270,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             InkWell(
                                               onTap: () {
                                                 AppConstants.token = '';
-                                                AppConstants.addressID = '';
                                                 appPreferences.removeData(key: "token");
                                                 HomeCubit.get(context)
                                                     .services = [];
