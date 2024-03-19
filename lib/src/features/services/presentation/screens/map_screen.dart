@@ -254,7 +254,7 @@ class _MapScreenState extends State<MapScreen> {
       body:
           BlocConsumer<ServiceCubit, ServiceStates>(listener: (context, state) {
         if (state is CreateAddressLoaded || state is CreateCarLoaded) {
-          ServiceCubit.get(context).getAdresses();
+          ServiceCubit.get(context).getAdresses(1);
           Navigator.pop(context);
           Navigator.pop(context);
         }
@@ -347,7 +347,7 @@ class _MapScreenState extends State<MapScreen> {
                                                               position!.longitude
                                                                   .toString()),
                                                       AppConstants
-                                                          .currentAddress!.id!)
+                                                          .currentAddress!.id)
                                                   : ServiceCubit.get(context).createAddress(AddressParams(
                                                       address: addressController
                                                           .text,

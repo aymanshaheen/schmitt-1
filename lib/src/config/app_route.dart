@@ -20,7 +20,7 @@ import 'package:schmitt/src/features/services/presentation/screens/map_screen.da
 import 'package:schmitt/src/features/home/presentation/screens/service_type_screen.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
 import 'package:schmitt/src/features/services/presentation/screens/car_wash_details_screen.dart';
-import 'package:schmitt/src/features/profile/presentation/screens/car_wash_screen.dart';
+import 'package:schmitt/src/features/profile/presentation/screens/my_cars_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/select_rooms_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/service_order_screen.dart';
 import 'package:schmitt/src/features/services/presentation/screens/service_screen.dart';

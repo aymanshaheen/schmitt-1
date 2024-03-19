@@ -19,7 +19,7 @@ class DeleteCarBottomSheet extends StatelessWidget {
       if (state is DeleteCarLoaded) {
         isCar
             ? ServiceCubit.get(context).getCars(1)
-            : ServiceCubit.get(context).getAdresses();
+            : ServiceCubit.get(context).getAdresses(1);
         Navigator.pop(context);
       }
     }, builder: (context, state) {

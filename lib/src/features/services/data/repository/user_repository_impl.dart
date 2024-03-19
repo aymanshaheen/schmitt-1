@@ -36,8 +36,13 @@ class ServiceRepositoryImpl implements ServiceRepository {
         final result = await remoteDataSource.getReviwes(id, category);
         return right(result);
       } on DioException catch (e) {
-        return Left(
-            Failure(message: e.response!.data['message'].toString(), code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -54,8 +59,13 @@ class ServiceRepositoryImpl implements ServiceRepository {
         final result = await remoteDataSource.addReview(id, review, rating);
         return right(result);
       } on DioException catch (e) {
-        return Left(
-            Failure(message: e.response!.data['message'].toString(), code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -65,14 +75,19 @@ class ServiceRepositoryImpl implements ServiceRepository {
   }
 
   @override
-  ResultFuture<AddressEntity> getAdresses() async {
+  Future<Either<Failure, AddressEntity>> getAdresses(int page) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.getAddresses();
+        final result = await remoteDataSource.getAddresses(page);
         return right(result);
       } on DioException catch (e) {
-        return Left(
-            Failure(message: e.response!.data['message'].toString(), code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -88,8 +103,13 @@ class ServiceRepositoryImpl implements ServiceRepository {
         final result = await remoteDataSource.createAddress(params);
         return right(result);
       } on DioException catch (e) {
-        return Left(
-            Failure(message: e.response!.data['message'].toString(), code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -106,8 +126,13 @@ class ServiceRepositoryImpl implements ServiceRepository {
         final result = await remoteDataSource.createOrder(params, addressId);
         return right(result);
       } on DioException catch (e) {
-        return Left(
-            Failure(message: e.response!.data['message'].toString(), code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -129,7 +154,13 @@ class ServiceRepositoryImpl implements ServiceRepository {
         );
         return right(result);
       } on DioException catch (e) {
-        return Left(Failure(message: e.response!.data['message'], code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -145,8 +176,13 @@ class ServiceRepositoryImpl implements ServiceRepository {
         final result = await remoteDataSource.getCars(page);
         return right(result);
       } on DioException catch (e) {
-        return Left(
-            Failure(message: e.response!.data['message'].toString(), code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -154,6 +190,7 @@ class ServiceRepositoryImpl implements ServiceRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
+
   @override
   ResultFuture<CarShowEntity> showCar(int id) async {
     if (await networkInfo.isConnected) {
@@ -161,8 +198,13 @@ class ServiceRepositoryImpl implements ServiceRepository {
         final result = await remoteDataSource.showCar(id);
         return right(result);
       } on DioException catch (e) {
-        return Left(
-            Failure(message: e.response!.data['message'].toString(), code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -170,6 +212,7 @@ class ServiceRepositoryImpl implements ServiceRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
+
   @override
   ResultVoid createCar(CarParams params) async {
     if (await networkInfo.isConnected) {
@@ -177,8 +220,13 @@ class ServiceRepositoryImpl implements ServiceRepository {
         final result = await remoteDataSource.createCar(params);
         return right(result);
       } on DioException catch (e) {
-        return Left(
-            Failure(message: e.response!.data['message'].toString(), code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -186,15 +234,21 @@ class ServiceRepositoryImpl implements ServiceRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
- @override
-  ResultVoid updateCar(CarParams params,int id) async {
+
+  @override
+  ResultVoid updateCar(CarParams params, int id) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.updateCar(params,id);
+        final result = await remoteDataSource.updateCar(params, id);
         return right(result);
       } on DioException catch (e) {
-        return Left(
-            Failure(message: e.response!.data['message'].toString(), code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -202,15 +256,21 @@ class ServiceRepositoryImpl implements ServiceRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
- @override
+
+  @override
   ResultVoid deleteCar(int id) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.deleteCar(id);
         return right(result);
       } on DioException catch (e) {
-        return Left(
-            Failure(message: e.response!.data['message'].toString(), code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -218,15 +278,21 @@ class ServiceRepositoryImpl implements ServiceRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
+
   @override
-  ResultVoid updateAddress(AddressParams params,int id) async {
+  ResultVoid updateAddress(AddressParams params, int id) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.updateAddress(params,id);
+        final result = await remoteDataSource.updateAddress(params, id);
         return right(result);
       } on DioException catch (e) {
-        return Left(
-            Failure(message: e.response!.data['message'].toString(), code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -234,15 +300,21 @@ class ServiceRepositoryImpl implements ServiceRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
- @override
+
+  @override
   ResultVoid deleteAddress(int id) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.deleteAddress(id);
         return right(result);
       } on DioException catch (e) {
-        return Left(
-            Failure(message: e.response!.data['message'].toString(), code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -250,6 +322,7 @@ class ServiceRepositoryImpl implements ServiceRepository {
       return Left(DataSource.networkConnectError.getFailure());
     }
   }
+
   @override
   ResultFuture<CompanyEntity> getCompanies(
     int id,
@@ -263,7 +336,13 @@ class ServiceRepositoryImpl implements ServiceRepository {
         );
         return right(result);
       } on DioException catch (e) {
-        return Left(Failure(message: e.response!.data['message'], code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
@@ -283,7 +362,13 @@ class ServiceRepositoryImpl implements ServiceRepository {
         );
         return right(result);
       } on DioException catch (e) {
-        return Left(Failure(message: e.response!.data['message'], code: 0));
+        if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          return Left(DataSource.connectionTimeout.getFailure());
+        } else {
+          return Left(Failure(
+              message: e.response!.data['message'].toString(), code: 0));
+        }
       } catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }

@@ -90,6 +90,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
     return BlocConsumer<ServiceCubit, ServiceStates>(
         listener: (context, state) {
       if (state is CreateCarLoaded) {
+        ServiceCubit.get(context).cars = [];
         ServiceCubit.get(context).getCars(1);
         Navigator.pop(context);
       }

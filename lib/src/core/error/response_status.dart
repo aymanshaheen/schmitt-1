@@ -4,6 +4,7 @@ enum DataSource {
   clientClosedRequest,
   internalServerError,
   networkConnectError,
+  connectionTimeout,
   fireBaseError,
   unexpected,
 }
@@ -15,6 +16,10 @@ extension DataSourceExtension on DataSource {
         return const Failure(
             code: StatusCode.clientClosedRequest,
             message: StatusMessage.clientClosedRequest);
+      case DataSource.connectionTimeout:
+        return const Failure(
+            code: StatusCode.connectionTimeout,
+            message: StatusMessage.connectionTimeout);
       case DataSource.internalServerError:
         return const Failure(
             code: StatusCode.internalServerError,
@@ -38,6 +43,8 @@ class StatusCode {
   static const int clientClosedRequest = 499;
   static const int internalServerError = 500;
   static const int networkConnectError = 599;
+  static const int connectionTimeout = 408;
+
   static const int unexpected = -1;
 }
 
@@ -50,4 +57,6 @@ class StatusMessage {
       "Internet connection timeout. Try again later.";
   static const String unexpected = "Unexpected Error.";
   static const String fireBaseServerError = "There is an Error on Server.";
+  static const String connectionTimeout =
+      "Connection timed out. Please check your internet connection and try again.";
 }

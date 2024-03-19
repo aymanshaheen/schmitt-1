@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:schmitt/src/core/entities/meta.dart';
 import 'package:schmitt/src/core/usecase/address_params.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/features/services/domain/entities/adresses.dart';
@@ -61,7 +62,6 @@ class ServiceCubit extends Cubit<ServiceStates> {
   static ServiceCubit get(context) => BlocProvider.of(context);
   int tabbedOffer = 0;
   int? selectedAddressIndex;
-  List<Address>? addresses = [];
 
   List<String> offersList = [
     "all".tr(),
@@ -230,26 +230,31 @@ class ServiceCubit extends Cubit<ServiceStates> {
   void likeReview(int index, bool isLiked) {
     if (isLiked) {
       reviews![index].isLiked = true;
-      reviews![index].likes++; 
+      reviews![index].likes++;
     } else {
       reviews![index].isLiked = false;
       if (reviews![index].likes > 0) {
-        reviews![index].likes--; 
+        reviews![index].likes--;
       }
     }
     emit(ReviewLiked(index, reviews![index].isLiked));
   }
 
-  Future<void> getAdresses() async {
-    emit(GetAddressesLoading());
+  List<Address>? addresses = [];
+  Meta? metaAddresses;
+  Future<void> getAdresses(int page) async {
+    if (page == 1) {
+      emit(GetAddressesLoading());
+    }
 
-    final result = await getAdressesUseCase.call();
+    final result = await getAdressesUseCase.call(page);
     result.fold(
       (failure) => emit(GetAddressesError(
         failure.message,
       )),
       (right) {
-        addresses = right.data;
+        addresses!.addAll(right.data!);
+        metaAddresses = right.meta;
         emit(GetAddressesLoaded(right.data));
       },
     );
@@ -265,7 +270,7 @@ class ServiceCubit extends Cubit<ServiceStates> {
         failure.message,
       )),
       (right) {
-        address = right.data;   
+        address = right.data;
         emit(CreateAddressLoaded(right.data!));
       },
     );
@@ -284,6 +289,8 @@ class ServiceCubit extends Cubit<ServiceStates> {
   }
 
   List<CarDataEntity>? cars = [];
+  Meta? metaCars;
+
   Future<void> getCars(int page) async {
     emit(GetCarsLoading());
 
@@ -292,7 +299,8 @@ class ServiceCubit extends Cubit<ServiceStates> {
         (failure) => emit(GetCarsError(
               failure.message,
             )), (right) {
-      cars = right.data;
+      cars!.addAll(right.data!);
+      metaCars = right.meta;
       emit(GetCarsLoaded(right.data));
     });
   }

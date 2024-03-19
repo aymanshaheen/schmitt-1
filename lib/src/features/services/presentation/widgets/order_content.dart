@@ -22,7 +22,8 @@ class _StepContentState extends State<StepContent> {
  
   @override
   void initState() {
-    ServiceCubit.get(context).getAdresses();
+    ServiceCubit.get(context).addresses=[];
+    ServiceCubit.get(context).getAdresses(1);
     super.initState();
   }
   @override

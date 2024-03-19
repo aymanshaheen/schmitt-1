@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:schmitt/src/core/error/response_status.dart';
 import 'package:schmitt/src/core/utils/app_image.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/full_rounded_container.dart';
+import 'package:schmitt/src/core/widgets/snakbar_builder.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service/service_state.dart';
 import 'package:schmitt/src/features/profile/presentation/widgets/add_car_bottom_sheet.dart';
@@ -21,9 +23,26 @@ class CarWashScreen extends StatefulWidget {
 }
 
 class _CarWashScreenState extends State<CarWashScreen> {
+  late final ScrollController _scrollController;
+  int nextPage = 2;
+  bool isLoading = false;
   @override
   void initState() {
+    ServiceCubit.get(context).cars = [];
     ServiceCubit.get(context).getCars(1);
+    _scrollController = ScrollController();
+    _scrollController.addListener(() async {
+      if (nextPage <= ServiceCubit.get(context).metaCars!.lastPage) {
+        if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent * 0.6) {
+          if (!isLoading) {
+            isLoading = true;
+            await context.read<ServiceCubit>().getCars(nextPage++);
+            isLoading = false;
+          }
+        }
+      }
+    });
     super.initState();
   }
 
@@ -52,7 +71,19 @@ class _CarWashScreenState extends State<CarWashScreen> {
           padding: EdgeInsets.symmetric(
               horizontal: R.sW(context, 20), vertical: R.sH(context, 20)),
           child: BlocConsumer<ServiceCubit, ServiceStates>(
-            listener: (context, state) {},
+            listener: (context, state) {
+              if (state is GetAddressesError &&
+                      state.message ==
+                          DataSource.networkConnectError.getFailure().message ||
+                  state is GetAddressesError &&
+                      state.message ==
+                          DataSource.connectionTimeout.getFailure().message) {
+                buildSnakBar(
+                    context: context,
+                    message: state.message,
+                    color: AppColors.error);
+              }
+            },
             builder: (context, state) {
               if (state is GetCarsLoading) {
                 return SizedBox(
@@ -69,7 +100,7 @@ class _CarWashScreenState extends State<CarWashScreen> {
                 return Column(
                   children: [
                     SizedBox(
-                      height: R.sH(context, 100),
+                      height: R.sH(context, 180),
                     ),
                     SvgPicture.asset(
                       AppImage.car,
@@ -81,7 +112,7 @@ class _CarWashScreenState extends State<CarWashScreen> {
                       height: R.sH(context, 50),
                     ),
                     Text(
-                      'no_cars'.tr(),
+                      'no_cars_added_yet'.tr(),
                       style: TextStyle(
                           color: AppColors.black,
                           fontSize: 18,
@@ -139,8 +170,8 @@ class _CarWashScreenState extends State<CarWashScreen> {
                     height: R.sH(context, 20),
                   ),
                   ListView.builder(
+                    controller: _scrollController,
                     itemCount: ServiceCubit.get(context).cars!.length,
-                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return CarItem(

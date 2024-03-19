@@ -57,10 +57,12 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
   }
 
   @override
-  Future<AddressModel> getAddresses() async {
+  Future<AddressModel> getAddresses(int page) async {
     try {
       Response response = await dio.getData(
-          url: Endpoints.addresses, token: AppConstants.token);
+          query: {'page': page.toString()},
+          url: Endpoints.addresses,
+          token: AppConstants.token);
       AddressModel userModel = AddressModel.fromJson(response.data);
       return userModel;
     } catch (e) {
@@ -219,7 +221,8 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
       rethrow;
     }
   }
-   @override
+
+  @override
   Future<void> updateAddress(AddressParams params, int id) async {
     try {
       await dio.postData(
@@ -248,5 +251,4 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
       rethrow;
     }
   }
-
 }

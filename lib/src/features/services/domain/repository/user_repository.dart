@@ -13,7 +13,7 @@ import 'package:schmitt/src/features/services/domain/usercases/create_order_use_
 abstract class ServiceRepository {
   ResultFuture<ReviewEntity> getReviews(String id, String category);
   ResultFuture<String> addReview(String id, String review, String rating);
-  ResultFuture<AddressEntity> getAdresses();
+  ResultFuture<AddressEntity> getAdresses(int page);
   ResultFuture<AddressCreateEntity> createAddress(AddressParams params);
   ResultFuture<ServiceShowEntity> getService(int id, String addressId,);
   ResultFuture<ColorEntity> getColors(String addressId,);

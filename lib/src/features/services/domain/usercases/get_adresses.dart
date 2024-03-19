@@ -6,7 +6,7 @@ class GetAdressesUseCase {
   GetAdressesUseCase({required this.repository});
   final ServiceRepository repository;
 
-  ResultFuture<AddressEntity> call() {
-    return repository.getAdresses();
+  ResultFuture<AddressEntity> call(int page) {
+    return repository.getAdresses(page);
   }
 }

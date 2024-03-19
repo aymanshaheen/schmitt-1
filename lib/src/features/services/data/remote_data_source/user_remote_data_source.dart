@@ -12,7 +12,7 @@ import 'package:schmitt/src/features/services/domain/usercases/create_order_use_
 abstract class ServiceRemoteDataSource {
   Future<ReviewModel> getReviwes(String id, String category);
   Future<String> addReview(String id, String review, String rating);
-  Future<AddressModel> getAddresses();
+  Future<AddressModel> getAddresses(int page);
   Future<AddressCreateModel> createAddress(AddressParams params);
   Future<ServiceShowModel> getService(int id,String addressId,);
   Future<OrderModel> createOrder(OrderParams params,String addressId);
