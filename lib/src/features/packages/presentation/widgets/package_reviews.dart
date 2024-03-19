@@ -107,7 +107,7 @@ class _PackageReviewState extends State<PackageReview>
         PackageCubit.get(context)
             .getPackage(AppConstants.package!.id.toString())
             .then((value) => PackageCubit.get(context).getReviews(
-                AppConstants.package!.id.toString(), AppStrings.allId));
+                AppConstants.package!.id.toString(), AppStrings.allId,1));
       }
     }, builder: (context, state) {
       if (state is GetReviwesLoading) {

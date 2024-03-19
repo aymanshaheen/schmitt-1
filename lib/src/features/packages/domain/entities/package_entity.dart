@@ -1,15 +1,18 @@
 import 'package:equatable/equatable.dart';
+import 'package:schmitt/src/core/entities/meta.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
 class PackagesEntity extends Equatable {
   final List<PackageDataEntity> data;
+    final Meta meta;
 
-  const PackagesEntity({
-    required this.data,
+
+  const PackagesEntity( {
+    required this.data,required this.meta,
   });
 
   @override
-  List<Object> get props => [data];
+  List<Object> get props => [data,meta];
 }
 
 class PackageEntity extends Equatable {

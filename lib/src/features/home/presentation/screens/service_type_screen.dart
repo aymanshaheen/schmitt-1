@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schmitt/src/config/app_route.dart';
+import 'package:schmitt/src/core/error/response_status.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
+import 'package:schmitt/src/core/widgets/no_available_data.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
@@ -20,9 +22,28 @@ class ServicetypeScreen extends StatefulWidget {
 }
 
 class _ServicetypeScreenState extends State<ServicetypeScreen> {
+  late final ScrollController _scrollController;
+  int nextPage = 2;
+  bool isLoading = false;
   @override
   void initState() {
-    HomeCubit.get(context).getCategoryServices(1,  widget.services);
+    HomeCubit.get(context).getCategoryServices(1, widget.services);
+
+    _scrollController = ScrollController();
+    _scrollController.addListener(() async {
+      if (nextPage <= HomeCubit.get(context).metaServices!.lastPage) {
+        if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent * 0.6) {
+          if (!isLoading) {
+            isLoading = true;
+            await context
+                .read<HomeCubit>()
+                .getCategoryServices(nextPage++, widget.services);
+            isLoading = false;
+          }
+        }
+      }
+    });
     super.initState();
   }
 
@@ -44,7 +65,6 @@ class _ServicetypeScreenState extends State<ServicetypeScreen> {
         backgroundColor: AppColors.white,
         elevation: 0,
         leadingWidth: R.sW(context, 15),
-       
       ),
       body: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {},
@@ -55,8 +75,17 @@ class _ServicetypeScreenState extends State<ServicetypeScreen> {
                 color: AppColors.darkBlue,
               ),
             );
+          } else if (state is ServicesError &&
+                  state.message ==
+                      DataSource.networkConnectError.getFailure().message ||
+              state is ServicesError &&
+                  state.message ==
+                      DataSource.connectionTimeout.getFailure().message) {
+            return const NoDataAvailable(
+                text: "check_your_internet_connection_please");
           } else if (state is ServicesLoaded) {
             return SingleChildScrollView(
+              controller: _scrollController,
               physics: const BouncingScrollPhysics(),
               child: Container(
                 padding: EdgeInsets.symmetric(
@@ -65,46 +94,40 @@ class _ServicetypeScreenState extends State<ServicetypeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListView.builder(
-  itemCount: state.services!.length,
-  physics: const NeverScrollableScrollPhysics(),
-  shrinkWrap: true,
-  itemBuilder: (context, index) {
-    return AnimationConfiguration.staggeredList(
-      position: index,
-      delay: const Duration(milliseconds: 100),
-      child: SlideAnimation(
-        duration:const Duration(milliseconds: 2500),
-        curve: Curves.fastLinearToSlowEaseIn,
-        verticalOffset: -250,
-        child: ScaleAnimation(
-          duration:const Duration(milliseconds: 1500),
-          curve: Curves.fastLinearToSlowEaseIn,
-          child: InkWell(
-            onTap: () => Navigator.pushNamed(
-              context, Routes.service,
-              arguments: state.services![index]
-            ),
-            child: ServiceItem(
-              services: state.services![index],
-            ),
-          ),
-        ),
-      ),
-    );
-  },
-),
+                      itemCount: state.services!.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return AnimationConfiguration.staggeredList(
+                          position: index,
+                          delay: const Duration(milliseconds: 100),
+                          child: SlideAnimation(
+                            duration: const Duration(milliseconds: 2500),
+                            curve: Curves.fastLinearToSlowEaseIn,
+                            verticalOffset: -250,
+                            child: ScaleAnimation(
+                              duration: const Duration(milliseconds: 1500),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                              child: InkWell(
+                                onTap: () => Navigator.pushNamed(
+                                    context, Routes.service,
+                                    arguments: state.services![index]),
+                                child: ServiceItem(
+                                  services: state.services![index],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
             );
-          } else if (state is ServicesError) {
-            return const Center(
-              child: Text('Error loading services'),
-            );
           }
-          return const Center(
-            child: Text('there is no services available at the moment'),
-          );
+          return const NoDataAvailable(
+              text: 'there_is_no_services_available_at_the_moment');
         },
       ),
     );

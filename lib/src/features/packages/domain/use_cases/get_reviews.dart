@@ -6,7 +6,7 @@ class GetReviwesUseCase {
   GetReviwesUseCase({required this.repository});
   final PackageRepository repository;
 
-  ResultFuture<ReviewEntity> call({required String id, required String category}) {
-    return repository.getReviews(id,category);
+  ResultFuture<ReviewEntity> call({required String id, required String category,required int page}) {
+    return repository.getReviews(id,category,page);
   }
 }

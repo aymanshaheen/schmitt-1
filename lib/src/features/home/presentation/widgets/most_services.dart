@@ -71,6 +71,7 @@ class _MostServicesState extends State<MostServices>
                       title: HomeCubit.get(context).offersList[index],
                       onTap: () {
                         HomeCubit.get(context).changeTabbedOffer(index);
+                        HomeCubit.get(context).services.clear();
                         functionList[index]();
                       });
                 }),
@@ -83,10 +84,6 @@ class _MostServicesState extends State<MostServices>
                   color: AppColors.darkBlue,
                 ),
               ),
-            ),
-          if (state is ServicesError)
-            const Center(
-              child: Text('Error loading services'),
             ),
           if (HomeCubit.get(context).services.isNotEmpty &&
               state is! ServicesLoading)
@@ -122,7 +119,8 @@ class _MostServicesState extends State<MostServices>
                 },
               ),
             ),
-          if (HomeCubit.get(context).services.isEmpty)
+          if (HomeCubit.get(context).services.isEmpty &&
+              state is ServicesLoaded)
             NoDataAvailable(
                 text: "there_is_no_services_available_at_the_moment".tr()),
         ],

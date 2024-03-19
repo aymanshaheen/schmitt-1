@@ -7,8 +7,8 @@ class GetPackagesUseCase {
   GetPackagesUseCase({required this.repository});
   final PackageRepository repository;
 
-  ResultFuture<PackagesEntity> call() {
-    return repository.getPackages();
+  ResultFuture<PackagesEntity> call(int page) {
+    return repository.getPackages(page);
   }
 }
 

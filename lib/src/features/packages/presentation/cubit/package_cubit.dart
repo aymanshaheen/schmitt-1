@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:schmitt/src/core/entities/meta.dart';
 import 'package:schmitt/src/features/packages/domain/entities/package_entity.dart';
 import 'package:schmitt/src/features/packages/domain/use_cases/add_review.dart';
 import 'package:schmitt/src/features/packages/domain/use_cases/get_package.dart';
@@ -23,16 +24,18 @@ class PackageCubit extends Cubit<PackageStates> {
   static PackageCubit get(context) => BlocProvider.of(context);
 
   List<PackageDataEntity> packages = [];
-  Future<void> getPackages() async {
+  Meta? metaPackages;
+  Future<void> getPackages(int page) async {
     emit(PacakgesLoading());
 
-    final result = await getPackagesUseCase.call();
+    final result = await getPackagesUseCase.call(page);
     result.fold(
       (failure) => emit(PacakgesError(
         message: failure.message,
       )),
       (right) {
-        packages = right.data;
+        packages.addAll(right.data);
+        metaPackages = right.meta;
         emit(PacakgesLoaded(right.data));
       },
     );
@@ -71,10 +74,10 @@ class PackageCubit extends Cubit<PackageStates> {
   }
 
   List<Review>? reviews = [];
-  Future<void> getReviews(String id, String category) async {
+  Future<void> getReviews(String id, String category,int page) async {
     emit(GetReviwesLoading());
 
-    final result = await getReviwesUseCase.call(id: id, category: category);
+    final result = await getReviwesUseCase.call(id: id, category: category,page:page);
     result.fold(
         (failure) => emit(GetReviwesError(
               failure.message,

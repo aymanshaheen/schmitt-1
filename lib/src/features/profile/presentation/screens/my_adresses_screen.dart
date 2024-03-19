@@ -28,8 +28,9 @@ class _CarWashScreenState extends State<MyAddressesScreen> {
   bool isLoading = false;
   @override
   void initState() {
-    ServiceCubit.get(context).addresses = [];
-    ServiceCubit.get(context).getAdresses(1);
+    if(ServiceCubit.get(context).addresses!.isEmpty){
+      ServiceCubit.get(context).getAdresses(1);
+    }
     _scrollController = ScrollController();
     _scrollController.addListener(() async {
       if (nextPage <= ServiceCubit.get(context).metaAddresses!.lastPage) {
@@ -151,9 +152,12 @@ class _CarWashScreenState extends State<MyAddressesScreen> {
                     );
                   } else if (state is GetAddressesError &&
                       state.message ==
-                          DataSource.networkConnectError.getFailure().message) {
-                    return NoDataAvailable(
-                        text: "check_your_internet_connection_please".tr());
+                          DataSource.networkConnectError.getFailure().message ||
+                  state is GetAddressesError &&
+                      state.message ==
+                          DataSource.connectionTimeout.getFailure().message) {
+                    return const NoDataAvailable(
+                        text: "check_your_internet_connection_please");
                   } else {
                     return Column(
                       children: [

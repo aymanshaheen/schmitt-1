@@ -15,7 +15,7 @@ class PackageRemoteDataSourceImpl implements PackageRemoteDataSource {
   });
 
   @override
-  Future<PackagesModel> getPackages() async {
+  Future<PackagesModel> getPackages(int page) async {
     try {
       Response response = await dio.getData(
           url: Endpoints.package,
@@ -66,7 +66,7 @@ class PackageRemoteDataSourceImpl implements PackageRemoteDataSource {
   }
 
   @override
-  Future<ReviewModel> getReviwes(String id, String category) async {
+  Future<ReviewModel> getReviwes(String id, String category, int page) async {
     try {
       Response response = await dio.getData(
           url: Endpoints.package + '/:id/' + Endpoints.reviews,

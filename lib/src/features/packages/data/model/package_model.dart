@@ -1,3 +1,5 @@
+import 'package:schmitt/src/core/entities/meta.dart';
+import 'package:schmitt/src/core/models/meta_model.dart';
 import 'package:schmitt/src/features/services/data/model/service_model.dart';
 import 'package:schmitt/src/features/services/domain/entities/service.dart';
 import '../../domain/entities/package_entity.dart';
@@ -5,13 +7,17 @@ import '../../domain/entities/package_entity.dart';
 class PackagesModel extends PackagesEntity {
    PackagesModel({
     List<PackageDataEntity>? data,
+         Meta? meta,
+
   }) : super(
           data: data ?? [],
+          meta: meta!,
         );
 
   factory PackagesModel.fromJson(Map<String, dynamic> json) {
     return PackagesModel(
       data: (json['data'] as List?)?.map((i) => DataModel.fromJson(i)).toList() ?? [],
+      meta: MetaModel.fromJson(json['meta']),
     );
   }
 }

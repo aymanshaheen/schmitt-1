@@ -22,10 +22,10 @@ class PackageRepositoryImpl implements PackageRepository {
   });
 
   @override
-  ResultFuture<PackagesEntity> getPackages() async {
+  ResultFuture<PackagesEntity> getPackages(int page) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.getPackages();
+        final result = await remoteDataSource.getPackages(page);
         return Right(result);
       } on DioException catch (e) {
         return Left(Failure(message: e.response!.data['message'], code: 0));
@@ -53,10 +53,10 @@ class PackageRepositoryImpl implements PackageRepository {
   }
 
     @override
-  ResultFuture<ReviewEntity> getReviews(String id, String category) async {
+  ResultFuture<ReviewEntity> getReviews(String id, String category,int page) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.getReviwes(id, category);
+        final result = await remoteDataSource.getReviwes(id, category, page);
         return right(result);
       } on DioException catch (e) {
         return Left(

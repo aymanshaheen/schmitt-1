@@ -92,8 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
             appPreferences?.saveData(
                 key: "addressId", value: AppConstants.addressID);
             return Scaffold(
-              body: HomeCubit.get(context).slides.isEmpty ||
-                      HomeCubit.get(context).services.isEmpty
+              body: HomeCubit.get(context).slides.isEmpty 
                   ? Center(
                       child: CircularIndicator(
                         color: AppColors.darkBlue,

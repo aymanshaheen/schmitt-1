@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:schmitt/src/core/entities/meta.dart';
 import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/app_strings.dart';
 import 'package:schmitt/src/features/auth/domain/entities/user_entity.dart';
@@ -222,7 +223,7 @@ class HomeCubit extends Cubit<HomeStates> {
   void getServicesAndMatch(String query) async {
     emit(ServicesLoading());
     try {
-      await getServices(1,  AppStrings.allId);
+      await getServices(1, AppStrings.allId);
       List<Service> services = getServicesMatching(query);
       emit(ServicesLoaded(services));
     } catch (e) {
@@ -238,22 +239,24 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   List<Service> services = [];
-  Future<void> getServices(int page,String category) async {
+  Meta? metaServices;
+  Future<void> getServices(int page, String category) async {
     emit(ServicesLoading());
 
-    final result = await getServicesUseCase.call(page,  category);
+    final result = await getServicesUseCase.call(page, category);
     result.fold(
       (failure) => emit(ServicesError(
         message: failure.message,
       )),
       (right) {
-        services = right.data!;
+        services.addAll(right.data!);
+        metaServices = right.meta;
         emit(ServicesLoaded(right.data));
       },
     );
   }
 
-  Future<void> getCategoryServices(int page,  String category) async {
+  Future<void> getCategoryServices(int page, String category) async {
     emit(ServicesLoading());
 
     final result = await getServicesUseCase.call(page, category);

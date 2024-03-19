@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:schmitt/src/core/error/response_status.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/no_available_data.dart';
@@ -36,6 +38,14 @@ class _AllServicesScreenState extends State<AllServicesScreen> {
                 color: AppColors.darkBlue,
               ),
             );
+          } else if (state is ServicesError &&
+                  state.message ==
+                      DataSource.networkConnectError.getFailure().message ||
+              state is ServicesError &&
+                  state.message ==
+                      DataSource.connectionTimeout.getFailure().message) {
+            return NoDataAvailable(
+                text: "check_your_internet_connection_please".tr());
           } else if (state is ServicesLoaded) {
             return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -49,32 +59,31 @@ class _AllServicesScreenState extends State<AllServicesScreen> {
                         ),
                       )
                     : AnimationLimiter(
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: state.services!.length,
-                itemBuilder: (context, index) {
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    delay: const Duration(milliseconds: 100),
-                    child: SlideAnimation(
-                      duration: const Duration(milliseconds: 2500),
-                      curve: Curves.fastLinearToSlowEaseIn,
-                      verticalOffset: -250,
-                      child: ScaleAnimation(
-                        duration: const Duration(milliseconds: 1500),
-                        curve: Curves.fastLinearToSlowEaseIn,
-                        child: ServiceItem(services: state.services![index]),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: state.services!.length,
+                          itemBuilder: (context, index) {
+                            return AnimationConfiguration.staggeredList(
+                              position: index,
+                              delay: const Duration(milliseconds: 100),
+                              child: SlideAnimation(
+                                duration: const Duration(milliseconds: 2500),
+                                curve: Curves.fastLinearToSlowEaseIn,
+                                verticalOffset: -250,
+                                child: ScaleAnimation(
+                                  duration: const Duration(milliseconds: 1500),
+                                  curve: Curves.fastLinearToSlowEaseIn,
+                                  child: ServiceItem(
+                                      services: state.services![index]),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ),
               ),
             );
-          } else if (state is ServicesError) {
-            return Text('Error: ${state.message}');
           } else {
             return const NoDataAvailable(
               text: 'no_servcies_with_this_name',

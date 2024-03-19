@@ -4,8 +4,8 @@ import 'package:schmitt/src/features/services/domain/entities/review.dart';
 
 
 abstract class PackageRepository {
-  ResultFuture<PackagesEntity> getPackages();
-  ResultFuture<ReviewEntity> getReviews(String id, String category);
+  ResultFuture<PackagesEntity> getPackages(int page);
+  ResultFuture<ReviewEntity> getReviews(String id, String category,int page);
   ResultFuture<String> addReview(String id, String review, String rating);
   ResultFuture<PackageEntity> getPackage(String id);
 

@@ -7,6 +7,7 @@ import 'package:schmitt/src/core/utils/app_image.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/full_rounded_container.dart';
+import 'package:schmitt/src/core/widgets/no_available_data.dart';
 import 'package:schmitt/src/core/widgets/snakbar_builder.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service/service_cubit.dart';
 import 'package:schmitt/src/features/services/presentation/cubit/service/service_state.dart';
@@ -28,8 +29,9 @@ class _CarWashScreenState extends State<CarWashScreen> {
   bool isLoading = false;
   @override
   void initState() {
-    ServiceCubit.get(context).cars = [];
-    ServiceCubit.get(context).getCars(1);
+    if (ServiceCubit.get(context).cars!.isEmpty) {
+      ServiceCubit.get(context).getCars(1);
+    }
     _scrollController = ScrollController();
     _scrollController.addListener(() async {
       if (nextPage <= ServiceCubit.get(context).metaCars!.lastPage) {
@@ -143,6 +145,14 @@ class _CarWashScreenState extends State<CarWashScreen> {
                     )
                   ],
                 );
+              } else if (state is GetAddressesError &&
+                      state.message ==
+                          DataSource.networkConnectError.getFailure().message ||
+                  state is GetAddressesError &&
+                      state.message ==
+                          DataSource.connectionTimeout.getFailure().message) {
+                return const NoDataAvailable(
+                    text: "check_your_internet_connection_please");
               }
               return Column(
                 children: [
