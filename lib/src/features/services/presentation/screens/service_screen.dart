@@ -31,7 +31,7 @@ class ServiceScreen extends StatefulWidget {
 
 class _ServiceScreenState extends State<ServiceScreen> {
   bool isFavourite = false;
-  int reveiwsCount =0;
+  int reveiwsCount = 0;
   @override
   void initState() {
     super.initState();
@@ -72,269 +72,266 @@ class _ServiceScreenState extends State<ServiceScreen> {
     ];
     return BlocConsumer<ServiceCubit, ServiceStates>(
         listener: (context, state) {
-          if(state is GetReviwesLoaded){
-            reveiwsCount = state.reviews!.length;
-          }
-        },
-        builder: (context, state) {
-          if (ServiceCubit.get(context).service == null) {
-            return Scaffold(
-              body: Center(
-                  child: CircularIndicator(
-                color: AppConstants.service!.category!.id == 4
-                    ? AppColors.purple
-                    : AppColors.darkBlue,
-              )),
-            );
-          }
-          return Scaffold(
-            body: PopScope(
-              canPop: false,
-              onPopInvoked: (didPop) async {
-                if (didPop) {
-                  return;
-                }
-                ServiceCubit.get(context).clearData();
-                Navigator.pop(context);
-              },
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomTabController(service: widget.service),
-                    SizedBox(height: R.sH(context, 20)),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: R.sW(context, 15)),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+      if (state is GetReviwesLoaded) {
+        reveiwsCount = state.reviews!.length;
+      }
+    }, builder: (context, state) {
+      if (ServiceCubit.get(context).service == null) {
+        return Scaffold(
+          body: Center(
+              child: CircularIndicator(
+            color: AppConstants.service!.category!.id == 4
+                ? AppColors.purple
+                : AppColors.darkBlue,
+          )),
+        );
+      }
+      return Scaffold(
+        body: PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) async {
+            if (didPop) {
+              return;
+            }
+            ServiceCubit.get(context).clearData();
+            Navigator.pop(context);
+          },
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTabController(service: widget.service),
+                SizedBox(height: R.sH(context, 20)),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: R.sW(context, 15)),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  widget.service.title,
-                                  style: TextStyle(
-                                    fontSize: R.sW(context, 20),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    isFavourite
-                                        ? HomeCubit.get(context).deleteBookMark(
-                                            widget.service.id.toString())
-                                        : HomeCubit.get(context).addBookMark(
-                                            widget.service.id.toString());
-                                    HomeCubit.get(context).services = [];
-                                    HomeCubit.get(context)
-                                        .getServices(1, AppStrings.allId);
-                                    setState(() {
-                                      isFavourite = !isFavourite;
-                                    });
-                                  },
-                                  child: Icon(
-                                    !isFavourite
-                                        ? Icons.bookmark_outline_rounded
-                                        : Icons.bookmark_rounded,
-                                    color:
-                                        AppConstants.service!.category!.id == 4
-                                            ? AppColors.purple
-                                            : AppColors.darkBlue,
-                                    size: R.sW(context, 25),
-                                  ),
-                                ),
-                              ],
+                            Text(
+                              widget.service.title,
+                              style: TextStyle(
+                                fontSize: R.sW(context, 20),
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            SizedBox(height: R.sH(context, 10)),
-                            Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: R.sW(context, 5)),
-                                  height: R.sH(context, 25),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color:
-                                        AppConstants.service!.category!.id == 4
-                                            ? AppColors.lightPurble
-                                            : AppColors.whiteBlue,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      AppConstants.service!.category!.id == 2
-                                          ? 'housekeepings'.tr()
-                                          : AppConstants
-                                                      .service!.category!.id ==
-                                                  3
-                                              ? "carWash".tr()
-                                              : "babySitting".tr(),
-                                      style: TextStyle(
-                                          color: AppConstants
-                                                      .service!.category!.id ==
+                            GestureDetector(
+                              onTap: () {
+                                isFavourite
+                                    ? HomeCubit.get(context).deleteBookMark(
+                                        widget.service.id.toString())
+                                    : HomeCubit.get(context).addBookMark(
+                                        widget.service.id.toString());
+                                HomeCubit.get(context).services = [];
+                                HomeCubit.get(context)
+                                    .getServices(1, AppStrings.allId);
+                                setState(() {
+                                  isFavourite = !isFavourite;
+                                });
+                              },
+                              child: Icon(
+                                !isFavourite
+                                    ? Icons.bookmark_outline_rounded
+                                    : Icons.bookmark_rounded,
+                                color: AppConstants.service!.category!.id == 4
+                                    ? AppColors.purple
+                                    : AppColors.darkBlue,
+                                size: R.sW(context, 25),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: R.sH(context, 10)),
+                        Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: R.sW(context, 5)),
+                              height: R.sH(context, 25),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: AppConstants.service!.category!.id == 4
+                                    ? AppColors.lightPurble
+                                    : AppColors.whiteBlue,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  AppConstants.service!.category!.id == 2
+                                      ? 'housekeepings'.tr()
+                                      : AppConstants.service!.category!.id == 3
+                                          ? "carWash".tr()
+                                          : "babySitting".tr(),
+                                  style: TextStyle(
+                                      color:
+                                          AppConstants.service!.category!.id ==
                                                   4
                                               ? AppColors.purple
                                               : AppColors.darkBlue,
-                                          fontSize: R.F(context, 14),
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: R.sW(context, 12)),
-                                Icon(
-                                  Icons.location_on,
-                                  color: AppConstants.service!.category!.id == 4
-                                      ? AppColors.purple
-                                      : AppColors.darkBlue,
-                                  size: R.sW(context, 25),
-                                ),
-                                SizedBox(width: R.sW(context, 5)),
-                                Flexible(
-                                  child: Text(
-                                    '255 Grand Park Avenue',
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      color: AppColors.black,
-                                      fontWeight: FontWeight.w500,
                                       fontSize: R.F(context, 14),
-                                    ),
-                                  ),
+                                      fontWeight: FontWeight.w600),
                                 ),
-                              ],
+                              ),
                             ),
-                            SizedBox(height: R.sH(context, 15)),
-                            Row(
-                              children: [
-                                Text(
-                                  "\$${widget.service.price}",
-                                  style: TextStyle(
-                                    color:
-                                        AppConstants.service!.category!.id == 4
-                                            ? AppColors.purple
-                                            : AppColors.darkBlue,
-                                    fontSize: R.F(context, 26),
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                            SizedBox(width: R.sW(context, 12)),
+                            Icon(
+                              Icons.location_on,
+                              color: AppConstants.service!.category!.id == 4
+                                  ? AppColors.purple
+                                  : AppColors.darkBlue,
+                              size: R.sW(context, 25),
+                            ),
+                            SizedBox(width: R.sW(context, 5)),
+                            Flexible(
+                              child: Text(
+                                '255 Grand Park Avenue',
+                                maxLines: 1,
+                                style: TextStyle(
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: R.F(context, 14),
                                 ),
-                                SizedBox(width: R.sW(context, 10)),
-                                Text(
-                                  "(Price)",
-                                  style: TextStyle(
-                                    color: AppColors.grey,
-                                    fontSize: R.F(context, 12),
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                            SizedBox(height: R.sH(context, 5)),
-                            Divider(
-                              thickness: 1,
-                              color: AppColors.grey1,
-                            ),
-                            SizedBox(height: R.sH(context, 10)),
+                          ],
+                        ),
+                        SizedBox(height: R.sH(context, 15)),
+                        Row(
+                          children: [
                             Text(
-                              'about_me'.tr(),
+                              "\$${widget.service.price}",
                               style: TextStyle(
-                                color: AppColors.black,
-                                fontSize: R.F(context, 18),
+                                color: AppConstants.service!.category!.id == 4
+                                    ? AppColors.purple
+                                    : AppColors.darkBlue,
+                                fontSize: R.F(context, 26),
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            SizedBox(height: R.sH(context, 10)),
-                            ExpandableText(
-                              widget.service.description,
-                              expandText: 'Read more',
-                              collapseText: 'show less',
-                              maxLines: 4,
-                              linkColor: AppColors.darkBlue,
+                            SizedBox(width: R.sW(context, 10)),
+                            Text(
+                              "(Price)",
                               style: TextStyle(
-                                color: AppColors.black,
-                                fontSize: R.F(context, 16),
+                                color: AppColors.grey,
+                                fontSize: R.F(context, 12),
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            Divider(
-                              thickness: 1,
-                              color: AppColors.grey1,
+                          ],
+                        ),
+                        SizedBox(height: R.sH(context, 5)),
+                        Divider(
+                          thickness: 1,
+                          color: AppColors.grey1,
+                        ),
+                        SizedBox(height: R.sH(context, 10)),
+                        Text(
+                          'about_me'.tr(),
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontSize: R.F(context, 18),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        SizedBox(height: R.sH(context, 10)),
+                        ExpandableText(
+                          widget.service.description,
+                          expandText: 'Read more',
+                          collapseText: 'show less',
+                          maxLines: 4,
+                          linkColor: AppColors.darkBlue,
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontSize: R.F(context, 16),
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Divider(
+                          thickness: 1,
+                          color: AppColors.grey1,
+                        ),
+                        SizedBox(height: R.sH(context, 10)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'photos%videos'.tr(),
+                              style: TextStyle(
+                                color: AppColors.black,
+                                fontSize: R.F(context, 20),
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
-                            SizedBox(height: R.sH(context, 10)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'photos%videos'.tr(),
-                                  style: TextStyle(
-                                    color: AppColors.black,
-                                    fontSize: R.F(context, 20),
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(context, Routes.allImages);
+                              },
+                              child: Text(
+                                'see_all'.tr(),
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  color: AppConstants.service!.category!.id == 4
+                                      ? AppColors.purple
+                                      : AppColors.homeBlueColor,
+                                  fontSize: R.F(context, 16),
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.20,
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, Routes.allImages);
-                                  },
-                                  child: Text(
-                                    'see_all'.tr(),
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      color:
-                                          AppConstants.service!.category!.id == 4
-                                              ? AppColors.purple
-                                              : AppColors.homeBlueColor,
-                                      fontSize: R.F(context, 16),
-                                      fontWeight: FontWeight.w700,
-                                      letterSpacing: 0.20,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: R.sH(context, 10)),
-                            const ImageServiceContainer(),
-                            SizedBox(height: R.sH(context, 15)),
-                            const RatingService(),
-                            SizedBox(height: R.sH(context, 10)),
-                            SizedBox(
-                              height: R.sH(context, 40),
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  physics: const BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: 6,
-                                  itemBuilder: (context, index) {
-                                    return OffersServiceItem(
-                                        title: ServiceCubit.get(context)
-                                            .offersList[index],
-                                        onTap: () {
-                                          ServiceCubit.get(context)
-                                              .changeTabbedOffer(index);
-                                          functionList[index]();
-                                        });
-                                  }),
-                            ),
-                             ServiceReview(reveiwsCount:reveiwsCount),
-                          ]),
-                    ),
-                  ],
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: R.sH(context, 10)),
+                        const ImageServiceContainer(),
+                        SizedBox(height: R.sH(context, 15)),
+                        ServiceCubit.get(context).reviews!.isEmpty
+                            ? const SizedBox.shrink()
+                            : const RatingService(),
+                        ServiceCubit.get(context).reviews!.isEmpty
+                            ? const SizedBox.shrink()
+                            : SizedBox(height: R.sH(context, 10)),
+                        ServiceCubit.get(context).reviews!.isEmpty
+                            ? const SizedBox.shrink()
+                            : SizedBox(
+                                height: R.sH(context, 40),
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    physics: const BouncingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: 6,
+                                    itemBuilder: (context, index) {
+                                      return OffersServiceItem(
+                                          title: ServiceCubit.get(context)
+                                              .offersList[index],
+                                          onTap: () {
+                                            ServiceCubit.get(context)
+                                                .changeTabbedOffer(index);
+                                            functionList[index]();
+                                          });
+                                    }),
+                              ),
+                        ServiceReview(reveiwsCount: reveiwsCount),
+                      ]),
                 ),
-              ),
+              ],
             ),
-            bottomNavigationBar: BottomServiceNavigationBar(
-              text1: 'message'.tr(),
-              text2: 'book_now'.tr(),
-              onTap1: () {},
-              onTap2: () {
-                Navigator.pushNamed(
-                    context,
-                    AppConstants.service!.category!.id == 3
-                        ? Routes.carWashServiceDetails
-                        : Routes.selectRooms);
-              },
-            ),
-          );
-        });
+          ),
+        ),
+        bottomNavigationBar: BottomServiceNavigationBar(
+          text1: 'message'.tr(),
+          text2: 'book_now'.tr(),
+          onTap1: () {},
+          onTap2: () {
+            Navigator.pushNamed(
+                context,
+                AppConstants.service!.category!.id == 3
+                    ? Routes.carWashServiceDetails
+                    : Routes.selectRooms);
+          },
+        ),
+      );
+    });
   }
 }

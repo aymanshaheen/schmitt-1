@@ -80,14 +80,10 @@ class _ServiceReviewState extends State<ServiceReview>
 
     Future<void> createReview() async {
       if (_reviewController.text.isNotEmpty && _rating != 0) {
-        Future.wait([
-          ServiceCubit.get(context).addReview(
-              id: AppConstants.service!.id.toString(),
-              review: _reviewController.text,
-              rating: _rating.toString()),
-          ServiceCubit.get(context)
-              .getServices(1, AppConstants.service!.id.toString())
-        ]);
+        ServiceCubit.get(context).addReview(
+            id: AppConstants.service!.id.toString(),
+            review: _reviewController.text,
+            rating: _rating.toString());
       } else {
         buildSnakBar(
             context: context,
@@ -99,8 +95,13 @@ class _ServiceReviewState extends State<ServiceReview>
     return BlocConsumer<ServiceCubit, ServiceStates>(
         listener: (context, state) {
       if (state is AddReviweLoaded) {
-        ServiceCubit.get(context)
-            .getReviews(AppConstants.service!.id.toString(), AppStrings.allId);
+        ServiceCubit.get(context).service = null;
+        Future.wait([
+          ServiceCubit.get(context)
+              .getServices(1, AppConstants.service!.id.toString()),
+          ServiceCubit.get(context)
+              .getReviews(AppConstants.service!.id.toString(), AppStrings.allId)
+        ]);
       }
     }, builder: (context, state) {
       if (state is GetReviwesLoading) {
@@ -312,7 +313,7 @@ class _ServiceReviewState extends State<ServiceReview>
                   ),
                 );
               }),
-          ServiceCubit.get(context).service!.authorize!.review==false
+          ServiceCubit.get(context).service!.authorize!.review == false
               ? const SizedBox.shrink()
               : Column(
                   children: [
