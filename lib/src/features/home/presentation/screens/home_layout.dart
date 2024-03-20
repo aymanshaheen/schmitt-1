@@ -33,9 +33,9 @@ class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
               child: const HomeBar(),
             ),
             Expanded(
-              child: SingleChildScrollView(
+              child: ListView(
                 physics: const BouncingScrollPhysics(),
-                child: Column(
+                children:[Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
@@ -49,6 +49,7 @@ class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
                     const MostServices(),
                   ],
                 ),
+                ],
               ),
             )
           ]),

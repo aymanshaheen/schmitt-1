@@ -312,7 +312,7 @@ class _ServiceReviewState extends State<ServiceReview>
                   ),
                 );
               }),
-          ServiceCubit.get(context).service!.authorize!.review!
+          ServiceCubit.get(context).service!.authorize!.review==false
               ? const SizedBox.shrink()
               : Column(
                   children: [

@@ -26,15 +26,44 @@ class MostServices extends StatefulWidget {
 class _MostServicesState extends State<MostServices>
     with TickerProviderStateMixin {
   num numberItems = 1;
+  late final ScrollController _scrollController;
+  int nextPage = 2;
+  bool isLoading = false;
+
+  late List<Function> functionList;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+   _scrollController.addListener(() async {
+  print('Scroll listener triggered');
+  if (nextPage <= HomeCubit.get(context).metaServices!.lastPage) {
+    print('There are more pages');
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.6) {
+      print('Scrolled past 60% of the list');
+      if (!isLoading) {
+        isLoading = true;
+        await functionList[HomeCubit.get(context).tabbedOffer](nextPage++);
+        isLoading = false;
+      }
+    }
+  }
+});
+
+    functionList = [
+      (int page) => HomeCubit.get(context).getServices(page, AppStrings.allId),
+      (int page) =>
+          HomeCubit.get(context).getServices(page, AppStrings.houseId),
+      (int page) => HomeCubit.get(context).getServices(page, AppStrings.carId),
+      (int page) => HomeCubit.get(context).getServices(page, AppStrings.babyId),
+    ];
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Function> functionList = [
-      () => HomeCubit.get(context).getServices(1, AppStrings.allId),
-      () => HomeCubit.get(context).getServices(1, AppStrings.houseId),
-      () => HomeCubit.get(context).getServices(1, AppStrings.carId),
-      () => HomeCubit.get(context).getServices(1, AppStrings.babyId),
-    ];
     return BlocConsumer<HomeCubit, HomeStates>(listener: (context, state) {
       if (state is ServicesLoaded) {
         numberItems = state.services!.length;
@@ -72,7 +101,7 @@ class _MostServicesState extends State<MostServices>
                       onTap: () {
                         HomeCubit.get(context).changeTabbedOffer(index);
                         HomeCubit.get(context).services.clear();
-                        functionList[index]();
+                        functionList[index](1);
                       });
                 }),
           ),
@@ -90,9 +119,9 @@ class _MostServicesState extends State<MostServices>
             Container(
               color: AppColors.grey.withOpacity(0.05),
               child: ListView.builder(
+                controller: _scrollController,
                 itemCount: HomeCubit.get(context).services.length,
                 shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return AnimationConfiguration.staggeredList(
                     position: index,
