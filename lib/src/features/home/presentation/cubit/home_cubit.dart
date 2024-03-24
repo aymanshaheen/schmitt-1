@@ -241,8 +241,9 @@ class HomeCubit extends Cubit<HomeStates> {
   List<Service> services = [];
   Meta? metaServices;
   Future<void> getServices(int page, String category) async {
-    emit(ServicesLoading());
-
+    if (page == 1) {
+      emit(ServicesLoading());
+    }
     final result = await getServicesUseCase.call(page, category);
     result.fold(
       (failure) => emit(ServicesError(
@@ -256,8 +257,13 @@ class HomeCubit extends Cubit<HomeStates> {
     );
   }
 
+  Meta? metaCategoreyServices;
+  List<Service> servicesCategory = [];
+
   Future<void> getCategoryServices(int page, String category) async {
-    emit(ServicesLoading());
+    if (page == 1) {
+      emit(ServicesLoading());
+    }
 
     final result = await getServicesUseCase.call(page, category);
     result.fold(
@@ -265,6 +271,8 @@ class HomeCubit extends Cubit<HomeStates> {
         message: failure.message,
       )),
       (right) {
+        metaCategoreyServices = right.meta;
+        servicesCategory.addAll(right.data!);
         emit(ServicesLoaded(right.data));
       },
     );

@@ -10,6 +10,7 @@ import 'package:schmitt/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:schmitt/src/features/home/presentation/cubit/home_state.dart';
 import 'package:schmitt/src/features/home/presentation/widgets/service_item.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:schmitt/src/features/services/domain/entities/service.dart';
 
 class ServicetypeScreen extends StatefulWidget {
   final String serviceName;
@@ -27,13 +28,14 @@ class _ServicetypeScreenState extends State<ServicetypeScreen> {
   bool isLoading = false;
   @override
   void initState() {
+    HomeCubit.get(context).servicesCategory.clear();
     HomeCubit.get(context).getCategoryServices(1, widget.services);
 
     _scrollController = ScrollController();
     _scrollController.addListener(() async {
-      if (nextPage <= HomeCubit.get(context).metaServices!.lastPage) {
+      if (nextPage <= HomeCubit.get(context).metaCategoreyServices!.lastPage) {
         if (_scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent * 0.6) {
+            _scrollController.position.maxScrollExtent * 0.8) {
           if (!isLoading) {
             isLoading = true;
             await context
@@ -83,7 +85,8 @@ class _ServicetypeScreenState extends State<ServicetypeScreen> {
                       DataSource.connectionTimeout.getFailure().message) {
             return const NoDataAvailable(
                 text: "check_your_internet_connection_please");
-          } else if (state is ServicesLoaded) {
+          } else if (HomeCubit.get(context).servicesCategory.isNotEmpty) {
+            List<Service> service = HomeCubit.get(context).servicesCategory;
             return SingleChildScrollView(
               controller: _scrollController,
               physics: const BouncingScrollPhysics(),
@@ -94,7 +97,7 @@ class _ServicetypeScreenState extends State<ServicetypeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListView.builder(
-                      itemCount: state.services!.length,
+                      itemCount: service.length,
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
@@ -111,9 +114,9 @@ class _ServicetypeScreenState extends State<ServicetypeScreen> {
                               child: InkWell(
                                 onTap: () => Navigator.pushNamed(
                                     context, Routes.service,
-                                    arguments: state.services![index]),
+                                    arguments: service[index]),
                                 child: ServiceItem(
-                                  services: state.services![index],
+                                  services: service[index],
                                 ),
                               ),
                             ),

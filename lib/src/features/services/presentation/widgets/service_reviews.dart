@@ -97,8 +97,7 @@ class _ServiceReviewState extends State<ServiceReview>
       if (state is AddReviweLoaded) {
         ServiceCubit.get(context).service = null;
         Future.wait([
-          ServiceCubit.get(context)
-              .getServices(1, AppConstants.service!.id.toString()),
+          ServiceCubit.get(context).getServices(AppConstants.service!.id),
           ServiceCubit.get(context)
               .getReviews(AppConstants.service!.id.toString(), AppStrings.allId)
         ]);
@@ -313,7 +312,7 @@ class _ServiceReviewState extends State<ServiceReview>
                   ),
                 );
               }),
-          ServiceCubit.get(context).service!.authorize!.review == false
+          !ServiceCubit.get(context).service!.authorize!.review!
               ? const SizedBox.shrink()
               : Column(
                   children: [

@@ -144,13 +144,11 @@ class ServiceRepositoryImpl implements ServiceRepository {
   @override
   ResultFuture<ServiceShowEntity> getService(
     int id,
-    String addressId,
   ) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.getService(
           id,
-          addressId,
         );
         return right(result);
       } on DioException catch (e) {

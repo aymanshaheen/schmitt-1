@@ -40,7 +40,7 @@ class _MostServicesState extends State<MostServices>
   if (nextPage <= HomeCubit.get(context).metaServices!.lastPage) {
     print('There are more pages');
     if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent * 0.6) {
+        _scrollController.position.maxScrollExtent * 0.8) {
       print('Scrolled past 60% of the list');
       if (!isLoading) {
         isLoading = true;

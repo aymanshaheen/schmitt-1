@@ -24,7 +24,7 @@ class RatingService extends StatelessWidget {
             ),
             SizedBox(width: R.sW(context, 5)),
             Text(
-              '${ServiceCubit.get(context).getAverageRating()}',
+              ServiceCubit.get(context).getAverageRating().toStringAsFixed(1),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: R.F(context, 16),

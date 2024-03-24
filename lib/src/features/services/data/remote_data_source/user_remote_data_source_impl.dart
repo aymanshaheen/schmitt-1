@@ -39,13 +39,13 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
   }
 
   @override
-  Future<ServiceShowModel> getService(int id, String addressId) async {
+  Future<ServiceShowModel> getService(int id) async {
     try {
       Response response = await dio.getData(
           url: Endpoints.services + ':id',
           token: AppConstants.token,
-          path: {'id': id},
-          addressId: addressId);
+          path: {'id': id.toString()},
+          addressId: AppConstants.addressID);
       ServiceShowModel userModel = ServiceShowModel.fromJson(response.data);
       return userModel;
     } on DioException catch (error) {

@@ -37,7 +37,7 @@ class _PackagesScreenState extends State<PackagesScreen> {
     _scrollController.addListener(() async {
       if (nextPage <= PackageCubit.get(context).metaPackages!.lastPage) {
         if (_scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent * 0.6) {
+            _scrollController.position.maxScrollExtent * 0.8) {
           if (!isLoading) {
             isLoading = true;
             await context.read<PackageCubit>().getPackages(nextPage++);

@@ -23,9 +23,9 @@ class AppColors {
   static Color lightgreen = const Color.fromARGB(255, 24, 135, 37);
   static Color darkBlue = const Color(0xff1C4272);
   static Color lightBlue = const Color(0xff73B6E8);
-  static Color lightPurble = const Color(0xffFB93C7);
+  static const Color lightPurble = Color.fromARGB(255, 255, 173, 214);
   static Color blue = const Color(0xff008FE1);
-  static Color purple = const Color.fromARGB(255, 203, 52, 183);
+  static const Color purple = Color.fromARGB(255, 167, 57, 152);
   static const Color onBoardingFirstPageColor = Color(0xFFEBFAFC);
   static const Color onBoardingFirstButtonColor = Color(0xFF009689);
   static const Color onBoardingFirstPageOriginalTextColor = Color(0xFF212121);

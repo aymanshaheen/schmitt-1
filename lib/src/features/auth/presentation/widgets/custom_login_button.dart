@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:schmitt/src/core/utils/app_constants.dart';
 import 'package:schmitt/src/core/utils/theme/app_colors/app_colors.dart';
 import 'package:schmitt/src/core/widgets/circular_indicator.dart';
 import 'package:schmitt/src/core/widgets/responsivity.dart';
@@ -18,7 +19,11 @@ class CustomLoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(AppColors.darkBlue),
+        backgroundColor: MaterialStateProperty.all<Color>(
+            AppConstants.service != null &&
+                    AppConstants.service!.category!.id == 4
+                ? AppColors.purple
+                : AppColors.darkBlue),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),

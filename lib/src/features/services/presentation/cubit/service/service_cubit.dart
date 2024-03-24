@@ -165,10 +165,10 @@ class ServiceCubit extends Cubit<ServiceStates> {
   }
 
   Service? service;
-  Future<void> getServices(int page, String id) async {
+  Future<void> getServices( int id) async {
     emit(ServicesLoading());
 
-    final result = await getServicesUseCase.call(page, id);
+    final result = await getServicesUseCase.call( id);
     result.fold(
       (failure) => emit(ServicesError(
         message: failure.message,

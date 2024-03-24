@@ -35,7 +35,7 @@ class _CarWashScreenState extends State<MyAddressesScreen> {
     _scrollController.addListener(() async {
       if (nextPage <= ServiceCubit.get(context).metaAddresses!.lastPage) {
         if (_scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent * 0.6) {
+            _scrollController.position.maxScrollExtent * 0.8) {
           if (!isLoading) {
             isLoading = true;
             await context.read<ServiceCubit>().getAdresses(nextPage++);

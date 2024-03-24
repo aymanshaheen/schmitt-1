@@ -14,7 +14,7 @@ abstract class ServiceRemoteDataSource {
   Future<String> addReview(String id, String review, String rating);
   Future<AddressModel> getAddresses(int page);
   Future<AddressCreateModel> createAddress(AddressParams params);
-  Future<ServiceShowModel> getService(int id,String addressId,);
+  Future<ServiceShowModel> getService(int id);
   Future<OrderModel> createOrder(OrderParams params,String addressId);
   Future<CarsModel> getCars(int page);
   Future<CarsShowModel> showCar(int id);

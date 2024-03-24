@@ -37,19 +37,18 @@ class _ServiceScreenState extends State<ServiceScreen> {
     super.initState();
     AppConstants.service = widget.service;
     ServiceCubit.get(context).service = null;
-    ServiceCubit.get(context).getServices(1, widget.service.id.toString()).then(
-        (value) => ServiceCubit.get(context)
-                .getReviews(widget.service.id.toString(), AppStrings.allId)
-                .then((value) async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              List<String> likedReviews =
-                  (prefs.getStringList('likedReviews') ?? []);
-              for (Review review in ServiceCubit.get(context).reviews!) {
-                review.isLiked = likedReviews.contains(review.id.toString());
-                review.likes =
-                    prefs.getInt(review.id.toString() + "_likes") ?? 0;
-              }
-            }));
+    ServiceCubit.get(context).getServices(widget.service.id).then((value) =>
+        ServiceCubit.get(context)
+            .getReviews(widget.service.id.toString(), AppStrings.allId)
+            .then((value) async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          List<String> likedReviews =
+              (prefs.getStringList('likedReviews') ?? []);
+          for (Review review in ServiceCubit.get(context).reviews!) {
+            review.isLiked = likedReviews.contains(review.id.toString());
+            review.likes = prefs.getInt(review.id.toString() + "_likes") ?? 0;
+          }
+        }));
     isFavourite = widget.service.isFavorited!;
     super.initState();
   }
